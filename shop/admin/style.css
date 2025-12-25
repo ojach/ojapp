@@ -413,3 +413,13 @@ input[type=file] {
   height: 120px;
   object-fit: cover;
 }
+#edit-modal img {
+  display: block !important;
+  width: 150px !important;
+  height: 150px !important;
+  max-width: none !important;
+  max-height: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: red !important;
+}
