@@ -83,26 +83,38 @@ function encodeAuthorName(name) {
 
 
 // ============================================
-// ② 作者アイコン UI
+// ② 作者アイコン UI（修正版）
 // ============================================
 document.addEventListener("DOMContentLoaded", async () => {
   const designer = localStorage.getItem("ojshop-admin-designer");
+  if (!designer) return;
+
   const authorKey = encodeAuthorName(designer);
   const box = document.getElementById("author-icon-box");
 
+  // ← ここを絶対パスではなく API_BASE に統一
   const iconURL = `${API_BASE}/shop/r2/authors/${authorKey}.png`;
 
-  const exists = await fetch(iconURL, { method: "HEAD" }).then(r => r.ok).catch(() => false);
+  // HEADで存在確認
+  const exists = await fetch(iconURL, { method: "HEAD" })
+    .then(r => r.ok)
+    .catch(() => false);
 
+  // ===========================
+  // 既に登録済み → 表示切替
+  // ===========================
   if (exists) {
     box.innerHTML = `
       <h3>作者アイコン</h3>
       <img src="${iconURL}" class="admin-author-icon">
+
       <button id="icon-change-btn" class="submit-btn">変更する</button>
       <input type="file" id="icon-change-file" accept="image/*" style="margin-top:10px;">
+
       <div id="icon-update-result" class="result-box"></div>
     `;
 
+    // 変更ボタン
     document.getElementById("icon-change-btn").addEventListener("click", async () => {
       const f = document.getElementById("icon-change-file").files[0];
       if (!f) return alert("ファイルを選んでください");
@@ -111,9 +123,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         method: "POST",
         body: f
       });
+
       const json = await res.json();
+
       document.getElementById("icon-update-result").innerHTML =
-        json.ok ? "更新しました！再読み込みしてください。" : "失敗しました。";
+        json.ok ? "更新しました！再読み込みしてください。" : "更新に失敗しました。";
     });
   }
 });
