@@ -8,22 +8,22 @@
 
 <meta name="description" content="iPhoneやAndroidでWebサイトをホーム画面のアイコンとして追加する手順を、初心者向けにわかりやすく解説します。さらにOJappを使えば、URLをオリジナルアイコン付きのアプリとして作成できます。">
 <!-- ファビコン -->
-<link rel="icon" type="image/png" sizes="16x16" href="/OJapp/icon/favicon-16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/OJapp/icon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="48x48" href="/OJapp/icon/favicon-48.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
 
 <!-- iPhone ホームアイコン -->
-<link rel="apple-touch-icon" sizes="180x180" href="/OJapp/icon/icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
 <!-- OGP -->
 <meta property="og:title" content="Webサイトをホーム画面に追加する方法｜OJapp">
 <meta property="og:description" content="iPhone・Androidユーザー向け。Webサイトをホーム画面のアイコンに追加する方法を画像付きで解説。OJappを使えば、自分だけのオリジナルアプリアイコンも作れます。">
-<meta property="og:image" content="https://ojach.com/OJapp/ogp.png">
+<meta property="og:image" content="https://ojapp.app/ogp.png">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://ojach.com/OJapp/web-to-app/">
+<meta property="og:url" content="https://ojapp.app/web-to-app/">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ojach.com/OJapp/ogp.png">
+<meta name="twitter:image" content="https://ojapp.app/ogp.png">
 
 <!-- 構造化データ（Article） -->
 <script type="application/ld+json">
@@ -32,7 +32,7 @@
   "@type": "Article",
   "headline": "Webサイトをホーム画面にアイコン追加する方法【iPhone / Android】",
   "description": "iPhoneやAndroidでWebサイトをホーム画面のアイコンとして追加する手順をわかりやすく解説。さらにOJappを使うと、オリジナルのアプリアイコンも作成できます。",
-  "image": "https://ojach.com/OJapp/ogp.png",
+  "image": "https://ojapp.app/ogp.png",
   "author": {
     "@type": "Organization",
     "name": "OJapp Tools"
@@ -42,14 +42,14 @@
     "name": "OJapp Tools",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://ojach.com/OJapp/ogp.png"
+      "url": "https://ojapp.app/ogp.png"
     }
   },
-  "url": "https://ojach.com/OJapp/web-to-app/"
+  "url": "https://ojapp.app/web-to-app/"
 }
 </script>
 
-<link rel="stylesheet" href="../style-base.css">
+<link rel="stylesheet" href="/style.css">
 
 <style>
 body {
@@ -124,8 +124,8 @@ ul li {
 
 <!-- Header -->
 <div class="header">
-  <a href="/OJapp/" class="logo-link">
-    <img src="/OJapp/icon/ojapp-logo.png" class="logo-img">
+  <a href="/" class="logo-link">
+    <img src="/icon/ojapp-logo.png" class="logo-img">
     <span class="logo-text">OJapp Tools</span>
   </a>
 </div>
@@ -180,7 +180,7 @@ ul li {
   </ul>
 </div>
 
-<p><a href="/OJapp/" style="font-weight:bold; color:#2bb7ff;">→ OJapp（Webアプリ化ツール）を開く</a></p>
+<p><a href="/" style="font-weight:bold; color:#2bb7ff;">→ OJapp（Webアプリ化ツール）を開く</a></p>
 
 <h2>まとめ</h2>
 
@@ -195,7 +195,7 @@ ul li {
 <!-- footer -->
 <div id="footer"></div>
 <script>
-fetch("/OJapp/footer.html")
+fetch("/footer.html")
   .then(r => r.text())
   .then(html => footer.innerHTML = html);
 </script>
