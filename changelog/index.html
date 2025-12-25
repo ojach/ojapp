@@ -54,23 +54,23 @@
 <meta name="theme-color" content="#2bb7ff">
 
 <!-- 共通CSS -->
-<link rel="stylesheet" href="/OJapp/style.css">
+<link rel="stylesheet" href="/style.css">
 <!-- ダークモード呼ぶ -->
-<script src="/OJapp/darkmode.js"></script>
+<script src="/darkmode.js"></script>
 </head>
 
 <body>
 
 <div id="header"></div>
 <script>
-fetch("/OJapp/header.html")
+fetch("/header.html")
   .then(r => r.text())
   .then(h => document.getElementById("header").innerHTML = h);
 </script>
 
 <div class="main">
   <nav class="breadcrumb">
-  <a href="/OJapp/">OJapp</a> › 
+  <a href="/">OJapp</a> › 
   <span>changelog</span>
   </nav>
   <!-- ページ固有の内容を書く -->
