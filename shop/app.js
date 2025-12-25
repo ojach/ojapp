@@ -65,7 +65,7 @@ async function renderRecommend() {
     `;
 
     div.addEventListener("click", () => {
-      location.href = `/OJapp/shop/product/?id=${item.product_id}`;
+      location.href = `/shop/product/?id=${item.product_id}`;
     });
 
     box.appendChild(div);
@@ -217,7 +217,7 @@ async function renderShop() {
     card.addEventListener("click", (e) => {
       if (e.target.classList.contains("fav-btn")) return;
       if (e.target.closest(".admin-tools")) return; // admin UIクリック時は移動しない
-      location.href = `/OJapp/shop/product/?id=${item.product_id}`;
+      location.href = `/shop/product/?id=${item.product_id}`;
     });
 
     // ハート押し
@@ -291,7 +291,7 @@ async function loadScrollRows() {
     if (wrap) {
       wrap.innerHTML = data.map(item => `
         <div class="scroll-item"
-             onclick="location.href='/OJapp/shop/product/?id=${item.product_id}'">
+             onclick="location.href='/shop/product/?id=${item.product_id}'">
           <img src="${API_BASE}/shop/r2/${item.thumbnail}" class="scroll-thumb">
           <div class="scroll-title-text">${item.title}</div>
         </div>
@@ -308,7 +308,7 @@ async function loadScrollRows() {
     if (wrap) {
       wrap.innerHTML = data.map(item => `
         <div class="scroll-item"
-             onclick="location.href='/OJapp/shop/product/?id=${item.product_id}'">
+             onclick="location.href='/shop/product/?id=${item.product_id}'">
           <img src="${API_BASE}/shop/r2/${item.thumbnail}" class="scroll-thumb">
           <div class="scroll-title-text">${item.title}</div>
         </div>
