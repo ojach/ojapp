@@ -23,13 +23,24 @@
   <!-- ========================================================= -->
   <!-- 作者アイコン                                               -->
   <!-- ========================================================= -->
-  <section class="admin-section">
-    <h2 class="section-title">作者アイコン</h2>
+ <section class="admin-section">
 
-   <div id="author-icon-box"></div>
 
-  </section>
-    
+  <div id="author-icon-box">
+    <!-- JSで「登録済 / 未登録」を切り替えて描画する -->
+    <!-- 初期は未登録表示（fallback） -->
+    <p id="author-icon-label">作者アイコンを提出してください</p>
+
+    <div class="icon-preview-box">
+      <img id="author-icon-preview" class="author-icon-img" style="display:none;">
+    </div>
+
+    <input type="file" id="author-icon-input" accept="image/*">
+    <button class="btn-primary" id="author-icon-submit">アップロード</button>
+
+    <div id="author-icon-result" class="result-box" style="display:none;"></div>
+  </div>
+</section>
 
   <!-- ========================================================= -->
   <!-- 商品追加                                                   -->
