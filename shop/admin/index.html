@@ -87,29 +87,28 @@
 <div id="edit-modal" class="modal hidden">
   <div class="modal-bg"></div>
 
- <div class="modal-header">
-  <h2>商品を編集</h2>
-  <button class="modal-close-edit">×</button>
-</div>
+  <!-- ★ これが必要だった！ -->
+  <div class="modal-content">
 
-    
- <div class="edit-top-row">
-  <div class="edit-thumb-col">
-    <img id="edit-thumb-preview" class="modal-thumb">
-  </div>
+    <div class="modal-header">
+      <h2>商品を編集</h2>
+      <button class="modal-close-edit">×</button>
+    </div>
 
-  <div class="edit-control-col">
-    <label>公開状態</label>
-    <select id="edit-visible">
-      <option value="1">公開</option>
-      <option value="0">非公開</option>
-    </select>
+    <div class="edit-top-row">
+      <div class="edit-thumb-col">
+        <img id="edit-thumb-preview" class="modal-thumb">
+      </div>
 
-    <button id="edit-save-top">保存する</button>
-  </div>
-</div>
-
-
+      <div class="edit-control-col">
+        <label>公開状態</label>
+        <select id="edit-visible">
+          <option value="1">公開</option>
+          <option value="0">非公開</option>
+        </select>
+        <button id="edit-save-top">保存する</button>
+      </div>
+    </div>
 
     <label>タイトル</label>
     <input type="text" id="edit-title">
@@ -125,13 +124,12 @@
 
     <hr>
 
-    <!-- 危険ゾーン -->
     <button id="edit-delete" class="btn-del" style="width:100%;margin-top:10px;">
       この商品を削除する
     </button>
 
-  </div>
-</div>
+  </div><!-- /.modal-content -->
+</div><!-- /#edit-modal -->
 
 
   <!-- ================================== -->
