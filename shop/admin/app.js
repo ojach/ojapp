@@ -64,7 +64,7 @@ function encodeAuthorName(name) {
     .then(json => {
       if (!json.ok) {
         alert("ログイン失敗！作者名 または PIN が違います。");
-        location.href = "/OJapp/shop/";
+        location.href = "/shop/";
         return;
       }
 
@@ -75,7 +75,7 @@ function encodeAuthorName(name) {
     })
     .catch(err => {
       alert("サーバーエラー：" + err.message);
-      location.href = "/OJapp/shop/";
+      location.href = "/shop/";
     });
 })();
 
