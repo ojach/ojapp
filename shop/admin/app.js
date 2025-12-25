@@ -299,6 +299,8 @@ function bindAdminButtons() {
 }
 
 
+const img = document.getElementById("edit-thumb-preview");
+img.src = item.thumbnail; // 一覧で使ってるやつと同じURL
 
 
 // ============================================
@@ -348,6 +350,8 @@ document.getElementById("edit-delete").addEventListener("click", async () => {
   location.reload();
 });
 
+img.onload = () => console.log("画像ロードOK");
+img.onerror = () => console.log("URL死んでる");
 
 
 // ▼ 保存
