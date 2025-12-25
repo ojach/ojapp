@@ -303,24 +303,23 @@ function bindAdminButtons() {
 // ⑦ 編集モーダル
 // ============================================
 function openEditModal(item) {
-  console.log("thumbnail =", item.thumbnail);
-console.log("img url =", `${API_BASE}/shop/r2/${item.thumbnail}`);
-
   const modal = document.getElementById("edit-modal");
 
-  // 現在の値セット
+  // 値セット（今のまま）
   modal.dataset.id = item.product_id;
   document.getElementById("edit-title").value = item.title;
   document.getElementById("edit-category").value = item.category;
   document.getElementById("edit-url").value = item.product_url;
   document.getElementById("edit-price").value = item.price;
-
-  // 公開状態
   document.getElementById("edit-visible").value = item.visible ? "1" : "0";
 
-  // サムネ
   document.getElementById("edit-thumb-preview").src =
     `${API_BASE}/shop/r2/${item.thumbnail}`;
+
+  // ★ ここで確実にイベントを付ける
+  modal.querySelector(".modal-close-edit").onclick = () => {
+    modal.classList.add("hidden");
+  };
 
   modal.classList.remove("hidden");
 }
