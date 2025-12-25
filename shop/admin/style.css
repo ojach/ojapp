@@ -187,3 +187,12 @@ input[type=file] {
   flex: 1;
 }
 
+/* 作者アイコン（管理画面）は絶対にデカくならない */
+.author-icon-img {
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 10px auto;
+}
