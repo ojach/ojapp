@@ -319,6 +319,7 @@ function openEditModal(item) {
   // ★ ここで確実にイベントを付ける
 modal.querySelector(".modal-close-edit").addEventListener("click", (e) => {
   e.preventDefault();
+  e.stopImmediatePropagation();
   e.stopPropagation();
   modal.classList.add("hidden");
 });
