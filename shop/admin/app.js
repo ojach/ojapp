@@ -83,48 +83,93 @@ function encodeAuthorName(name) {
 
 
 // ============================================
-// ② 作者アイコン UI（修正版）
+// ② 作者アイコン UI（登録済 / 未登録の切替）
 // ============================================
 document.addEventListener("DOMContentLoaded", async () => {
-
   const designer = localStorage.getItem("ojshop-admin-designer");
-  if (!designer) return;
-
   const authorKey = encodeAuthorName(designer);
-  const box = document.getElementById("author-icon-box");
-  if (!box) return; // ← ここが大事
 
+  const box = document.getElementById("author-icon-box");
   const iconURL = `${API_BASE}/shop/r2/authors/${authorKey}.png`;
 
+  // 画像が存在するか HEAD でチェック
   const exists = await fetch(iconURL, { method: "HEAD" })
     .then(r => r.ok)
     .catch(() => false);
 
+  // --------------------------------------------
+  // 🟦 A. 作者アイコンが登録済みの場合
+  // --------------------------------------------
   if (exists) {
     box.innerHTML = `
       <h3>作者アイコン</h3>
       <img src="${iconURL}" class="admin-author-icon">
+
+      <p style="margin-top:8px; font-size:14px;">
+        新しいアイコン画像をアップロードすると上書き更新されます。
+      </p>
+
+      <input type="file" id="icon-change-file" accept="image/*">
       <button id="icon-change-btn" class="submit-btn">変更する</button>
-      <input type="file" id="icon-change-file" accept="image/*" style="margin-top:10px;">
-      <div id="icon-update-result" class="result-box"></div>
+
+      <div id="icon-update-result" class="result-box" style="display:none;"></div>
     `;
 
-    const btn = document.getElementById("icon-change-btn");
-    const file = document.getElementById("icon-change-file");
+    // イベント登録
+    document.getElementById("icon-change-btn").addEventListener("click", async () => {
+      const f = document.getElementById("icon-change-file").files[0];
+      if (!f) return alert("ファイルを選んでください。");
 
-    btn.addEventListener("click", async () => {
-      if (!file.files[0]) return alert("ファイルを選んでください");
+      const res = await fetch(`${API_BASE}/shop/admin/icon?author_key=${authorKey}`, {
+        method: "POST",
+        body: f
+      });
 
-      const res = await fetch(
-        `${API_BASE}/shop/admin/icon?author_key=${authorKey}`,
-        { method: "POST", body: file.files[0] }
-      ).then(r => r.json());
+      const json = await res.json();
+      const msg = document.getElementById("icon-update-result");
 
-      document.getElementById("icon-update-result").innerHTML =
-        res.ok ? "更新しました！再読み込みしてください。" : "失敗しました。";
+      msg.style.display = "block";
+      msg.innerHTML = json.ok
+        ? "更新しました！ページを再読み込みしてください。"
+        : "更新に失敗しました。";
     });
+
+    return;
   }
 
+  // --------------------------------------------
+  // ⬜ B. 作者アイコンが未登録の場合
+  // --------------------------------------------
+  box.innerHTML = `
+    <h3>作者アイコン</h3>
+    <p style="margin-bottom: 8px; font-size:14px;">
+      作者アイコンを提出してください。
+    </p>
+
+    <input type="file" id="author-icon-input" accept="image/*">
+    <button class="submit-btn" id="author-icon-submit">アップロード</button>
+
+    <div class="result-box" id="author-icon-result" style="display:none;"></div>
+  `;
+
+  // 初回アップロード処理
+  document.getElementById("author-icon-submit").addEventListener("click", async () => {
+    const f = document.getElementById("author-icon-input").files[0];
+    if (!f) return alert("ファイルを選んでください。");
+
+    const res = await fetch(`${API_BASE}/shop/admin/icon?author_key=${authorKey}`, {
+      method: "POST",
+      body: f
+    });
+
+    const json = await res.json();
+    const msg = document.getElementById("author-icon-result");
+
+    msg.style.display = "block";
+    msg.innerHTML = json.ok
+      ? "提出完了！ページを再読み込みしてください。"
+      : "提出に失敗しました。";
+  });
 });
 
 
