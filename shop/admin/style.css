@@ -370,3 +370,21 @@ input[type=file] {
   gap: 16px;
 }
 
+#edit-thumb-preview {
+  display: block;
+  width: 120px;
+  height: 120px;
+  max-width: none;
+  flex-shrink: 0;
+}
+#edit-modal .modal-content {
+  position: relative;
+  z-index: 1;
+}
+#edit-modal {
+  background: rgba(0,0,0,0.45);
+  overflow: visible; /* ← 重要 */
+}
+.modal-bg {
+  display: none !important;
+}
