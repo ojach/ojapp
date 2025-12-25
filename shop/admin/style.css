@@ -369,3 +369,7 @@ input[type=file] {
   align-items: flex-start;
   gap: 16px;
 }
+
+#edit-modal.hidden {
+  display: none !important;
+}
