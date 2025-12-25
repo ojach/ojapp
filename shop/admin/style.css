@@ -196,3 +196,66 @@ input[type=file] {
   display: block;
   margin: 10px auto;
 }
+/* モーダル基盤 */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 5;
+}
+
+.modal-content {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 430px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* ヘッダー */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-close-edit {
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* サムネ */
+.modal-thumb {
+  width: 120px;
+  border-radius: 10px;
+}
+
+/* 右下削除リンク */
+.delete-row {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.delete-link {
+  color: #ff4b4b;
+  font-size: 14px;
+  cursor: pointer;
+}
