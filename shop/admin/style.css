@@ -388,38 +388,3 @@ input[type=file] {
 .modal-bg {
   display: none !important;
 }
-#edit-modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 20px;
-  background: rgba(0,0,0,0.45);
-  z-index: 1000;
-
-  /* ❌ 削除 */
-  overflow: visible;
-  max-height: none;
-}
-#edit-modal .modal-content {
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-#edit-thumb-preview {
-  display: block;
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-}
-#edit-modal img {
-  display: block !important;
-  width: 150px !important;
-  height: 150px !important;
-  max-width: none !important;
-  max-height: none !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  background: red !important;
-}
