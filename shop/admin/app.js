@@ -246,8 +246,8 @@ myItemsCache = myItemsCache.filter(i => i.author_key === author_key);
 // ============================================
 function bindAdminButtons() {
 
-  // 公開/非公開
-  document.querySelectorAll(".btn-vis").forEach(btn => {
+  // 公開/非公開（存在しなければスキップ）
+  document.querySelectorAll(".btn-vis")?.forEach(btn => {
     btn.addEventListener("click", async () => {
       const id = btn.dataset.id;
       const newVal = btn.textContent.includes("非公開") ? 0 : 1;
@@ -260,11 +260,10 @@ function bindAdminButtons() {
     });
   });
 
-  // 削除
-  document.querySelectorAll(".btn-del").forEach(btn => {
+  // 削除（存在しなければスキップ）
+  document.querySelectorAll(".btn-del")?.forEach(btn => {
     btn.addEventListener("click", async () => {
       const id = btn.dataset.id;
-
       if (!confirm("削除しますか？")) return;
 
       await fetch(`${API_BASE}/shop/admin/delete?id=${id}`, {
@@ -275,8 +274,8 @@ function bindAdminButtons() {
     });
   });
 
-  // 編集（モーダル）
-  document.querySelectorAll(".btn-edit").forEach(btn => {
+  // 編集（HTML に存在する）
+  document.querySelectorAll(".btn-edit")?.forEach(btn => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
       const item = myItemsCache.find(i => i.product_id === id);
@@ -284,6 +283,7 @@ function bindAdminButtons() {
     });
   });
 }
+
 
 
 
