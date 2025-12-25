@@ -189,8 +189,8 @@ input[type=file] {
 
 /* 作者アイコン（管理画面）は絶対にデカくならない */
 .author-icon-img {
-  width: 120px !important;
-  height: 120px !important;
+  width: 110px !important;
+  height: 110px !important;
   object-fit: cover;
   border-radius: 50%;
   display: block;
@@ -244,7 +244,7 @@ input[type=file] {
 
 /* サムネ */
 .modal-thumb {
-  width: 120px;
+  width: 110px;
   border-radius: 10px;
 }
 
@@ -262,7 +262,7 @@ input[type=file] {
 
 /* =============== モーダル全体 =============== */
 #edit-modal .modal-content {
-  max-width: 480px;
+  max-width: 400px;
   width: 90%;
   padding: 20px 24px 10px; /* ← 上ギリギリ / 下の余白削除 */
   border-radius: 14px;
@@ -302,7 +302,7 @@ input[type=file] {
 
 /* 左：サムネ */
 .edit-thumb-col img {
-  width: 120px;
+  width: 110px;
   height: auto;
   border-radius: 10px;
 }
