@@ -288,34 +288,6 @@ myItemsCache = myItemsCache.filter(i => i.author_key === author_key);
 // ============================================
 function bindAdminButtons() {
 
-  // 公開/非公開（存在しなければスキップ）
-  document.querySelectorAll(".btn-vis")?.forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.id;
-      const newVal = btn.textContent.includes("非公開") ? 0 : 1;
-
-      await fetch(`${API_BASE}/shop/admin/visible?id=${id}&value=${newVal}`, {
-        method: "POST"
-      });
-
-      loadMyItems();
-    });
-  });
-
-  // 削除（存在しなければスキップ）
-  document.querySelectorAll(".btn-del")?.forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.id;
-      if (!confirm("削除しますか？")) return;
-
-      await fetch(`${API_BASE}/shop/admin/delete?id=${id}`, {
-        method: "POST"
-      });
-
-      loadMyItems();
-    });
-  });
-
   // 編集（HTML に存在する）
   document.querySelectorAll(".btn-edit")?.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -354,21 +326,28 @@ function openEditModal(item) {
 
 // ▼ モーダルを閉じる
 document.addEventListener("DOMContentLoaded", () => {
-  const closeBtn = document.querySelector(".modal-close-edit");
-  const bg = document.querySelector("#edit-modal .modal-bg");
+  const modal = document.getElementById("edit-modal");
 
-  if (closeBtn) {
-    closeBtn.onclick = () => {
-      document.getElementById("edit-modal").classList.add("hidden");
-    };
-  }
+  document.querySelector(".modal-close-edit").onclick = () => {
+    modal.classList.add("hidden");
+  };
 
-  if (bg) {
-    bg.onclick = () => {
-      document.getElementById("edit-modal").classList.add("hidden");
-    };
-  }
+  document.querySelector("#edit-modal .modal-bg").onclick = () => {
+    modal.classList.add("hidden");
+  };
 });
+
+// ▼ 削除（右下リンク）
+document.getElementById("edit-delete").addEventListener("click", async () => {
+  const id = document.getElementById("edit-modal").dataset.id;
+  if (!confirm("本当に削除しますか？")) return;
+
+  await fetch(`${API_BASE}/shop/admin/delete?id=${id}`, { method: "POST" });
+
+  alert("削除しました！");
+  location.reload();
+});
+
 
 
 // ▼ 保存
