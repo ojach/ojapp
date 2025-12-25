@@ -350,7 +350,7 @@ input[type=file] {
   background: rgba(0,0,0,0.45);
   z-index: 1000;
   overflow: hidden; /* ← 外側はスクロール禁止 */
-}
+
 
   /* スマホ画面に収まらない場合、内部スクロール */
   max-height: calc(100vh - 40px);
