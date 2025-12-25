@@ -139,20 +139,6 @@ input[type=file] {
   z-index: 10;
 }
 
-.modal-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  width: 90%;
-  max-width: 420px;
-  border-radius: 16px;
-  padding: 20px;
-  z-index: 20;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
-
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -349,7 +335,7 @@ input[type=file] {
   padding-top: 20px;       /* ← 上の余白軽く */
   background: rgba(0,0,0,0.45);
   z-index: 1000;
-  overflow: hidden; /* ← 外側はスクロール禁止 */
+   overflow-y: auto;
 
 
   /* スマホ画面に収まらない場合、内部スクロール */
