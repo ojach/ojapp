@@ -322,7 +322,7 @@ input[type=file] {
   border: none;
   padding: 10px 14px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -332,10 +332,10 @@ input[type=file] {
   background: none !important; /* ボタン化禁止 */
   border: none !important;
   color: #ff4b4b;
-  font-size: 13px;
+  font-size: 12px;
   text-align: right;
   cursor: pointer;
-  margin-top: 14px; /* ← 少し上に詰める */
+  margin-top: 0; /* ← 少し上に詰める */
   padding: 0; /* 下余白削除 */
 }
 
