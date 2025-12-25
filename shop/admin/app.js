@@ -317,10 +317,12 @@ function openEditModal(item) {
     `${API_BASE}/shop/r2/${item.thumbnail}`;
 
   // ★ ここで確実にイベントを付ける
-modal.querySelector(".modal-close-edit").onclick = (e) => {
+modal.querySelector(".modal-close-edit").addEventListener("click", (e) => {
   e.preventDefault();
+  e.stopPropagation();
   modal.classList.add("hidden");
-};
+});
+
 
 
   modal.classList.remove("hidden");
