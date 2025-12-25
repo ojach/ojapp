@@ -299,14 +299,13 @@ function bindAdminButtons() {
 }
 
 
-const img = document.getElementById("edit-thumb-preview");
-img.src = item.thumbnail; // 一覧で使ってるやつと同じURL
-
-
 // ============================================
 // ⑦ 編集モーダル
 // ============================================
 function openEditModal(item) {
+  console.log("thumbnail =", item.thumbnail);
+console.log("img url =", `${API_BASE}/shop/r2/${item.thumbnail}`);
+
   const modal = document.getElementById("edit-modal");
 
   // 現在の値セット
@@ -349,9 +348,6 @@ document.getElementById("edit-delete").addEventListener("click", async () => {
   alert("削除しました！");
   location.reload();
 });
-
-img.onload = () => console.log("画像ロードOK");
-img.onerror = () => console.log("URL死んでる");
 
 
 // ▼ 保存
