@@ -260,4 +260,82 @@ input[type=file] {
   cursor: pointer;
 }
 
+/* =============== モーダル全体 =============== */
+#edit-modal .modal-content {
+  max-width: 480px;
+  width: 90%;
+  padding: 20px 24px 10px; /* ← 上ギリギリ / 下の余白削除 */
+  border-radius: 14px;
+  background: #fff;
+  position: relative;
+}
+
+/* =============== タイトル行（余白ギリギリ） =============== */
+#edit-modal h2 {
+  margin: 0 0 14px 0; /* ← 上なしギリギリ */
+  padding: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* =============== × ボタン =============== */
+.modal-close-edit {
+  position: absolute;
+  top: 12px;   /* ← さらに上へ */
+  right: 12px;
+  background: #eee;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* =============== 上段：画像＋右側設定 =============== */
+.edit-top-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* 左：サムネ */
+.edit-thumb-col img {
+  width: 120px;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* 右：公開状態と保存ボタンを縦に */
+.edit-control-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* ← 公開状態 → 保存 の間に余白 */
+  margin-top: 4px;
+}
+
+/* 保存ボタンをデカく */
+#edit-save-top {
+  background: #0f9cf5;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* =============== 削除リンク（右下 / 小さめ） =============== */
+#edit-delete {
+  background: none !important; /* ボタン化禁止 */
+  border: none !important;
+  color: #ff4b4b;
+  font-size: 13px;
+  text-align: right;
+  cursor: pointer;
+  margin-top: 14px; /* ← 少し上に詰める */
+  padding: 0; /* 下余白削除 */
+}
 
