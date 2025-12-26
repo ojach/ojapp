@@ -357,14 +357,3 @@ document.querySelectorAll(".shop-tab").forEach(tab => {
 });
 
 document.addEventListener("DOMContentLoaded", start);
-
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("admin-edit-btn")) {
-    const id = Number(e.target.dataset.id);
-    const item = viewItems.find(i => i.product_id === id);
-
-    if (item) {
-      openEditModal(item); // ← 管理画面モーダルをそのまま呼ぶ
-    }
-  }
-});
