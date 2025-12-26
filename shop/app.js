@@ -229,15 +229,17 @@ const adminTools = (IS_ADMIN && isOwner) ? `
       toggleFav(e.target);
     });
 
-    // ★ Admin の公開/非公開
-    if (IS_ADMIN) {
-      const btn = card.querySelector(".admin-visible-btn");
-      btn.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        await toggleVisible(item.product_id, !item.visible);
-        start(); // 再描画
-      });
-    }
+ // ★ Admin の公開/非公開（ボタンがある場合だけ動く）
+if (IS_ADMIN) {
+  const btn = card.querySelector(".admin-visible-btn");
+  if (btn) {
+    btn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      await toggleVisible(item.product_id, !item.visible);
+      start(); // 再描画
+    });
+  }
+}
 
     grid.appendChild(card);
     requestAnimationFrame(() => card.classList.add("show"));
