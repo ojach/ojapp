@@ -302,7 +302,7 @@ function bindAdminButtons() {
 // ============================================
 // ⑦ 編集モーダル
 // ============================================
-function openEditModal(item) {
+window.openEditModal = function(item) {
   const modal = document.getElementById("edit-modal");
 
   // 値セット（今のまま）
