@@ -337,12 +337,15 @@ async function start() {
   renderShop();
 }
 document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("admin-edit-btn")) {
-    const id = Number(e.target.dataset.id);
-    const item = viewItems.find(i => i.product_id === id);
-    if (item) openEditModal(item);
-  }
+  const btn = e.target.closest(".admin-edit-btn");
+  if (!btn) return;
+
+  const id = Number(btn.dataset.id);
+  const item = viewItems.find(i => i.product_id === id);
+
+  if (item) window.openEditModal(item);
 });
+
 
 
 // ===============================
