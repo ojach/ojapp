@@ -176,13 +176,15 @@ async function renderShop() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-const isOwner = (item.author_key === CURRENT_AUTHOR_KEY);
+const isOwner = (item.author === ADMIN_NAME);
 
-const adminTools = isOwner ? `
+
+const adminTools = (IS_ADMIN && isOwner) ? `
   <div class="admin-tools">
     <button class="admin-edit-btn" data-id="${item.product_id}">編集</button>
   </div>
 ` : "";
+
 
 
 
