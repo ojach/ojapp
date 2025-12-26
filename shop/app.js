@@ -176,15 +176,14 @@ async function renderShop() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-   // ★ Admin UI（編集/公開/削除）
-const adminTools = IS_ADMIN ? `
+const isOwner = (item.author_key === CURRENT_AUTHOR_KEY);
+
+const adminTools = isOwner ? `
   <div class="admin-tools">
     <button class="admin-edit-btn" data-id="${item.product_id}">編集</button>
-    <button class="admin-visible-btn" data-id="${item.product_id}">
-      ${item.visible ? "非公開にする" : "公開にする"}
-    </button>
   </div>
 ` : "";
+
 
 
 
