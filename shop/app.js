@@ -176,7 +176,16 @@ async function renderShop() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-   const adminTools = "";
+   // ★ Admin UI（編集/公開/削除）
+const adminTools = IS_ADMIN ? `
+  <div class="admin-tools">
+    <button class="admin-edit-btn" data-id="${item.product_id}">編集</button>
+    <button class="admin-visible-btn" data-id="${item.product_id}">
+      ${item.visible ? "非公開にする" : "公開にする"}
+    </button>
+  </div>
+` : "";
+
 
 
     card.innerHTML = `
