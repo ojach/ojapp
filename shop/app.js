@@ -178,10 +178,12 @@ async function renderShop() {
 
 const isOwner = (item.author === ADMIN_NAME);
 
-
+// ホームの「編集」は一旦 adminページ遷移のみにする
 const adminTools = (IS_ADMIN && isOwner) ? `
   <div class="admin-tools">
-    <button class="admin-edit-btn" data-id="${item.product_id}">編集</button>
+    <a class="admin-edit-btn" href="/shop/admin/?product=${item.product_id}">
+      商品管理
+    </a>
   </div>
 ` : "";
 
@@ -336,15 +338,6 @@ async function start() {
   loadScrollRows();
   renderShop();
 }
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".admin-edit-btn");
-  if (!btn) return;
-
-  const id = Number(btn.dataset.id);
-  const item = viewItems.find(i => i.product_id === id);
-
-  if (item) window.openEditModal(item);
-});
 
 
 
