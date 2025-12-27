@@ -1,0 +1,28 @@
+/* Password ReBuilder 専用 */
+#resultList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.pass-item {
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+}
+
+.pass-label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.pass-value {
+  font-size: 18px;
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  word-break: break-all;
+  color: #0077ff;
+}
