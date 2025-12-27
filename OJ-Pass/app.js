@@ -50,13 +50,11 @@ async function sha256(text) {
 // ========================================
 async function buildPassword(masterKey, service, month, length, allowSymbol) {
   const base = masterKey + "|" + service + "|" + month;
-
-  // SHA256（非同期）を await する
   const hash = await sha256(base);
 
-  // 記号のON/OFF
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  if (allowSymbol) chars += "._-";
+  const symbolSet = "._-";
+  if (allowSymbol) chars += symbolSet;
 
   let result = "";
   for (let i = 0; i < length; i++) {
@@ -64,8 +62,21 @@ async function buildPassword(masterKey, service, month, length, allowSymbol) {
     const idx = parseInt(hex, 16) % chars.length;
     result += chars[idx];
   }
+
+  // ▼ 記号ONなら「最低1つ入れる」保証
+  if (allowSymbol) {
+    const hasSymbol = [...result].some(c => symbolSet.includes(c));
+    if (!hasSymbol) {
+      // 末尾の文字を強制的に記号へ
+      const hex = hash.slice(length * 2, length * 2 + 2); 
+      const idx = parseInt(hex, 16) % symbolSet.length;
+      result = result.slice(0, -1) + symbolSet[idx];
+    }
+  }
+
   return result;
 }
+
 
 
 // ========================================
