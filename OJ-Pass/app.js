@@ -1,4 +1,3 @@
-<script>
 // ========================================
 // OJ-Password ReBuilder v1.0
 // 安全・再現性100% のパスワード再構築ツール
@@ -130,4 +129,3 @@ generateBtn.addEventListener("click", async () => {
   // マスターキーを消して安全にする
   masterInput.value = "";
 });
-</script>
