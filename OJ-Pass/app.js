@@ -44,31 +44,30 @@ async function sha256hex(text) {
   return byteArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-
 // ========================================
-// パスワード生成（async化）
+// パスワード生成（永久固定版）
 // ========================================
 async function buildPassword(masterKey, service, month, length, allowSymbol) {
   const seed = `${masterKey}|${service}|${month}`;
 
-  // SHA256 → HEX
+  // SHA256 → HEX (絶対変えない)
   const hex = await sha256hex(seed);
 
-  // 記号有無
-  let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  // 見間違い防止：I, O, l を除外した安全文字セット
+  let chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789";
+
+  // 記号は . _ - のみ（変更しない）
   if (allowSymbol) chars += "._-";
 
   let password = "";
   for (let i = 0; i < length; i++) {
-    const part = hex.substr(i * 2, 2);        // 2文字（1byte）
-    const num  = parseInt(part, 16);          // 0〜255
-    password += chars[num % chars.length];    // 文字選択
+    const part = hex.substr(i * 2, 2);       // 1byte
+    const num  = parseInt(part, 16);         // 0–255
+    password += chars[num % chars.length];   // 決定的
   }
 
   return password;
 }
-
-
 
 
 // ========================================
