@@ -1,45 +1,42 @@
 // ========================================
-// OJ-Password ReBuilder v1.0
-// 安全・再現性100% のパスワード再構築ツール
+// OJ-Password ReBuilder v1.1
 // ========================================
 
-// ---- UI参照 ----
+// UI参照
 const masterInput = document.getElementById("masterKey");
-const monthInput  = document.getElementById("createMonth");
-const countSelect = document.getElementById("countSelect");
-const lengthSelect = document.getElementById("lengthSelect");
-const symbolToggle = document.getElementById("symbolToggle");
+const monthInput  = document.getElementById("month");
+const countSelect = document.getElementById("count");
 const placeWrap   = document.getElementById("placeWrap");
-const resultArea  = document.getElementById("resultArea");
 const generateBtn = document.getElementById("generateBtn");
+const resultArea  = document.getElementById("resultArea");
+const resultList  = document.getElementById("resultList");
 
 // ========================================
-// 「いくつ作る？」 → 用途入力欄を動的に生成
+// 用途入力欄を作成
 // ========================================
 function updatePlaceInputs() {
-  placeWrap.innerHTML = ""; // 一旦リセット
+  placeWrap.innerHTML = "";
 
   const count = parseInt(countSelect.value, 10);
 
   for (let i = 1; i <= count; i++) {
     const div = document.createElement("div");
-    div.className = "place-item";
+    div.className = "section";
 
     div.innerHTML = `
-      <label>どこで使う？（${i} 個目）</label>
-      <input type="text" class="placeInput" placeholder="例：Google / Slack など">
+      <div class="section-title">どこで使う？（${i} 個目）</div>
+      <input type="text" class="placeInput" placeholder="例：Google / Slack / 社内PC">
     `;
-
     placeWrap.appendChild(div);
   }
 }
 
-// 初回に生成
+// 初期生成
 updatePlaceInputs();
 countSelect.addEventListener("change", updatePlaceInputs);
 
 // ========================================
-// SHA-256（ブラウザネイティブ）
+// SHA256（ブラウザネイティブ）
 // ========================================
 async function sha256(text) {
   const data = new TextEncoder().encode(text);
@@ -47,85 +44,64 @@ async function sha256(text) {
   return btoa(String.fromCharCode(...new Uint8Array(hash)))
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
-    .replace(/=+$/, ""); // Base64URL
+    .replace(/=+$/, "");
 }
 
 // ========================================
-// 記号の安全セット
+// パスワード生成
 // ========================================
-const SAFE_SYMBOLS = "!-_.@#$";
+async function generatePassword(seed, length = 16, useSymbol = false) {
+  const safeSymbols = "!-_.@#$";
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charset = letters + (useSymbol ? safeSymbols : "");
 
-// ========================================
-// パスワード生成本体
-// ========================================
-async function createPassword(seed, length, useSymbol) {
-  // seed → sha256 → base64URL
-  let base = await sha256(seed);
+  const base = await sha256(seed);
 
-  // 文字セット（記号OFFなら英数字のみ）
-  let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let symbols = SAFE_SYMBOLS;
-
-  let charset = letters + (useSymbol ? symbols : "");
-
-  // base64URL → charset の範囲に正規化
   let out = "";
   for (let i = 0; i < base.length && out.length < length; i++) {
-    const c = base.charCodeAt(i);
-    out += charset[c % charset.length];
+    out += charset[base.charCodeAt(i) % charset.length];
   }
-
   return out;
 }
 
 // ========================================
-// 生成ボタン
+// 生成
 // ========================================
 generateBtn.addEventListener("click", async () => {
-
   const master = masterInput.value.trim();
   const month  = monthInput.value.trim();
   const count  = parseInt(countSelect.value, 10);
-  const length = parseInt(lengthSelect.value, 10);
-  const useSymbol = symbolToggle.checked;
 
-  // 入力チェック
-  if (!master) {
-    alert("❌ マスターキーを入力してね！");
-    return;
-  }
-  if (!month || !/^\d{6}$/.test(month)) {
-    alert("❌ 作成月は 202512 のように 6桁で入力してね！");
-    return;
-  }
+  if (!master) return alert("❌ マスターキーを入力してね！");
+  if (!/^\d{6}$/.test(month)) return alert("❌ 作成月は 202512 のように6桁で！");
 
   const placeInputs = [...document.getElementsByClassName("placeInput")];
+
   if (placeInputs.some(i => !i.value.trim())) {
-    alert("❌ 『どこで使う？』を全部入力してね！");
-    return;
+    return alert("❌ 『どこで使う？』を全部入力してね！");
   }
 
-  // パスワード生成開始
-  let html = "<h3>🔑 生成結果</h3>";
+  let html = "";
+  const length = 16;     // デフォで16文字
+  const useSymbol = false; // 記号OFF（後でONに対応可）
 
   for (let i = 0; i < count; i++) {
     const place = placeInputs[i].value.trim();
-
-    // 再現性100% の seed 作成
     const seed = `${master}:${month}:${place}`;
 
-    const pass = await createPassword(seed, length, useSymbol);
+    const pass = await generatePassword(seed, length, useSymbol);
 
     html += `
-      <div class="result-item">
+      <div class="result-item" style="margin-bottom: 20px;">
         <strong>[${i + 1} 個目：${place}]</strong><br>
         <code>${pass}</code>
       </div>
     `;
   }
 
-  resultArea.innerHTML = html;
+  resultList.innerHTML = html;
+  resultArea.style.display = "block";
 
-  // マスターキーを消して安全にする
+  // マスターキーは消して安全に
   masterInput.value = "";
 });
