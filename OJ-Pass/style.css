@@ -26,3 +26,8 @@
   word-break: break-all;
   color: #0077ff;
 }
+#count-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
