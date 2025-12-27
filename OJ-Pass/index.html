@@ -60,10 +60,10 @@ fetch("/header.html")
   </div>
 
   <!-- 個数 -->
-  <div class="section">
-    <div class="section-title">③ いくつ作る？</div>
-    <div id="placeWrap" class="section"></div>
+<div class="section">
+  <div class="section-title">③ いくつ作る？</div>
 
+  <div id="count-row">
     <select id="count">
       <option value="1">1 個</option>
       <option value="2">2 個</option>
@@ -71,7 +71,33 @@ fetch("/header.html")
       <option value="4">4 個</option>
       <option value="5">5 個</option>
     </select>
+
+    <span style="font-size:14px; color:#666;">作る</span>
   </div>
+</div>
+
+  
+<!-- パスワード設定 -->
+<div class="section">
+  <div class="section-title">④ パスワード設定</div>
+
+  <label style="font-size:14px; font-weight:600;">長さ：</label>
+  <select id="pwLength">
+    <option value="10">10 文字</option>
+    <option value="12" selected>12 文字</option>
+    <option value="14">14 文字</option>
+    <option value="16">16 文字</option>
+    <option value="20">20 文字</option>
+  </select>
+
+  <br><br>
+
+  <label style="font-size:14px; font-weight:600;">記号：</label>
+  <label>
+    <input type="checkbox" id="useSymbol" checked>
+    記号を使う（.-_）
+  </label>
+</div>
 
   <!-- 生成ボタン -->
   <button id="generateBtn" class="btn blue large" style="margin-top: 20px;">
