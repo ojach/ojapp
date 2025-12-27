@@ -50,23 +50,28 @@ async function sha256(text) {
 // ========================================
 // パスワード生成
 // ========================================
-function buildPassword(masterKey, service, month, length, allowSymbol) {
+// ========================================
+// パスワード生成（async化）
+// ========================================
+async function buildPassword(masterKey, service, month, length, allowSymbol) {
   const base = masterKey + "|" + service + "|" + month;
 
-  // 非同期SHA256を同期風に扱うためのPromise
-  return sha256(base).then(hash => {
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    if (allowSymbol) chars += "._-";
+  // SHA256（非同期）を await する
+  const hash = await sha256(base);
 
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      const hex = hash.slice(i * 2, i * 2 + 2);
-      const idx = parseInt(hex, 16) % chars.length;
-      result += chars[idx];
-    }
-    return result;
-  });
+  // 記号のON/OFF
+  let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  if (allowSymbol) chars += "._-";
+
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    const hex = hash.slice(i * 2, i * 2 + 2);
+    const idx = parseInt(hex, 16) % chars.length;
+    result += chars[idx];
+  }
+  return result;
 }
+
 
 // ========================================
 // 生成
@@ -89,18 +94,20 @@ generateBtn.addEventListener("click", async () => {
 
   let html = "";
 
-  for (let i = 0; i < count; i++) {
-    const place = placeInputs[i].value.trim();
+ for (let i = 0; i < count; i++) {
+  const place = placeInputs[i].value.trim();
 
-    const pass = await buildPassword(master, place, month, length, allowSymbol);
+  // ← ここ！buildPassword は async だから await 必須
+  const pass = await buildPassword(master, place, month, length, allowSymbol);
 
-    html += `
-      <div class="result-item" style="margin-bottom: 22px;">
-        <strong>[${i + 1} 個目：${place}]</strong><br>
-        <code>${pass}</code>
-      </div>
-    `;
-  }
+  html += `
+    <div class="result-item" style="margin-bottom: 22px;">
+      <strong>[${i + 1} 個目：${place}]</strong><br>
+      <code>${pass}</code>
+    </div>
+  `;
+}
+
 
   resultList.innerHTML = html;
   resultArea.style.display = "block";
