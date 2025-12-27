@@ -1,43 +1,61 @@
 body {
-  background: #f7f7f7;
-  font-family: "Helvetica", "Arial", sans-serif;
+  background: #f5f7fa;
   margin: 0;
+  font-family: -apple-system, "Helvetica", "Arial", sans-serif;
 }
 
-.product-container {
+.product-wrap {
   max-width: 520px;
   margin: 20px auto;
-  padding: 16px;
+  padding: 20px;
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
   text-align: center;
 }
 
-.product-thumb {
-  width: 90%;
-  max-width: 400px;
+.p-thumb {
+  width: 92%;
   border-radius: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
-.product-title {
+.p-title {
   font-size: 24px;
-  margin-bottom: 8px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
-.product-author {
+.p-price {
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 12px;
+}
+
+.p-category {
   font-size: 14px;
+  color: #666;
+}
+
+.p-author {
+  display: block;
+  margin-top: 10px;
   color: #0f9cf5;
   text-decoration: none;
 }
 
-.buy-btn {
-  margin-top: 20px;
+.p-counts {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+.p-buy-btn {
+  margin-top: 24px;
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: #0f9cf5;
-  color: white;
+  color: #fff;
   font-size: 18px;
   border: none;
   border-radius: 12px;
