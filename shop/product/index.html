@@ -4,22 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>商品ページ</title>
-  <link rel="stylesheet" href="/shop/product/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="product-container">
+<div class="product-wrap">
 
-  <img id="product-thumb" class="product-thumb">
+  <img id="p-thumb" class="p-thumb">
 
-  <h1 id="product-title" class="product-title"></h1>
+  <h1 id="p-title" class="p-title"></h1>
 
-  <a id="product-author" class="product-author"></a>
+  <div class="p-meta">
+    <span id="p-price" class="p-price"></span>
+    <span id="p-category" class="p-category"></span>
+  </div>
 
-  <button id="product-buy" class="buy-btn">購入ページへ</button>
+  <a id="p-author" class="p-author"></a>
+
+  <div class="p-counts">
+    <span id="p-fav">❤️ 0</span>
+    <span id="p-view">👁 0</span>
+  </div>
+
+  <button id="p-buy" class="p-buy-btn">購入ページへ</button>
 
 </div>
 
-<script src="/shop/product/app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
