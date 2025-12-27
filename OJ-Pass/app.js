@@ -1,104 +1,133 @@
-// ==========================================
-// OJ-Password ReBuilder  v1.0
-// ==========================================
+<script>
+// ========================================
+// OJ-Password ReBuilder v1.0
+// 安全・再現性100% のパスワード再構築ツール
+// ========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+// ---- UI参照 ----
+const masterInput = document.getElementById("masterKey");
+const monthInput  = document.getElementById("createMonth");
+const countSelect = document.getElementById("countSelect");
+const lengthSelect = document.getElementById("lengthSelect");
+const symbolToggle = document.getElementById("symbolToggle");
+const placeWrap   = document.getElementById("placeWrap");
+const resultArea  = document.getElementById("resultArea");
+const generateBtn = document.getElementById("generateBtn");
 
-  const masterKeyInput = document.getElementById("masterKey");
-  const monthInput = document.getElementById("month");
-  const countSelect = document.getElementById("count");
-  const resultArea = document.getElementById("resultArea");
-  const resultList = document.getElementById("resultList");
-  const generateBtn = document.getElementById("generateBtn");
+// ========================================
+// 「いくつ作る？」 → 用途入力欄を動的に生成
+// ========================================
+function updatePlaceInputs() {
+  placeWrap.innerHTML = ""; // 一旦リセット
 
-  // -------------------------------------------------
-  // SHA-256（ブラウザ組み込み）→ hex文字列にする関数
-  // -------------------------------------------------
-  async function sha256(text) {
-    const buf = new TextEncoder().encode(text);
-    const hash = await crypto.subtle.digest("SHA-256", buf);
-    return [...new Uint8Array(hash)]
-      .map(n => n.toString(16).padStart(2, "0"))
-      .join("");
+  const count = parseInt(countSelect.value, 10);
+
+  for (let i = 1; i <= count; i++) {
+    const div = document.createElement("div");
+    div.className = "place-item";
+
+    div.innerHTML = `
+      <label>どこで使う？（${i} 個目）</label>
+      <input type="text" class="placeInput" placeholder="例：Google / Slack など">
+    `;
+
+    placeWrap.appendChild(div);
+  }
+}
+
+// 初回に生成
+updatePlaceInputs();
+countSelect.addEventListener("change", updatePlaceInputs);
+
+// ========================================
+// SHA-256（ブラウザネイティブ）
+// ========================================
+async function sha256(text) {
+  const data = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return btoa(String.fromCharCode(...new Uint8Array(hash)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, ""); // Base64URL
+}
+
+// ========================================
+// 記号の安全セット
+// ========================================
+const SAFE_SYMBOLS = "!-_.@#$";
+
+// ========================================
+// パスワード生成本体
+// ========================================
+async function createPassword(seed, length, useSymbol) {
+  // seed → sha256 → base64URL
+  let base = await sha256(seed);
+
+  // 文字セット（記号OFFなら英数字のみ）
+  let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let symbols = SAFE_SYMBOLS;
+
+  let charset = letters + (useSymbol ? symbols : "");
+
+  // base64URL → charset の範囲に正規化
+  let out = "";
+  for (let i = 0; i < base.length && out.length < length; i++) {
+    const c = base.charCodeAt(i);
+    out += charset[c % charset.length];
   }
 
-  // -------------------------------------------------
-  // 生成したハッシュから「強力パスワード」を作る
-  // ・必ず英大文字 + 英小文字 + 数字 を含む
-  // ・記号は固定で入れる（!@#）
-  // -------------------------------------------------
-  function buildPassword(hex, length = 16) {
-    const big = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const small = "abcdefghijklmnopqrstuvwxyz";
-    const num = "0123456789";
-    const symbol = "!@#";
+  return out;
+}
 
-    let base = big + small + num + symbol;
+// ========================================
+// 生成ボタン
+// ========================================
+generateBtn.addEventListener("click", async () => {
 
-    let out = "";
-    for (let i = 0; i < length; i++) {
-      const pair = hex.slice(i * 2, i * 2 + 2);
-      const idx = parseInt(pair, 16) % base.length;
-      out += base[idx];
-    }
-    return out;
+  const master = masterInput.value.trim();
+  const month  = monthInput.value.trim();
+  const count  = parseInt(countSelect.value, 10);
+  const length = parseInt(lengthSelect.value, 10);
+  const useSymbol = symbolToggle.checked;
+
+  // 入力チェック
+  if (!master) {
+    alert("❌ マスターキーを入力してね！");
+    return;
+  }
+  if (!month || !/^\d{6}$/.test(month)) {
+    alert("❌ 作成月は 202512 のように 6桁で入力してね！");
+    return;
   }
 
-  // -------------------------------------------------
-  // メイン処理
-  // -------------------------------------------------
-  generateBtn.addEventListener("click", async () => {
+  const placeInputs = [...document.getElementsByClassName("placeInput")];
+  if (placeInputs.some(i => !i.value.trim())) {
+    alert("❌ 『どこで使う？』を全部入力してね！");
+    return;
+  }
 
-    const master = masterKeyInput.value;
-    const month = monthInput.value.trim();
-    const count = parseInt(countSelect.value, 10);
+  // パスワード生成開始
+  let html = "<h3>🔑 生成結果</h3>";
 
-    if (!master) {
-      alert("マスターキーを入力して！");
-      return;
-    }
-    if (!month || month.length !== 6 || isNaN(Number(month))) {
-      alert("作成月は 202501 のように6桁で入力して！");
-      return;
-    }
+  for (let i = 0; i < count; i++) {
+    const place = placeInputs[i].value.trim();
 
-    // いったん UI クリア
-    resultList.innerHTML = "";
-    resultArea.style.display = "block";
+    // 再現性100% の seed 作成
+    const seed = `${master}:${month}:${place}`;
 
-    // -------------------------------------------------
-    // ★ パスワード生成
-    // -------------------------------------------------
-    for (let i = 1; i <= count; i++) {
+    const pass = await createPassword(seed, length, useSymbol);
 
-      // 入力情報をひとまとめ（再現性100%）
-      const seed = `${master}:${month}:#${i}`;
+    html += `
+      <div class="result-item">
+        <strong>[${i + 1} 個目：${place}]</strong><br>
+        <code>${pass}</code>
+      </div>
+    `;
+  }
 
-      // ① SHA256に変換
-      const hash = await sha256(seed);
+  resultArea.innerHTML = html;
 
-      // ② 強力パスワード生成
-      const pass = buildPassword(hash, 16);
-
-      // UIへ追加
-      const div = document.createElement("div");
-      div.className = "pass-item";
-      div.innerHTML = `
-        <div class="pass-label">［${i} 個目：どこで使う？］</div>
-        <div class="pass-value">${pass}</div>
-      `;
-      resultList.appendChild(div);
-    }
-
-    // -------------------------------------------------
-    // ★ セキュリティ対策：マスターキーを即削除
-    // -------------------------------------------------
-    masterKeyInput.value = "";      // 入力欄から消す
-    masterKeyInput.blur();          // キーボード閉じる
-    // メモリ上にも残さないように master を上書き
-    // （JSではガベージコレクタ任せなので null 化）
-    // ただし "master" はローカル変数なのでここで null にできないが
-    // 次の tick で解放される
-  });
-
+  // マスターキーを消して安全にする
+  masterInput.value = "";
 });
+</script>
