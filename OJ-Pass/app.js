@@ -38,44 +38,36 @@ countSelect.addEventListener("change", updatePlaceInputs);
 // ========================================
 // SHA256（ブラウザネイティブ）
 // ========================================
-async function sha256(text) {
-  const data = new TextEncoder().encode(text);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+async function sha256hex(text) {
+  const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  const byteArray = Array.from(new Uint8Array(buffer));
+  return byteArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
+
 
 // ========================================
 // パスワード生成（async化）
 // ========================================
 async function buildPassword(masterKey, service, month, length, allowSymbol) {
-  const base = masterKey + "|" + service + "|" + month;
-  const hash = await sha256(base);
+  const seed = `${masterKey}|${service}|${month}`;
 
+  // SHA256 → HEX
+  const hex = await sha256hex(seed);
+
+  // 記号有無
   let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const symbolSet = "._-";
-  if (allowSymbol) chars += symbolSet;
+  if (allowSymbol) chars += "._-";
 
-  let result = "";
+  let password = "";
   for (let i = 0; i < length; i++) {
-    const hex = hash.slice(i * 2, i * 2 + 2);
-    const idx = parseInt(hex, 16) % chars.length;
-    result += chars[idx];
+    const part = hex.substr(i * 2, 2);        // 2文字（1byte）
+    const num  = parseInt(part, 16);          // 0〜255
+    password += chars[num % chars.length];    // 文字選択
   }
 
-  // ▼ 記号ONなら「最低1つ入れる」保証
-  if (allowSymbol) {
-    const hasSymbol = [...result].some(c => symbolSet.includes(c));
-    if (!hasSymbol) {
-      // 末尾の文字を強制的に記号へ
-      const hex = hash.slice(length * 2, length * 2 + 2); 
-      const idx = parseInt(hex, 16) % symbolSet.length;
-      result = result.slice(0, -1) + symbolSet[idx];
-    }
-  }
-
-  return result;
+  return password;
 }
+
 
 
 
