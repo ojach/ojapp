@@ -381,3 +381,33 @@ document.getElementById("edit-save-top").addEventListener("click", async () => {
 
 document.addEventListener("DOMContentLoaded", loadMyItems);
 
+
+//ショップからの商品管理用
+function getQueryParam(key) {
+  const params = new URLSearchParams(location.search);
+  return params.get(key);
+}
+
+async function start() {
+  items = await loadItems();
+  viewItems = [...items];
+
+  // ▼ URLに product があれば最優先ソート
+  const pid = Number(getQueryParam("product"));
+  if (pid) {
+    viewItems.sort((a, b) => (a.product_id === pid ? -1 :
+                              b.product_id === pid ? 1 : 0));
+  }
+
+  renderRecommend();
+  renderDynamicFilters();
+  await applyFilters();
+  loadScrollRows();
+  renderShop();
+
+  // ▼ ソート後の表示が終わったら自動でモーダルオープン
+  if (pid) {
+    const target = viewItems.find(i => i.product_id === pid);
+    if (target) setTimeout(() => openEditModal(target), 300);
+  }
+}
