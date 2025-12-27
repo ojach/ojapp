@@ -3,20 +3,29 @@ async function loadProduct() {
   const id = params.get("id");
   if (!id) return;
 
-  // APIから商品情報取得
   const res = await fetch(`${API_BASE}/shop/item?id=${id}`);
   const item = await res.json();
 
-  document.getElementById("product-thumb").src =
+  document.getElementById("p-thumb").src =
     `${API_BASE}/shop/r2/${item.thumbnail}`;
 
-  document.getElementById("product-title").textContent = item.title;
+  document.getElementById("p-title").textContent = item.title;
+  document.getElementById("p-price").textContent = `${item.price}円`;
 
-  document.getElementById("product-author").textContent = `by ${item.author}`;
-  document.getElementById("product-author").href =
+  document.getElementById("p-category").textContent =
+    item.category ? `・${item.category}` : "";
+
+  document.getElementById("p-author").textContent = `by ${item.author}`;
+  document.getElementById("p-author").href =
     `/shop/author/?key=${item.author_key}`;
 
-  document.getElementById("product-buy").onclick = () => {
+  document.getElementById("p-fav").textContent =
+    `❤️ ${item.favorite_count}`;
+
+  document.getElementById("p-view").textContent =
+    `👁 ${item.view_count}`;
+
+  document.getElementById("p-buy").onclick = () => {
     location.href = item.product_url;
   };
 }
