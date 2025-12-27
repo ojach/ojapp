@@ -1,5 +1,5 @@
 // ========================================
-// OJ-Password ReBuilder v1.1
+// OJ-Password ReBuilder v1.1 Permanent Algorithm
 // ========================================
 
 // UI参照
