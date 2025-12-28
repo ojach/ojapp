@@ -6,11 +6,28 @@
   <!-- ▼ OJapp 共通 HEAD（コピペ用） -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SEO 基本 -->
+<meta name="description" content="OJ-Pass は、マスターキーとサービス名から『保存しない安全パスワード』を再構築するツール。完全オフライン対応・データを一切保存しない・毎回同じパスワードを復元可能な Permanent Algorithm Version。">
+<meta name="keywords" content="パスワード, パスワード生成, 保存しない, オフライン, パスワード管理, ログイン安全, セキュリティ, マスターパスワード, 文字列生成, OJapp">
+
+<!-- SNS プレビュー -->
+<meta property="og:title" content="OJ-Pass v1.1 — 保存しない安全パスワード生成ツール">
+<meta property="og:description" content="オフラインで使える・完全に保存しない・永久同一パスワードを再構築できる『Permanent Algorithm Version』。">
+<meta property="og:url" content="https://ojapp.app/OJ-Pass/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ojapp.app/OJ-Pass/ogp.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OJ-Pass v1.1 — 保存しない安全パスワード生成ツール">
+<meta name="twitter:description" content="データを一切保存しない。毎回同じパスワードを再構築できる OJ-Pass。">
+<meta name="twitter:image" content="https://ojapp.app/OJ-Pass/ogp.png">
 
 <title>OJ-Password ReBuilder</title>
 
 <!-- ファビコン -->
 <link rel="icon" href="/OJ-Pass/favicon2.ico">
+<link rel="canonical" href="https://ojapp.app/OJ-Pass/">
 
 <!-- iPhone ホームアイコン -->
 <link rel="apple-touch-icon" sizes="180x180" href="/icon/icon180.png">
@@ -42,8 +59,9 @@
 
   <h1>OJ-Password ReBuilder</h1>
   <p class="lead">
-    マスターキーとサービス名から<br>
-    「保存しない安全パスワード」を再構築します。
+  OJ-Pass は、マスターキー・サービス名・作成月の3要素から
+毎回同じパスワードを復元する「保存しないパスワード生成ツール」です。
+データ送信・保存は一切なく、完全オフラインで安全に利用できます。
   </p>
 
   <!-- マスターキー -->
@@ -110,8 +128,30 @@
   </div>
 
 </div>
+<p class="lead">
+  ⭐ FAQ（よくある質問）
+■ データはどこにも送信されていますか？
 
+いいえ。OJ-Pass はブラウザ内だけで完全処理され、
+マスターキーや入力内容は一切保存されません。
 
+■ 同じ入力をすれば同じパスワードが出ますか？
+
+はい。OJ-Pass は完全決定論アルゴリズムです。
+同じ「マスターキー × サービス名 × 作成月」なら
+何年後でも同じパスワードが再現できます。
+
+■ スマホでも使えますか？
+
+もちろんです。iPhone / Android ともにオフラインで利用できます。
+
+■ 記号は必ず含まれますか？
+
+ON にした場合、最低1つ以上の記号を必ず含むように補正します。</p>
+ <p class="lead">
+    OJ-Pass v1.1 は完全固定の永久アルゴリズム（Permanent Algorithm Version）を採用。
+セキュリティ上、生成ロジックは一切変更されません。
+ </p>
 <div class="footer">
   © 2025 OJapp — Make Your Home Screen Free.<br>
  OJ-Password ReBuilder v1.1 — Permanent Algorithm Version
