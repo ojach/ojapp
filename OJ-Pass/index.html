@@ -23,6 +23,9 @@
 <meta name="twitter:description" content="データを一切保存しない。毎回同じパスワードを再構築できる OJ-Pass。">
 <meta name="twitter:image" content="https://ojapp.app/OJ-Pass/ogp.png">
 
+  <link rel="manifest" href="/OJ-Pass/manifest.json">
+<meta name="theme-color" content="#2bb7ff">
+
 <title>OJ-Password ReBuilder</title>
 
 <!-- ファビコン -->
@@ -30,7 +33,7 @@
 <link rel="canonical" href="https://ojapp.app/OJ-Pass/">
 
 <!-- iPhone ホームアイコン -->
-<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon192pass.png">
 
 <!-- PWA（必要なら有効化） -->
 <!-- <link rel="manifest" href="/OJapp/manifest.json"> -->
@@ -47,7 +50,7 @@
 
 <div class="header">
   <a href="/OJ-Pass/" class="logo-link">
-    <img src="/icon/icon180.png" class="logo-img" alt="OJapp">
+    <img src="/icon/icon192pass.png" class="logo-img" alt="OJapp">
     <span class="logo-text">OJ-Password ReBuilder v1.1</span>
   </a>
   <div class="switch" onclick="toggleTheme()">🤩</div>
@@ -158,5 +161,11 @@ ON にした場合、最低1つ以上の記号を必ず含むように補正し�
 
 </div>
 <script src="/OJ-Pass/app.js"></script>
+  <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/OJ-Pass/sw.js");
+}
+</script>
+
 </body>
 </html>
