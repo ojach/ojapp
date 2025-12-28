@@ -489,20 +489,4 @@ html {
   }
 }
 
-/* =======================================
-   ダークモード
-======================================= */
-@media (prefers-color-scheme: dark) {
-  body.dark .info-block {
-    background: #1e1e1e !important;
-    color: #f5f5f5 !important;
-    box-shadow: 0 0 0 rgba(0,0,0,0);
-  }
-
-  body.dark .info-block h2,
-  body.dark .info-block p,
-  body.dark .info-block strong {
-    color: #f5f5f5 !important;
-  }
-}
 
