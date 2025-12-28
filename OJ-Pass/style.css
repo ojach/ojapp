@@ -455,3 +455,64 @@ html {
   font-size: 20px;
   font-weight: 700;
 }
+/* ================================
+   info-block 共通デザイン
+================================ */
+.info-block {
+  border-radius: 20px;
+  padding: 24px 20px;
+  margin: 20px 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* 見出し */
+.info-block h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.4em;
+}
+
+
+/* ================================
+   ライトモード
+================================ */
+@media (prefers-color-scheme: light) {
+  body {
+    background: #fafafa;
+    color: #222;
+  }
+
+  .info-block {
+    background: #ffffff !important;
+    color: #222 !important;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  .info-block h2,
+  .info-block p {
+    color: #222 !important;
+  }
+}
+
+
+/* ================================
+   ダークモード
+================================ */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #121212;
+    color: #f5f5f5;
+  }
+
+  .info-block {
+    background: #1e1e1e !important; /* 黒すぎず見やすい最適値 */
+    color: #f5f5f5 !important;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+
+  .info-block h2,
+  .info-block p,
+  .info-block strong {
+    color: #f5f5f5 !important;
+  }
+}
