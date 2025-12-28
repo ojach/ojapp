@@ -1,0 +1,23 @@
+{
+  "name": "OJ-Pass",
+  "short_name": "OJ-Pass",
+  "description": "保存しない安全パスワード生成ツール（Permanent Algorithm Version）",
+  "start_url": "/OJ-Pass/",
+  "scope": "/OJ-Pass/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#2bb7ff",
+  "icons": [
+    {
+      "src": "/icon/icon192pass.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+     {
+      "src": "/icon/icon512pass.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+  ]
+}
