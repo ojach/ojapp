@@ -473,39 +473,36 @@ html {
 }
 
 
-/* ================================
+/* =======================================
    ライトモード
-================================ */
+======================================= */
 @media (prefers-color-scheme: light) {
-
-  .info-block {
+  body:not(.dark) .info-block {
     background: #ffffff !important;
     color: #222 !important;
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
   }
 
-  .info-block h2,
-  .info-block p {
+  body:not(.dark) .info-block h2,
+  body:not(.dark) .info-block p {
     color: #222 !important;
   }
 }
 
-
-/* ================================
+/* =======================================
    ダークモード
-================================ */
+======================================= */
 @media (prefers-color-scheme: dark) {
-
-
-  .info-block {
-    background: #1e1e1e !important; /* 黒すぎず見やすい最適値 */
+  body.dark .info-block {
+    background: #1e1e1e !important;
     color: #f5f5f5 !important;
     box-shadow: 0 0 0 rgba(0,0,0,0);
   }
 
-  .info-block h2,
-  .info-block p,
-  .info-block strong {
+  body.dark .info-block h2,
+  body.dark .info-block p,
+  body.dark .info-block strong {
     color: #f5f5f5 !important;
   }
 }
+
