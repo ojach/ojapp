@@ -489,4 +489,24 @@ html {
   }
 }
 
+/* ================================
+   ダークモード
+================================ */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #121212;
+    color: #f5f5f5;
+  }
 
+  .info-block {
+    background: #1e1e1e !important; /* 黒すぎず見やすい最適値 */
+    color: #f5f5f5 !important;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+
+  .info-block h2,
+  .info-block p,
+  .info-block strong {
+    color: #f5f5f5 !important;
+  }
+}
