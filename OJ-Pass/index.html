@@ -10,12 +10,10 @@
 <title>OJ-Password ReBuilder</title>
 
 <!-- ファビコン -->
-<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
-<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+<link rel="icon" href="/favicon.ico">
 
 <!-- iPhone ホームアイコン -->
-<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon180.png">
 
 <!-- PWA（必要なら有効化） -->
 <!-- <link rel="manifest" href="/OJapp/manifest.json"> -->
@@ -23,19 +21,20 @@
 <meta name="theme-color" content="#2bb7ff">
 
 <!-- 共通CSS -->
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="style.css">
 <!-- ダークモード呼ぶ -->
-<script src="/darkmode.js"></script>
+<script src="darkmode.js"></script>
 </head>
 
 <body>
 
-<div id="header"></div>
-<script>
-fetch("/header.html")
-  .then(r => r.text())
-  .then(h => document.getElementById("header").innerHTML = h);
-</script>
+<div class="header">
+  <a href="/" class="logo-link">
+    <img src="/icon/icon180.png" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJ-Password ReBuilder v1.1</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
 
 
   <!-- ページ固有の内容を書く -->
@@ -118,6 +117,6 @@ fetch("/header.html")
  OJ-Password ReBuilder v1.1 — Permanent Algorithm Version
 
 </div>
-<script src="/OJ-Pass/app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
