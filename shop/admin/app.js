@@ -388,6 +388,14 @@ function getQueryParam(key) {
 }
 
 async function start() {
+console.log("start 実行");
+
+console.log("URL product =", getQueryParam("product"));
+console.log("viewItems =", viewItems);
+
+const pid = getQueryParam("product");
+const findTarget = viewItems.find(i => i.product_id === pid);
+console.log("見つかった item =", findTarget);
 
   await loadMyItems();   // ← 最初に1回すぐ実行（強い描画を前に持ってくる）
 
