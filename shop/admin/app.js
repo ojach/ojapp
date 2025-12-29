@@ -384,8 +384,7 @@ document.addEventListener("DOMContentLoaded", loadMyItems);
 
 //ショップからの商品管理用
 function getQueryParam(key) {
-  const params = new URLSearchParams(location.search);
-  return params.get(key);
+  return new URLSearchParams(location.search).get(key);
 }
 
 async function start() {
@@ -395,19 +394,26 @@ async function start() {
   // ▼ URLに product があれば最優先ソート
   const pid = Number(getQueryParam("product"));
   if (pid) {
-    viewItems.sort((a, b) => (a.product_id === pid ? -1 :
-                              b.product_id === pid ? 1 : 0));
+    viewItems.sort((a, b) => 
+      a.product_id === pid ? -1 :
+      b.product_id === pid ? 1 : 0
+    );
   }
 
   renderRecommend();
   renderDynamicFilters();
   await applyFilters();
   loadScrollRows();
-  renderShop();
+  renderShop();  // ← カード生成
 
-  // ▼ ソート後の表示が終わったら自動でモーダルオープン
+  // ▼ 自動モーダル（render後、次のフレームで確実に実行）
   if (pid) {
     const target = viewItems.find(i => i.product_id === pid);
-    if (target) setTimeout(() => openEditModal(target), 300);
+    if (target) {
+      requestAnimationFrame(() => {
+        setTimeout(() => openEditModal(target), 100);
+      });
+    }
   }
 }
+
