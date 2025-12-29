@@ -388,23 +388,29 @@ function getQueryParam(key) {
 }
 
 async function start() {
-console.log("start 実行");
+  console.log("start 実行");
 
-console.log("URL product =", getQueryParam("product"));
-console.log("viewItems =", viewItems);
+  // ---------------------
+  // URL product 取得
+  // ---------------------
+  const pid = getQueryParam("product");
+  console.log("URL product =", pid);
 
-const pid = getQueryParam("product");
-const findTarget = viewItems.find(i => i.product_id === pid);
-console.log("見つかった item =", findTarget);
+  // ---------------------
+  // あなたの商品一覧（強い表示）
+  // ---------------------
+  await loadMyItems();
 
-  await loadMyItems();   // ← 最初に1回すぐ実行（強い描画を前に持ってくる）
-
+  // ---------------------
+  // 全商品ロード
+  // ---------------------
   items = await loadItems();
   viewItems = [...items];
+  console.log("items =", items);
 
-  // ▼ URL の product を反映
-  const pid = getQueryParam("product");
-
+  // ---------------------
+  // URL product の優先ソート
+  // ---------------------
   if (pid) {
     viewItems.sort((a, b) =>
       a.product_id === pid ? -1 :
@@ -412,12 +418,20 @@ console.log("見つかった item =", findTarget);
     );
   }
 
+  // ---------------------
+  // 表示
+  // ---------------------
   renderShop();
 
-  // ▼ モーダル
+  // ---------------------
+  // モーダルを開く
+  // ---------------------
   if (pid) {
     const target = viewItems.find(i => i.product_id === pid);
-    if (target) setTimeout(() => openEditModal(target), 200);
+    console.log("見つかった item =", target);
+    if (target) {
+      setTimeout(() => openEditModal(target), 200);
+    }
   }
 }
 
