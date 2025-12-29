@@ -391,10 +391,14 @@ async function start() {
   items = await loadItems();
   viewItems = [...items];
 
-  // ▼ URLに product があれば最優先ソート
-  const pid = Number(getQueryParam("product"));
+  // ▼ UUIDは文字列で比較
+  const pid = getQueryParam("product");
+
   if (pid) {
-    viewItems.sort((a, b) => 
+    console.log("優先 product:", pid);
+
+    // 該当アイテムを最優先で上に持ってくる
+    viewItems.sort((a, b) =>
       a.product_id === pid ? -1 :
       b.product_id === pid ? 1 : 0
     );
@@ -404,16 +408,14 @@ async function start() {
   renderDynamicFilters();
   await applyFilters();
   loadScrollRows();
-  renderShop();  // ← カード生成
+  renderShop();
 
-  // ▼ 自動モーダル（render後、次のフレームで確実に実行）
+  // ▼ 描画後にモーダル自動オープン
   if (pid) {
     const target = viewItems.find(i => i.product_id === pid);
-    if (target) {
-      requestAnimationFrame(() => {
-        setTimeout(() => openEditModal(target), 100);
-      });
-    }
+    if (target) setTimeout(() => openEditModal(target), 200);
   }
 }
+
+start();
 
