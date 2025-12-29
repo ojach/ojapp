@@ -388,34 +388,28 @@ function getQueryParam(key) {
 }
 
 async function start() {
+
+  await loadMyItems();   // ← 最初に1回すぐ実行（強い描画を前に持ってくる）
+
   items = await loadItems();
   viewItems = [...items];
 
-  // ▼ UUIDは文字列で比較
+  // ▼ URL の product を反映
   const pid = getQueryParam("product");
 
   if (pid) {
-    console.log("優先 product:", pid);
-
-    // 該当アイテムを最優先で上に持ってくる
     viewItems.sort((a, b) =>
       a.product_id === pid ? -1 :
-      b.product_id === pid ? 1 : 0
+      b.product_id === pid ?  1 : 0
     );
   }
 
-  renderRecommend();
-  renderDynamicFilters();
-  await applyFilters();
-  loadScrollRows();
   renderShop();
 
-  // ▼ 描画後にモーダル自動オープン
+  // ▼ モーダル
   if (pid) {
     const target = viewItems.find(i => i.product_id === pid);
     if (target) setTimeout(() => openEditModal(target), 200);
   }
 }
-
-start();
 
