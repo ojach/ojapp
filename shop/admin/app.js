@@ -387,51 +387,20 @@ function getQueryParam(key) {
   return new URLSearchParams(location.search).get(key);
 }
 
-async function start() {
-  console.log("start 実行");
-
-  // ---------------------
-  // URL product 取得
-  // ---------------------
+function autoOpenFromQuery() {
   const pid = getQueryParam("product");
-  console.log("URL product =", pid);
+  if (!pid) return;
 
-  // ---------------------
-  // あなたの商品一覧（強い表示）
-  // ---------------------
-  await loadMyItems();
-
-  // ---------------------
-  // 全商品ロード
-  // ---------------------
-  items = await loadItems();
-  viewItems = [...items];
-  console.log("items =", items);
-
-  // ---------------------
-  // URL product の優先ソート
-  // ---------------------
-  if (pid) {
-    viewItems.sort((a, b) =>
-      a.product_id === pid ? -1 :
-      b.product_id === pid ?  1 : 0
-    );
-  }
-
-  // ---------------------
-  // 表示
-  // ---------------------
-  renderShop();
-
-  // ---------------------
-  // モーダルを開く
-  // ---------------------
-  if (pid) {
-    const target = viewItems.find(i => i.product_id === pid);
-    console.log("見つかった item =", target);
-    if (target) {
-      setTimeout(() => openEditModal(target), 200);
-    }
+  const target = myItemsCache.find(i => i.product_id === pid);
+  if (target) {
+    setTimeout(() => openEditModal(target), 300);
   }
 }
+
+async function start() {
+  await loadMyItems();
+  autoOpenFromQuery();
+}
+
+document.addEventListener("DOMContentLoaded", start);
 
