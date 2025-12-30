@@ -40,6 +40,7 @@ async function loadProduct() {
 
   document.getElementById("buy-btn").href = item.product_url;
 
+console.log("price =", item.price);
 
 
   // ③ view_count +1（正しいタイミング）
