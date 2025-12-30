@@ -806,23 +806,4 @@ input:focus {
   border-radius: 50%;
   object-fit: cover;
 }
-.product-img {
-  width: 100%;
-  max-width: 430px;
-  height: auto;
-  display: block;
-  margin: 0 auto 24px;
-  object-fit: contain; /* ← 正確に表示 */
-}
 
-.product-title {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 18px;
-}
-.product-wrap {
-  max-width: 480px;
-  margin: 40px auto 80px;
-  text-align: center;
-  padding: 0 20px;
-}
