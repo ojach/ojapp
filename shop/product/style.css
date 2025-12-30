@@ -180,3 +180,17 @@ body {
   margin: 0 auto;
   box-sizing: border-box;
 }
+/* 値段表示 */
+#price {
+  font-size: 24px;         /* 大きくする */
+  font-weight: 700;        /* 太字で目立たせる */
+  text-align: center;
+  margin-top: 8px;         /* 上に寄せる（必要なら値変更） */
+  margin-bottom: 12px;     /* ボタンとの距離 */
+  color: #222;             /* 見やすい濃さ */
+}
+
+/* ボタンとのメリハリを出す */
+#buy-btn {
+  margin-top: 4px;   
+}
