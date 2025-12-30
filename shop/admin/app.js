@@ -125,7 +125,7 @@ document.getElementById("author-save-btn")?.addEventListener("click", async () =
     sns_site: document.getElementById("author-sns-site").value
   };
 
-  const res = await fetch(`${API_BASE}/shop/api/author_update`, {
+  const res = await fetch(`${API_BASE}/shop/api/author_info`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
