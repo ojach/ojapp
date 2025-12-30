@@ -112,7 +112,6 @@ main.author-header {
   height: 78px;
   border-radius: 50%;
   object-fit: cover;
-  background: var(--circle-bg);
 }
 
 .author-info {
