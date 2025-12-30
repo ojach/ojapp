@@ -1,33 +1,39 @@
-async function loadProduct() {
-  const params = new URLSearchParams(location.search);
-  const id = params.get("id");
-  if (!id) return;
+const API_BASE = "https://ojapp.app"; // ← いつもの
 
+// GETパラメータ
+function getQueryParam(key) {
+  return new URLSearchParams(location.search).get(key);
+}
+
+async function loadProduct() {
+  const id = getQueryParam("id");
+  if (!id) return alert("商品IDが指定されていません");
+
+  // ① 商品情報取得
   const res = await fetch(`${API_BASE}/shop/item?id=${id}`);
   const item = await res.json();
 
-  document.getElementById("p-thumb").src =
+  // ② 表示反映
+  document.getElementById("product-img").src =
     `${API_BASE}/shop/r2/${item.thumbnail}`;
 
-  document.getElementById("p-title").textContent = item.title;
-  document.getElementById("p-price").textContent = `${item.price}円`;
+  document.getElementById("product-title").textContent = item.title;
 
-  document.getElementById("p-category").textContent =
-    item.category ? `・${item.category}` : "";
+  document.getElementById("author-icon").src =
+    `${API_BASE}/shop/r2/authors/${item.author_key}.png`;
 
-  document.getElementById("p-author").textContent = `by ${item.author}`;
-  document.getElementById("p-author").href =
-    `/shop/author/?key=${item.author_key}`;
+  document.getElementById("author-name").textContent = item.author;
 
-  document.getElementById("p-fav").textContent =
+  document.getElementById("fav-count").textContent =
     `❤️ ${item.favorite_count}`;
 
-  document.getElementById("p-view").textContent =
+  document.getElementById("view-count").textContent =
     `👁 ${item.view_count}`;
 
-  document.getElementById("p-buy").onclick = () => {
-    location.href = item.product_url;
-  };
+  document.getElementById("buy-btn").href = item.product_url;
+
+  // ③ view_count +1（正しいタイミング）
+  fetch(`${API_BASE}/shop/item/view?id=${id}`, { method: "POST" });
 }
 
-loadProduct();
+document.addEventListener("DOMContentLoaded", loadProduct);
