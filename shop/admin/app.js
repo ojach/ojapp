@@ -79,7 +79,61 @@ function encodeAuthorName(name) {
     });
 })();
 
+//  折り畳みボタン
+document.getElementById("toggle-author-settings")?.addEventListener("click", () => {
+  const panel = document.getElementById("author-settings-panel");
+  panel.style.display = (panel.style.display === "none") ? "block" : "none";
+});
 
+// ===============================
+// 作者プロフィール読み込み
+// ===============================
+async function loadAuthorInfo() {
+  const designer = localStorage.getItem("ojshop-admin-designer");
+  if (!designer) return;
+
+  // ★ 保存不要、毎回生成する方式
+  const author_key = encodeAuthorName(designer);
+
+  const res = await fetch(`${API_BASE}/shop/api/author_info?key=${author_key}`);
+  const data = await res.json();
+
+  document.getElementById("author-profile").value = data.profile || "";
+  document.getElementById("author-sns-x").value = data.sns_x || "";
+  document.getElementById("author-sns-insta").value = data.sns_insta || "";
+  document.getElementById("author-sns-threads").value = data.sns_threads || "";
+  document.getElementById("author-sns-booth").value = data.sns_booth || "";
+  document.getElementById("author-sns-site").value = data.sns_site || "";
+}
+// ===============================
+//作者プロフィール保存
+// ===============================
+document.getElementById("author-save-btn")?.addEventListener("click", async () => {
+  const designer = localStorage.getItem("ojshop-admin-designer");
+  if (!designer) return;
+
+  // ★ 保存不要・毎回生成
+  const author_key = encodeAuthorName(designer);
+
+  const payload = {
+    author_key,
+    profile: document.getElementById("author-profile").value,
+    sns_x: document.getElementById("author-sns-x").value,
+    sns_insta: document.getElementById("author-sns-insta").value,
+    sns_threads: document.getElementById("author-sns-threads").value,
+    sns_booth: document.getElementById("author-sns-booth").value,
+    sns_site: document.getElementById("author-sns-site").value
+  };
+
+  const res = await fetch(`${API_BASE}/shop/api/author_update`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  document.getElementById("author-save-result").style.display = "block";
+  document.getElementById("author-save-result").textContent = "保存しました！";
+});
 
 // ===============================
 // ② 作者アイコン UI
