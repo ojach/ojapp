@@ -1,39 +1,100 @@
-/* ====================================
-   Light / Dark Mode
-==================================== */
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #fff;
-    --text: #111;
-    --border: #eee;
-    --sub: #666;
-    --circle-bg: #f4f4f4;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #000;
-    --text: #eee;
-    --border: #333;
-    --sub: #aaa;
-    --circle-bg: #222;
-  }
+/* =========================================
+   Theme Variables（色だけを集中管理）
+========================================= */
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --header-border: #eee;
+
+  --section-bg: #ffffff;
+  --section-shadow: rgba(0, 0, 0, .05);
+
+  --input-bg: #ffffff;
+  --input-border: #ddd;
+
+  --icon-bg: #f5f5f5;
+
+  --assistant-bg: #ffffff;
+  --assistant-border: #2bb7ff;
 }
 
-body {
+/* ===== Dark Mode ===== */
+.dark {
+  --bg: #111;
+  --text: #eaeaea;
+  --header-border: #444;
+
+  --section-bg: #1a1a1a;
+  --section-shadow: rgba(0, 0, 0, .4);
+
+  --input-bg: #222;
+  --input-border: #555;
+
+  --icon-bg: #2a2a2a;
+
+  --assistant-bg: #111;
+  --assistant-border: #67c8ff;
+}
+
+
+/* =========================================
+   Base
+========================================= */
+html, body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: "Helvetica","Arial","YuGothic",sans-serif;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 58px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--header-border);
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit; /* ← テキスト色をデザインに合わせる */
+}
+
+.logo-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1;
+  position: relative;
+  top: 1px;
+}
+
+.switch {
+  font-size: 24px;
+  cursor: pointer;
 }
 
 /* ====================================
    Header
 ==================================== */
-.author-header {
+main.author-header {
   display: flex;
-  padding: 20px;
-  border-bottom: 1px solid var(--border);
+  align-items: center;
+  padding: 16px;
 }
 
 .author-icon {
