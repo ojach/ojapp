@@ -22,37 +22,18 @@ function renderSNS(data) {
   const snsArea = document.getElementById("snsRow");
   snsArea.innerHTML = "";
 
-  const snsList = [
-    {
-      key: "sns_x",
-      url: data.sns_x,
-      svg: `<path d="M4 4l16 16M20 4L4 20"/>`
-    },
-    {
-      key: "sns_insta",
-      url: data.sns_insta,
-      svg: `
-        <rect x="3" y="3" width="18" height="18" rx="5"/>
+ const snsList = [
+    { key: "sns_x",       url: data.sns_x,       svg: `<path d="M4 4l16 16M20 4L4 20"/>` },
+    { key: "sns_insta",   url: data.sns_insta,   svg: `
+        <rect x="4" y="4" width="16" height="16" rx="4"/>
         <circle cx="12" cy="12" r="4"/>
-        <circle cx="17" cy="7" r="1.5"/>
-      `
-    },
-    {
-      key: "sns_threads",
-      url: data.sns_threads,
-      svg: `<circle cx="12" cy="12" r="9"/>`
-    },
-    {
-      key: "sns_booth",
-      url: data.sns_booth,
-      svg: `<path d="M4 6h16v12H4z"/>`
-    },
-    {
-      key: "sns_site",
-      url: data.sns_site,
-      svg: `<path d="M5 19h14M12 5l7 12H5z"/>`
-    }
+        <circle cx="17" cy="7" r="1.3"/>
+      ` },
+    { key: "sns_threads", url: data.sns_threads, svg: `<circle cx="12" cy="12" r="7"/>` },
+    { key: "sns_booth",   url: data.sns_booth,   svg: `<rect x="5" y="7" width="14" height="10"/>` },
+    { key: "sns_site",    url: data.sns_site,    svg: `<path d="M12 5l6 14H6z"/>` }
   ];
+  
 
   snsList.forEach(s => {
     if (!s.url) return;
