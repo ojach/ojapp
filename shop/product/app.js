@@ -44,11 +44,13 @@ async function loadProduct() {
 
   // ③ view_count +1（正しいタイミング）
   // --- view_count +1 ---
-fetch(`${API_BASE}/shop/api/view`, {
+// --- view_count +1 ---
+fetch(`${API_BASE}/shop/api/view_count`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ product_id: id })
 });
+
 
 }
 
