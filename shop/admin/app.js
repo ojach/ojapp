@@ -100,6 +100,29 @@ async function loadAuthorInfo() {
   document.getElementById("author-sns-booth").value = data.sns_booth || "";
   document.getElementById("author-sns-site").value = data.sns_site || "";
 }
+document.getElementById("author-save-btn").addEventListener("click", async () => {
+  const key = localStorage.getItem("ojshop-admin-designer-key");
+
+  const payload = {
+    author_key: key,
+    profile: document.getElementById("author-profile").value,
+    sns_x: document.getElementById("author-sns-x").value,
+    sns_insta: document.getElementById("author-sns-insta").value,
+    sns_threads: document.getElementById("author-sns-threads").value,
+    sns_booth: document.getElementById("author-sns-booth").value,
+    sns_site: document.getElementById("author-sns-site").value
+  };
+
+  const res = await fetch("/shop/api/author_update", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const resultBox = document.getElementById("author-save-result");
+  resultBox.style.display = "block";
+  resultBox.textContent = "保存しました！";
+});
 
 // ===============================
 // ② 作者アイコン UI
