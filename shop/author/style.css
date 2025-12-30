@@ -1,0 +1,105 @@
+/* ====================================
+   Light / Dark Mode
+==================================== */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fff;
+    --text: #111;
+    --border: #eee;
+    --sub: #666;
+    --circle-bg: #f4f4f4;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000;
+    --text: #eee;
+    --border: #333;
+    --sub: #aaa;
+    --circle-bg: #222;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+}
+
+/* ====================================
+   Header
+==================================== */
+.author-header {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.author-icon {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--circle-bg);
+}
+
+.author-info {
+  margin-left: 16px;
+}
+
+.author-name {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.author-profile {
+  font-size: 14px;
+  margin-top: 4px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+/* ====================================
+   SNS row
+==================================== */
+.sns-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.sns-row img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.85;
+}
+
+/* ====================================
+   Item Grid (3 columns)
+==================================== */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-item {
+  position: relative;
+}
+
+.grid-item img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.grid-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 20px;
+  color: white;
+  transform: translate(-50%, -50%);
+  opacity: 0.85;
+  pointer-events: none;
+}
