@@ -44,7 +44,9 @@ async function loadProduct() {
 
   // ③ view_count +1（正しいタイミング）
   // --- view_count +1 ---
-// --- view_count +1 ---
+// --- view_count +1 --
+  console.log("product_id from URL =", id);
+
 fetch(`${API_BASE}/shop/api/view`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
