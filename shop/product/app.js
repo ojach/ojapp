@@ -7,13 +7,21 @@ function getQueryParam(key) {
 
 async function loadProduct() {
   const id = getQueryParam("id");
-  if (!id) return alert("商品IDが指定されていません");
+  if (!id) return alert("商品IDがありません");
 
-  // ① 商品情報取得
-  const res = await fetch(`${API_BASE}/shop/item?id=${id}`);
-  const item = await res.json();
+  // 全件取得
+  const res = await fetch(`${API_BASE}/shop/api/items`);
+  const allItems = await res.json();
 
-  // ② 表示反映
+  // 1件抽出
+  const item = allItems.find(i => i.product_id === id);
+  if (!item) {
+    alert("商品が見つかりません");
+    return;
+  }
+
+  // ---- ここから表示 ----
+
   document.getElementById("product-img").src =
     `${API_BASE}/shop/r2/${item.thumbnail}`;
 
@@ -31,6 +39,8 @@ async function loadProduct() {
     `👁 ${item.view_count}`;
 
   document.getElementById("buy-btn").href = item.product_url;
+}
+
 
   // ③ view_count +1（正しいタイミング）
   fetch(`${API_BASE}/shop/item/view?id=${id}`, { method: "POST" });
