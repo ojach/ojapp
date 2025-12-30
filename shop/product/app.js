@@ -1,4 +1,4 @@
-const API_BASE = "https://ojapp.app"; // ← いつもの
+const API_BASE = "https://ojshop-fav.trc-wasps.workers.dev";
 
 // GETパラメータ
 function getQueryParam(key) {
