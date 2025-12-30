@@ -41,7 +41,38 @@
     <div id="author-icon-result" class="result-box" style="display:none;"></div>
   </div>
 </section>
+<section class="admin-section">
+  <h2 class="section-title">作者プロフィール</h2>
 
+  <button id="toggle-author-settings" class="btn-secondary">
+    ▼ プロフィール・SNSを編集
+  </button>
+
+  <div id="author-settings-panel" style="display:none; margin-top:16px;">
+
+    <label>自己紹介（短文）</label>
+    <textarea id="author-profile" rows="2" placeholder="例：ゆるかわ系アイコン作ってます！"></textarea>
+
+    <label>X（Twitter）</label>
+    <input type="text" id="author-sns-x" placeholder="https://x.com/...">
+
+    <label>Instagram</label>
+    <input type="text" id="author-sns-insta" placeholder="https://instagram.com/...">
+
+    <label>Threads</label>
+    <input type="text" id="author-sns-threads" placeholder="https://threads.net/...">
+
+    <label>BOOTH</label>
+    <input type="text" id="author-sns-booth" placeholder="https://your.booth.pm/">
+
+    <label>Website</label>
+    <input type="text" id="author-sns-site" placeholder="https://...">
+
+    <button class="btn-primary" id="author-save-btn">保存する</button>
+    <div id="author-save-result" class="result-box" style="display:none;"></div>
+
+  </div>
+</section>
   <!-- ========================================================= -->
   <!-- 商品追加                                                   -->
   <!-- ========================================================= -->
@@ -81,6 +112,7 @@
   </section>
 
 </div>
+
 
 
 <!-- ========================================================= -->
