@@ -1,248 +1,26 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Author</title>
-
-<style>
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    transition: 0.2s;
-  }
-
-  /*==============================
-      Light / Dark mode
-  ==============================*/
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #fff;
-      --text: #111;
-      --subtext: #555;
-      --border: #ddd;
-      --circle-bg: #f2f2f2;
-    }
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #000;
-      --text: #eee;
-      --subtext: #aaa;
-      --border: #333;
-      --circle-bg: #222;
-    }
-  }
-
-  /*==============================
-      Header
-  ==============================*/
-  header {
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .author-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--circle-bg);
-    object-fit: cover;
-  }
-
-  .author-info-area {
-    margin-left: 16px;
-  }
-
-  .author-name {
-    font-size: 22px;
-    font-weight: 600;
-  }
-
-  .author-profile {
-    margin-top: 6px;
-    font-size: 14px;
-    white-space: pre-wrap;
-    line-height: 1.4;
-  }
-
-  /*==============================
-      SNS row
-  ==============================*/
-  .sns-row {
-    margin-top: 14px;
-    display: flex;
-    gap: 14px;
-  }
-
-  .sns-row a img {
-    width: 22px;
-    height: 22px;
-    opacity: 0.85;
-  }
-
-  /*==============================
-      Grid 3列（Instagram仕様）
-  ==============================*/
-  .grid {
-    margin-top: 24px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .grid img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* ハート（中央に小さく） */
-  .heart {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 22px;
-    color: white;
-    opacity: 0.9;
-    pointer-events: none;
-  }
-
-  .grid-item {
-    position: relative;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>作者ページ - OJapp Shop</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
+<header class="author-header">
   <img id="authorIcon" class="author-icon" src="" />
-  <div class="author-info-area">
+  <div class="author-info">
     <div id="authorName" class="author-name"></div>
     <div id="authorProfile" class="author-profile"></div>
-
     <div class="sns-row" id="snsRow"></div>
   </div>
 </header>
 
-<div class="grid" id="itemGrid"></div>
+<div class="item-grid" id="itemGrid"></div>
 
-<script>
-const API_BASE = "https://ojshop-fav.trc-wasps.workers.dev";
-
-// URL ?key=xxxx
-const params = new URL(location.href).searchParams;
-const author_key = params.get("key");
-
-// デフォルトアイコン
-const DEFAULT_ICON = "https://github.ojach.com/OJapp/icon/ojapp-logo.png";
-
-/* ======================================
-   作者情報ロード
-======================================*/
-async function loadAuthor() {
-  const r = await fetch(`${API_BASE}/shop/api/author_info?key=${author_key}`);
-  const data = await r.json();
-
-  // アイコン
-  document.getElementById("authorIcon").src =
-    `${API_BASE}/shop/r2/authors/${author_key}.png`;
-
-  document.getElementById("authorIcon").onerror = () => {
-    document.getElementById("authorIcon").src = DEFAULT_ICON;
-  };
-
-  // 名前（Base64URL → デコード）
-  document.getElementById("authorName").textContent = decodeAuthorKey(author_key);
-
-  // プロフィール
-  document.getElementById("authorProfile").textContent = data.profile || "";
-
-  // SNS
-  const sns = [
-    { key: "sns_x", icon: "M20 3H4v18h16V3z", url: data.sns_x },
-    { key: "sns_insta", icon: "M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z", url: data.sns_insta },
-    { key: "sns_threads", icon: "M12 2a10 10 0 1010 10A10 10 0 0012 2z", url: data.sns_threads },
-    { key: "sns_booth", icon: "M4 4h16v16H4z", url: data.sns_booth },
-    { key: "sns_site", icon: "M12 2l7 20H5z", url: data.sns_site }
-  ];
-
-  const row = document.getElementById("snsRow");
-  row.innerHTML = "";
-
-  sns.forEach(s => {
-    if (s.url) {
-      const a = document.createElement("a");
-      a.href = s.url;
-      a.target = "_blank";
-      a.innerHTML = `<img src="data:image/svg+xml;utf8,
-        <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'><path d='${s.icon}'/></svg>">`;
-      row.appendChild(a);
-    }
-  });
-}
-
-/* ======================================
-   投稿（商品）ロード
-======================================*/
-async function loadItems() {
-  const res = await fetch(`${API_BASE}/shop/api/items?sort=new`);
-  const items = await res.json();
-
-  const grid = document.getElementById("itemGrid");
-  grid.innerHTML = "";
-
-  items
-    .filter(i => i.author_key === author_key && i.visible === 1)
-    .forEach(item => {
-      const el = document.createElement("div");
-      el.className = "grid-item";
-
-      const img = document.createElement("img");
-      img.src = `${API_BASE}/shop/r2/thumbs/${author_key}/${item.product_id}.png`;
-
-      img.onerror = () => { img.src = DEFAULT_ICON; };
-
-      el.appendChild(img);
-
-      // ハート（固定）
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.textContent = "♡";
-      el.appendChild(heart);
-
-      // 商品ページ遷移
-      el.onclick = () => {
-        location.href = `/OJapp/shop/item/?id=${item.product_id}`;
-      };
-
-      grid.appendChild(el);
-    });
-}
-
-/* ======================================
-   Base64URL decode（作者名復元）
-======================================*/
-function decodeAuthorKey(base64url) {
-  const pad = base64url.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((base64url.length + 3) % 4);
-  const decoded = atob(pad);
-  const bytes = new Uint8Array([...decoded].map(c => c.charCodeAt(0)));
-  return new TextDecoder().decode(bytes);
-}
-
-
-/* ======================================
-   RUN
-======================================*/
-loadAuthor();
-loadItems();
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
+
