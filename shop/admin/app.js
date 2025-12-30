@@ -80,7 +80,26 @@ function encodeAuthorName(name) {
 })();
 
 
+document.getElementById("toggle-author-settings").addEventListener("click", () => {
+  const panel = document.getElementById("author-settings-panel");
+  panel.style.display = (panel.style.display === "none") ? "block" : "none";
+});
 
+async function loadAuthorInfo() {
+  const key = localStorage.getItem("ojshop-admin-designer-key"); // ← author_key（保存してあるはず）
+  if (!key) return;
+
+  const res = await fetch(`/shop/api/author_info?key=${key}`);
+  const data = await res.json();
+
+  // 反映
+  document.getElementById("author-profile").value = data.profile || "";
+  document.getElementById("author-sns-x").value = data.sns_x || "";
+  document.getElementById("author-sns-insta").value = data.sns_insta || "";
+  document.getElementById("author-sns-threads").value = data.sns_threads || "";
+  document.getElementById("author-sns-booth").value = data.sns_booth || "";
+  document.getElementById("author-sns-site").value = data.sns_site || "";
+}
 
 // ===============================
 // ② 作者アイコン UI
@@ -401,6 +420,8 @@ function autoOpenFromQuery() {
 async function start() {
   await loadMyItems();
   autoOpenFromQuery();
+  loadAuthorInfo();
+
 }
 
 document.addEventListener("DOMContentLoaded", start);
