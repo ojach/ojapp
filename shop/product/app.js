@@ -37,6 +37,7 @@ async function loadProduct() {
 
   document.getElementById("price").textContent = `${item.price}円`;
 
+
   document.getElementById("buy-btn").href = item.product_url;
 
 
