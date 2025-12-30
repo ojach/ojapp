@@ -155,11 +155,13 @@ main.author-header {
 
 .grid-item {
   position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
 }
 
 .grid-item img {
   width: 100%;
-  aspect-ratio: 1/1;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -167,12 +169,13 @@ main.author-header {
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 20px;
   color: white;
-  transform: translate(-50%, -50%);
   opacity: 0.85;
   pointer-events: none;
 }
+
 .footer {
     width: 100%;
     text-align: center;
