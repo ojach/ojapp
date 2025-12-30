@@ -47,10 +47,11 @@ body {
   margin: 40px auto 80px;
   text-align: center;
   padding: 0 20px;
+   box-sizing: border-box; 
 }
 
 .product-img {
-  width: 96%;
+  width: 100%;
   max-width: 430px;
   height: auto;
   display: block;
@@ -111,6 +112,4 @@ body {
   font-size: 12px;
   color: #777;
 }
-.header {
-  width: auto;
-}
+
