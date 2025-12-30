@@ -9,14 +9,23 @@
 
 <body>
 
-<header class="author-header">
+<header>
+<div class="header">
+  <a href="/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
+</header>
+<main class="author-header">
   <img id="authorIcon" class="author-icon" src="" />
   <div class="author-info">
     <div id="authorName" class="author-name"></div>
     <div id="authorProfile" class="author-profile"></div>
     <div class="sns-row" id="snsRow"></div>
   </div>
-</header>
+</main>
 
 <div class="item-grid" id="itemGrid"></div>
 
