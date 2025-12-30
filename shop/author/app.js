@@ -44,7 +44,7 @@ function renderSNS(data) {
   const snsArea = document.getElementById("snsRow");
   snsArea.innerHTML = "";
 
- const snsList = [
+const snsList = [
   { key: "sns_x", url: data.sns_x, svg: "M20 3H4v18h16V3z" },
   { key: "sns_insta", url: data.sns_insta, svg: "M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z" },
   { key: "sns_threads", url: data.sns_threads, svg: "M12 2a10 10 0 1010 10A10 10 0 0012 2z" },
@@ -55,28 +55,23 @@ function renderSNS(data) {
 snsList.forEach(s => {
   if (!s.url) return;
 
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg"
-         viewBox="0 0 24 24" width="22" height="22"
-         stroke="white" fill="none" stroke-width="2">
-      <path d="${s.svg}"/>
-    </svg>
-  `.trim();
-
-  // 🔥 SVG を URL エンコード
-  const svgEncoded = encodeURIComponent(svg);
-
-  const img = document.createElement("img");
-  img.src = `data:image/svg+xml,${svgEncoded}`;
-  img.className = "sns-icon";
-
   const link = document.createElement("a");
   link.href = s.url;
   link.target = "_blank";
-  link.appendChild(img);
+
+  link.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 24 24"
+         width="22" height="22"
+         stroke="white" fill="none"
+         stroke-width="2">
+      <path d="${s.svg}" />
+    </svg>
+  `;
 
   snsArea.appendChild(link);
 });
+
 
 
 /* =====================================
