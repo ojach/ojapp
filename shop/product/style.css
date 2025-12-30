@@ -38,8 +38,8 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  background: #f8f9fb;
-  color: #222;
+ background: var(--bg);
+  color: var(--text);
 }
 
 .product-wrap {
