@@ -80,49 +80,6 @@ function encodeAuthorName(name) {
 })();
 
 
-document.getElementById("toggle-author-settings").addEventListener("click", () => {
-  const panel = document.getElementById("author-settings-panel");
-  panel.style.display = (panel.style.display === "none") ? "block" : "none";
-});
-
-async function loadAuthorInfo() {
-  const key = localStorage.getItem("ojshop-admin-designer-key"); // ← author_key（保存してあるはず）
-  if (!key) return;
-
-  const res = await fetch(`/shop/api/author_info?key=${key}`);
-  const data = await res.json();
-
-  // 反映
-  document.getElementById("author-profile").value = data.profile || "";
-  document.getElementById("author-sns-x").value = data.sns_x || "";
-  document.getElementById("author-sns-insta").value = data.sns_insta || "";
-  document.getElementById("author-sns-threads").value = data.sns_threads || "";
-  document.getElementById("author-sns-booth").value = data.sns_booth || "";
-  document.getElementById("author-sns-site").value = data.sns_site || "";
-}
-document.getElementById("author-save-btn").addEventListener("click", async () => {
-  const key = localStorage.getItem("ojshop-admin-designer-key");
-
-  const payload = {
-    author_key: key,
-    profile: document.getElementById("author-profile").value,
-    sns_x: document.getElementById("author-sns-x").value,
-    sns_insta: document.getElementById("author-sns-insta").value,
-    sns_threads: document.getElementById("author-sns-threads").value,
-    sns_booth: document.getElementById("author-sns-booth").value,
-    sns_site: document.getElementById("author-sns-site").value
-  };
-
-  const res = await fetch("/shop/api/author_update", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  const resultBox = document.getElementById("author-save-result");
-  resultBox.style.display = "block";
-  resultBox.textContent = "保存しました！";
-});
 
 // ===============================
 // ② 作者アイコン UI
