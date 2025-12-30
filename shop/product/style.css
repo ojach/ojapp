@@ -166,3 +166,17 @@ body {
     color: #aaa;
     border-color: #333;
   }
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 58px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--header-border);
+
+  /* ← これを追加（重要） */
+  max-width: 480px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
