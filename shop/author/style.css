@@ -50,6 +50,16 @@ html, body {
   color: var(--text);
   box-sizing: border-box;
 }
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.center {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
 .header {
   width: 100%;
   display: flex;
