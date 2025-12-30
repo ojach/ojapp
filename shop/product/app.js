@@ -34,19 +34,21 @@ async function loadProduct() {
 
   document.getElementById("fav-count").textContent =
     `❤️ ${item.favorite_count}`;
-console.log("price =", item.price);
+
   document.getElementById("price").textContent = `${item.price}円`;
 
 
   document.getElementById("buy-btn").href = item.product_url;
 
-
+const btn = document.getElementById("buy-btn");
+if (item.price === 0) {
+  btn.textContent = "無料で受け取る";
+} else {
+  btn.textContent = "作者の販売サイトへ";
+}
 
 
   // ③ view_count +1（正しいタイミング）
-  // --- view_count +1 ---
-// --- view_count +1 --
-  console.log("product_id from URL =", id);
 
 fetch(`${API_BASE}/shop/api/view`, {
   method: "POST",
