@@ -39,7 +39,7 @@ async function loadProduct() {
     `👁 ${item.view_count}`;
 
   document.getElementById("buy-btn").href = item.product_url;
-}
+
 
 
   // ③ view_count +1（正しいタイミング）
