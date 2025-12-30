@@ -22,15 +22,22 @@ function renderSNS(data) {
   const snsArea = document.getElementById("snsRow");
 
  const snsList = [
-  { url: data.sns_x, svg: `<path d="M18 2L6 22M6 2l12 20"/>` },
-  { url: data.sns_insta, svg: `
+  {
+    url: data.sns_x,
+    svg: `<path d="M4 4l6.5 7.5L4 20h3l5.5-6.5L18 20h3l-6.5-8L21 4h-3l-5.5 6.5L7 4H4z"/>`
+  },
+  {
+    url: data.sns_insta,
+    svg: `
       <rect x="3" y="3" width="18" height="18" rx="5"/>
       <circle cx="12" cy="12" r="4"/>
-    ` },
+    `
+  },
   { url: data.sns_threads, svg: `<circle cx="12" cy="12" r="9"/>` },
   { url: data.sns_booth, svg: `<rect x="4" y="4" width="16" height="16"/>` },
   { url: data.sns_site, svg: `<path d="M12 2l7 20H5z"/>` }
 ];
+
 
 
   snsList.forEach(s => {
