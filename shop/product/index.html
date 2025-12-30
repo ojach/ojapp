@@ -1,35 +1,76 @@
+<!-- すべてのページのヘッダーとフッターのコピペ用 -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品ページ</title>
-  <link rel="stylesheet" href="style.css">
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OJapp</title>
+
+<!-- ファビコン -->
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+
+<!-- iPhone ホームアイコン -->
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<!-- PWA（必要なら有効化） -->
+<!-- <link rel="manifest" href="/manifest.json"> -->
+
+<meta name="theme-color" content="#2bb7ff">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="style.css" >
+<!-- ダークモード呼ぶ -->
+<script src="/darkmode.js"></script>
 </head>
+
 <body>
 
+<div id="header"></div>
+<script>
+fetch("/header.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("header").innerHTML = h);
+</script>
+
 <div class="product-wrap">
+  <!-- ページ固有の内容を書く -->
+  <!-- 商品画像 -->
+  <img id="product-img" class="product-img" src="" alt="thumbnail">
 
-  <img id="p-thumb" class="p-thumb">
+  <!-- タイトル -->
+  <h1 id="product-title" class="product-title"></h1>
 
-  <h1 id="p-title" class="p-title"></h1>
-
-  <div class="p-meta">
-    <span id="p-price" class="p-price"></span>
-    <span id="p-category" class="p-category"></span>
+  <!-- 作者 -->
+  <div class="author-box">
+    <img id="author-icon" class="author-icon" src="">
+    <span id="author-name" class="author-name"></span>
   </div>
 
-  <a id="p-author" class="p-author"></a>
-
-  <div class="p-counts">
-    <span id="p-fav">❤️ 0</span>
-    <span id="p-view">👁 0</span>
+  <!-- 情報（ハート・視聴数） -->
+  <div class="info-box">
+    <span id="fav-count">❤️ 0</span>
+    <span id="view-count">👁 0</span>
   </div>
 
-  <button id="p-buy" class="p-buy-btn">購入ページへ</button>
+  <!-- ボタン -->
+  <a id="buy-btn" class="buy-btn" href="#" target="_blank">
+    作者の販売サイトへ
+  </a>
+  <div class="buy-note">＊外部サイトに移動します</div>
 
 </div>
 
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("footer").innerHTML = h);
+</script>
 <script src="app.js"></script>
 </body>
 </html>
