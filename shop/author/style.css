@@ -116,6 +116,8 @@ main.author-header {
 
 .author-info {
   margin-left: 16px;
+    display: flex;            /* ←追加！ */
+  flex-direction: column;  
 }
 
 .author-name {
