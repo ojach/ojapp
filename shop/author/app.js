@@ -72,7 +72,7 @@ snsList.forEach(s => {
   snsArea.appendChild(link);
 });
 
-
+}
 
 /* =====================================
    商品ロード
