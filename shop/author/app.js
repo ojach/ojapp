@@ -31,11 +31,28 @@ function renderSNS(data) {
     svg: `
       <rect x="3" y="3" width="18" height="18" rx="5"/>
       <circle cx="12" cy="12" r="4"/>
+      <circle cx="17" cy="7" r="1.2"/>
     `
   },
-  { url: data.sns_threads, svg: `<circle cx="12" cy="12" r="9"/>` },
-  { url: data.sns_booth, svg: `<rect x="4" y="4" width="16" height="16"/>` },
-  { url: data.sns_site, svg: `<path d="M12 2l7 20H5z"/>` }
+  {
+    url: data.sns_threads,
+    svg: `<path d="M12 2a10 10 0 100 20 10 10 0 000-20zm3 11c0 2-1.6 3-3 3s-3-1-3-3 1-3 3-3c1 0 2 .5 2 1.5" />`
+  },
+  {
+    url: data.sns_booth,
+    svg: `
+      <path d="M4 7h16v10H4z"/>
+      <path d="M8 7V5h8v2"/>
+    `
+  },
+  {
+    url: data.sns_site,
+    svg: `
+      <path d="M14 3h7v7"/>
+      <path d="M21 3l-10 10"/>
+      <rect x="3" y="3" width="14" height="14" rx="2"/>
+    `
+  }
 ];
 
 
