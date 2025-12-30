@@ -35,8 +35,7 @@ async function loadProduct() {
   document.getElementById("fav-count").textContent =
     `❤️ ${item.favorite_count}`;
 
-  document.getElementById("price").textContent =
-    `${item.price}円`;
+  document.getElementById("price").textContent =`${item.price}円`;
 
   document.getElementById("buy-btn").href = item.product_url;
 
