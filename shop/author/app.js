@@ -20,42 +20,39 @@ function decodeAuthorKey(str) {
 ===================================== */
 function renderSNS(data) {
   const snsArea = document.getElementById("snsRow");
+  snsArea.innerHTML = "";
 
- const snsList = [
-  {
-    url: data.sns_x,
-    svg: `<path d="M4 4l6.5 7.5L4 20h3l5.5-6.5L18 20h3l-6.5-8L21 4h-3l-5.5 6.5L7 4H4z"/>`
-  },
-  {
-    url: data.sns_insta,
-    svg: `
-      <rect x="3" y="3" width="18" height="18" rx="5"/>
-      <circle cx="12" cy="12" r="4"/>
-      <circle cx="17" cy="7" r="1.2"/>
-    `
-  },
-  {
-    url: data.sns_threads,
-    svg: `<path d="M12 2a10 10 0 100 20 10 10 0 000-20zm3 11c0 2-1.6 3-3 3s-3-1-3-3 1-3 3-3c1 0 2 .5 2 1.5" />`
-  },
-  {
-    url: data.sns_booth,
-    svg: `
-      <path d="M4 7h16v10H4z"/>
-      <path d="M8 7V5h8v2"/>
-    `
-  },
-  {
-    url: data.sns_site,
-    svg: `
-      <path d="M14 3h7v7"/>
-      <path d="M21 3l-10 10"/>
-      <rect x="3" y="3" width="14" height="14" rx="2"/>
-    `
-  }
-];
-
-
+  const snsList = [
+    {
+      key: "sns_x",
+      url: data.sns_x,
+      svg: `<path d="M4 4l16 16M20 4L4 20"/>`
+    },
+    {
+      key: "sns_insta",
+      url: data.sns_insta,
+      svg: `
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17" cy="7" r="1.5"/>
+      `
+    },
+    {
+      key: "sns_threads",
+      url: data.sns_threads,
+      svg: `<circle cx="12" cy="12" r="9"/>`
+    },
+    {
+      key: "sns_booth",
+      url: data.sns_booth,
+      svg: `<path d="M4 6h16v12H4z"/>`
+    },
+    {
+      key: "sns_site",
+      url: data.sns_site,
+      svg: `<path d="M5 19h14M12 5l7 12H5z"/>`
+    }
+  ];
 
   snsList.forEach(s => {
     if (!s.url) return;
@@ -71,7 +68,9 @@ function renderSNS(data) {
            width="22" height="22"
            stroke="currentColor"
            fill="none"
-           stroke-width="2">
+           stroke-width="2"
+           stroke-linecap="round"
+           stroke-linejoin="round">
         ${s.svg}
       </svg>
     `;
@@ -79,6 +78,7 @@ function renderSNS(data) {
     snsArea.appendChild(link);
   });
 }
+
 
 /* =====================================
    作者情報ロード
