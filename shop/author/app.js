@@ -40,31 +40,38 @@ async function loadAuthor() {
 /* =====================================
    SNS
 ===================================== */
+const snsList = [
+  { key: "sns_x", url: data.sns_x, svg: `<path d="M3 3l18 18M3 21L21 3"/>` },
+  { key: "sns_insta", url: data.sns_insta, svg: `
+      <rect x="3" y="3" width="18" height="18" rx="5"/>
+      <circle cx="12" cy="12" r="4"/>
+    ` },
+  { key: "sns_threads", url: data.sns_threads, svg: `<circle cx="12" cy="12" r="9"/>` },
+  { key: "sns_booth", url: data.sns_booth, svg: `<rect x="4" y="4" width="16" height="16"/>` },
+  { key: "sns_site", url: data.sns_site, svg: `<path d="M12 2l7 20H5z"/>` }
+];
+
 snsList.forEach(s => {
   if (!s.url) return;
 
   const link = document.createElement("a");
   link.href = s.url;
   link.target = "_blank";
+  link.className = "sns-icon";
 
-  const svg = `
+  link.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 24 24"
          width="22" height="22"
-         stroke="white"
+         stroke="currentColor"
          fill="none"
          stroke-width="2">
-      <path d="${s.svg}" />
+      ${s.svg}
     </svg>
   `;
 
-  const encoded = encodeURIComponent(svg);
-
-  link.innerHTML = `<img src="data:image/svg+xml;utf8,${encoded}">`;
-
   snsArea.appendChild(link);
 });
-
 
 /* =====================================
    商品ロード
