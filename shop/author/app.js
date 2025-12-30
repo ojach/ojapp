@@ -1,5 +1,5 @@
 const API_BASE = "https://ojshop-fav.trc-wasps.workers.dev";
-const DEFAULT_ICON = "https://github.ojach.com/OJapp/icon/ojapp-logo.png";
+const DEFAULT_ICON = "https://ojapp.app/shop/author/ojach.png";
 
 const params = new URL(location.href).searchParams;
 const author_key = params.get("key");
@@ -96,7 +96,7 @@ async function loadItems() {
       box.appendChild(heart);
 
       box.onclick = () =>
-        (location.href = `/OJapp/shop/item/?id=${item.product_id}`);
+        (location.href = `/shop/item/?id=${item.product_id}`);
 
       grid.appendChild(box);
     });
