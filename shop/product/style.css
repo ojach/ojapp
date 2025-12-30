@@ -43,7 +43,7 @@ body {
 }
 
 .product-wrap {
-  max-width: 480px;
+  max-width: auto;
   margin: 40px auto 80px;
   text-align: center;
   padding: 0 20px;
