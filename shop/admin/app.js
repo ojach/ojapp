@@ -153,23 +153,61 @@ document.getElementById("author-save-btn")?.addEventListener("click", async () =
 document.getElementById("author-banner-upload-btn")?.addEventListener("click", async () => {
   const fileInput = document.getElementById("author-banner-file");
   const file = fileInput.files[0];
-
   if (!file) {
     alert("画像ファイルを選択してください");
     return;
   }
 
-  const designer = localStorage.getItem("ojshop-admin-designer");
-  if (!designer) return;
+  // === 画像読み込み ===
+  const bitmap = await createImageBitmap(file);
+  const srcW = bitmap.width;
+  const srcH = bitmap.height;
 
+  // バナーの最終サイズ
+  const TARGET_W = 1092;
+  const TARGET_H = 252;
+  const targetRatio = TARGET_W / TARGET_H;
+  const srcRatio = srcW / srcH;
+
+  let cropW, cropH, cropX, cropY;
+
+  if (srcRatio > targetRatio) {
+    // 横長 → 左右カット
+    cropH = srcH;
+    cropW = cropH * targetRatio;
+    cropX = (srcW - cropW) / 2;
+    cropY = 0;
+  } else {
+    // 縦長 → 上下カット
+    cropW = srcW;
+    cropH = cropW / targetRatio;
+    cropX = 0;
+    cropY = (srcH - cropH) / 2;
+  }
+
+  // === Canvas でクロップ + リサイズ ===
+  const canvas = document.createElement("canvas");
+  canvas.width = TARGET_W;
+  canvas.height = TARGET_H;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(
+    bitmap,
+    cropX, cropY, cropW, cropH,
+    0, 0, TARGET_W, TARGET_H
+  );
+
+  // PNG Blob 化
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+
+  // === サーバーへアップロード ===
+  const designer = localStorage.getItem("ojshop-admin-designer");
   const author_key = encodeAuthorName(designer);
 
-  // --- FormData 作成（Workers と同じキー名 "file"）---
   const form = new FormData();
   form.append("author_key", author_key);
-  form.append("file", file);  // ★重要：Workers側と合わせる！
+  form.append("file", blob, "banner.png");
 
-  // --- 正しい API endpoint ---
   const res = await fetch(`${API_BASE}/shop/api/upload_banner`, {
     method: "POST",
     body: form
@@ -183,14 +221,14 @@ document.getElementById("author-banner-upload-btn")?.addEventListener("click", a
   if (json.ok) {
     msg.textContent = "バナーをアップロードしました！";
 
-    // プレビュー更新
     const img = document.getElementById("author-banner-preview");
-    img.src = `${API_BASE}/shop/r2/banners/${author_key}.png?t=${Date.now()}`;
+    img.src = json.banner_url + "?t=" + Date.now();
     img.style.display = "block";
   } else {
-    msg.textContent = "アップロードに失敗しました";
+    msg.textContent = "アップロード失敗しました…";
   }
 });
+
 
 // ===============================
 // ② 作者アイコン UI
