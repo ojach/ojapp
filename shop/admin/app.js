@@ -104,6 +104,19 @@ async function loadAuthorInfo() {
   document.getElementById("author-sns-threads").value = data.sns_threads || "";
   document.getElementById("author-sns-booth").value = data.sns_booth || "";
   document.getElementById("author-sns-site").value = data.sns_site || "";
+
+  // バナー画像プレビュー
+const bannerURL = `${API_BASE}/shop/r2/banners/${author_key}.png`;
+
+fetch(bannerURL, { method: "HEAD" }) // ← 存在チェック
+  .then(r => {
+    if (r.ok) {
+      const img = document.getElementById("author-banner-preview");
+      img.src = bannerURL + "?t=" + Date.now();
+      img.style.display = "block";
+    }
+  });
+
 }
 // ===============================
 //作者プロフィール保存
@@ -133,6 +146,43 @@ document.getElementById("author-save-btn")?.addEventListener("click", async () =
 
   document.getElementById("author-save-result").style.display = "block";
   document.getElementById("author-save-result").textContent = "保存しました！";
+});
+document.getElementById("author-banner-upload-btn")?.addEventListener("click", async () => {
+  const fileInput = document.getElementById("author-banner-file");
+  const file = fileInput.files[0];
+  if (!file) {
+    alert("画像ファイルを選択してください");
+    return;
+  }
+
+  const designer = localStorage.getItem("ojshop-admin-designer");
+  if (!designer) return;
+  const author_key = encodeAuthorName(designer);
+
+  const form = new FormData();
+  form.append("author_key", author_key);
+  form.append("banner", file);
+
+  const res = await fetch(`${API_BASE}/shop/api/author_banner`, {
+    method: "POST",
+    body: form
+  });
+
+  const json = await res.json();
+
+  const msg = document.getElementById("author-banner-upload-result");
+  msg.style.display = "block";
+
+  if (json.ok) {
+    msg.textContent = "バナーをアップロードしました！";
+
+    // プレビュー更新
+    const img = document.getElementById("author-banner-preview");
+    img.src = json.banner_url + "?t=" + Date.now();
+    img.style.display = "block";
+  } else {
+    msg.textContent = "アップロードに失敗しました";
+  }
 });
 
 // ===============================
