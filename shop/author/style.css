@@ -203,3 +203,8 @@ main.author-header {
   filter: invert(1); /* ダークモード白 */
 }
 
+.sns-icon svg {
+  stroke-width: 2.4;  /* ← 好みで2.2〜2.8くらい */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
