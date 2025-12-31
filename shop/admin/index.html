@@ -71,6 +71,22 @@
     <label>Website</label>
     <input type="text" id="author-sns-site" placeholder="https://...">
 
+    <!-- ▼ ここを author-settings-panel 内に追加して -->
+<label style="margin-top:20px;">バナー画像（推奨 1092×252）</label>
+<input type="file" id="author-banner-file" accept="image/*">
+
+<div id="author-banner-preview-wrap" style="margin-top:12px;">
+  <img id="author-banner-preview"
+       src=""
+       style="width:100%; border-radius:8px; display:none;">
+</div>
+
+<button class="btn-primary" id="author-banner-upload-btn" style="margin-top:12px;">
+  バナーをアップロード
+</button>
+
+<div id="author-banner-upload-result" class="result-box" style="display:none;"></div>
+
     <button class="btn-primary" id="author-save-btn">保存する</button>
     <div id="author-save-result" class="result-box" style="display:none;"></div>
 
