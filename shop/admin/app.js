@@ -165,7 +165,7 @@ document.getElementById("author-banner-upload-btn")?.addEventListener("click", a
 
   // バナーの最終サイズ
   const TARGET_W = 1092;
-  const TARGET_H = 200;
+  const TARGET_H = 208;
   const targetRatio = TARGET_W / TARGET_H;
   const srcRatio = srcW / srcH;
 
