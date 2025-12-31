@@ -31,28 +31,21 @@ const base = "/shop/author/sns-icon/";
   ];
   
 
-  snsList.forEach(s => {
+ snsList.forEach(s => {
     if (!s.url) return;
 
-    const link = document.createElement("a");
-    link.href = s.url;
-    link.target = "_blank";
-    link.className = "sns-icon";
+    const a = document.createElement("a");
+    a.href = s.url;
+    a.target = "_blank";
+    a.className = "sns-icon";
 
-    link.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 24 24"
-           width="22" height="22"
-           stroke="currentColor"
-           fill="none"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        ${s.svg}
-      </svg>
-    `;
+    const img = document.createElement("img");
+    img.src = base + s.file;
+    img.width = 22;
+    img.height = 22;
 
-    snsArea.appendChild(link);
+    a.appendChild(img);
+    snsArea.appendChild(a);
   });
 }
 
