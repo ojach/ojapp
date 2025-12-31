@@ -21,7 +21,7 @@ function decodeAuthorKey(str) {
 function renderSNS(data) {
   const snsArea = document.getElementById("snsRow");
   snsArea.innerHTML = "";
-const base = "/OJapp/shop/author/sns-icon/";
+const base = "/shop/author/sns-icon/";
  const snsList = [
    { key: "sns_x", url: data.sns_x, file: "x.svg" },
   { key: "sns_insta", url: data.sns_insta, file: "instagram-icon.svg" },
