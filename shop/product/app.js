@@ -49,34 +49,38 @@ async function loadProduct() {
   iconEl.addEventListener("click", toAuthorPage);
   nameEl.addEventListener("click", toAuthorPage);
 
-  // ===============================
-  //  お気に入り数
-  // ===============================
-  const favCountEl = document.getElementById("fav-count");
-  favCountEl.textContent = `❤️ ${item.favorite_count}`;
+// ===============================
+// ❤️ お気に入りボタン
+// ===============================
+const favBtn = document.getElementById("fav-btn");
+const favCountEl = document.getElementById("fav-count");
 
-  // ===============================
-  //  ❤️ お気に入りボタン（← NEW）
-  // ===============================
-  const favBtn = document.getElementById("fav-btn");
+// 初期表示（数字だけ）
+favCountEl.textContent = item.favorite_count;
 
-  favBtn.addEventListener("click", async () => {
-    // 連打防止
-    favBtn.style.pointerEvents = "none";
+// すでに押した？
+if (localStorage.getItem(`liked_${item.product_id}`)) {
+  favBtn.textContent = "❤️";
+  favBtn.style.pointerEvents = "none";
+}
 
-    const res = await fetch(`${API_BASE}/shop/api/fav?id=${item.product_id}`, {
-      method: "POST"
-    });
-    const json = await res.json();
+// 押した時
+favBtn.addEventListener("click", async () => {
+  if (localStorage.getItem(`liked_${item.product_id}`)) return;
 
-    if (json.ok) {
-      favCountEl.textContent = `❤️ ${json.favorite_count}`;
-      favBtn.textContent = "❤️"; // 押した後の見た目
-    }
+  favBtn.style.pointerEvents = "none";
 
-    // 完了したら戻す
-    favBtn.style.pointerEvents = "auto";
+  const res = await fetch(`${API_BASE}/shop/api/fav?id=${item.product_id}`, {
+    method: "POST"
   });
+  const json = await res.json();
+
+  if (json.ok) {
+    favCountEl.textContent = json.favorite_count;
+    favBtn.textContent = "❤️";
+    localStorage.setItem(`liked_${item.product_id}`, "1");
+  }
+});
 
   // ===============================
   //  価格
