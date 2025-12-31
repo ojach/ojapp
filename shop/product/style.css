@@ -82,12 +82,11 @@ body {
 
 .author-name {
   font-size: 14px;
-  color: #555;
+
 }
 
 .info-box {
   margin-bottom: 30px;
-  color: #666;
   font-size: 14px;
   display: flex;
   justify-content: center;
@@ -187,7 +186,6 @@ body {
   text-align: center;
   margin-top: 8px;         /* 上に寄せる（必要なら値変更） */
   margin-bottom: 12px;     /* ボタンとの距離 */
-  color: #222;             /* 見やすい濃さ */
 }
 
 /* ボタンとのメリハリを出す */
