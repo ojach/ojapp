@@ -223,13 +223,20 @@ main.author-header {
 }
 .author-banner {
   width: 100%;
-  margin: 10px 0 14px 0;
+  aspect-ratio: 21 / 5; /* 1092x252 とほぼ同じ比率 */
+  background-size: cover;
+  background-position: center;
+  border-radius: 14px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
 }
 
-.author-banner img {
-  width: 100%;
-  aspect-ratio: 16 / 3;
-  object-fit: cover;
-  border-radius: 10px;
+/* ダーク/ライトで見栄え保持するための下の余白 */
+.author-banner::after {
+  content: "";
+  display: block;
+  padding-bottom: 0; 
 }
+
 
