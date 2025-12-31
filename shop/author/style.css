@@ -152,7 +152,7 @@ main.author-header {
 .sns-row img {
   width: 24px;
   height: 24px;
-  opacity: 0.9;
+  opacity: 1;
   filter: invert(0);
 }
 
