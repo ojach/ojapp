@@ -26,7 +26,7 @@ const base = "/shop/author/sns-icon/";
    { key: "sns_x", url: data.sns_x, file: "x.svg" },
   { key: "sns_insta", url: data.sns_insta, file: "instagram-icon.svg" },
     { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
-    { key: "sns_booth",   url: data.sns_booth,   svg: `<rect x="5" y="7" width="14" height="10"/>` },
+    { key: "sns_booth",   url: data.sns_booth,   fije: "pixiv_white.svg" },
     { key: "sns_site",    url: data.sns_site,    svg: `<path d="M12 5l6 14H6z"/>` }
   ];
   
