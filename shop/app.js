@@ -41,6 +41,7 @@ function loadFavorites() {
 // ===============================
 // 推しアイテム（2件固定）
 // ===============================
+// ===============================
 async function renderRecommend() {
   const res = await fetch(`${API_BASE}/shop/api/items?sort=recommended`);
   const data = await res.json();
@@ -56,21 +57,43 @@ async function renderRecommend() {
 
     const div = document.createElement("div");
     div.className = "recommend-item";
+
+    // 商品ページに飛ぶ（デフォルト）
+    div.addEventListener("click", () => {
+      location.href = `/shop/product/?id=${item.product_id}`;
+    });
+
+    // HTML生成
     div.innerHTML = `
       <img src="${thumb}" class="recommend-thumb">
+
       <div class="recommend-title">${item.title}</div>
+
       <div class="recommend-author">
-        <img src="${icon}" class="recommend-author-icon"> ${item.author}
+        <img src="${icon}" class="recommend-author-icon" data-author-key="${item.author_key}">
+        <span class="recommend-author-name" data-author-key="${item.author_key}">
+          ${item.author}
+        </span>
       </div>
     `;
 
-    div.addEventListener("click", () => {
-      location.href = `/shop/product/?id=${item.product_id}`;
+    // ★ 作者アイコン・名前クリック → 作者ページ
+    div.querySelector(".recommend-author-icon").addEventListener("click", (e) => {
+      e.stopPropagation(); // 商品クリックを無効化
+      const key = e.target.dataset.authorKey;
+      location.href = `/shop/author/?key=${key}`;
+    });
+
+    div.querySelector(".recommend-author-name").addEventListener("click", (e) => {
+      e.stopPropagation(); // 商品クリックを無効化
+      const key = e.target.dataset.authorKey;
+      location.href = `/shop/author/?key=${key}`;
     });
 
     box.appendChild(div);
   });
 }
+
 
 
 // ===============================
@@ -176,34 +199,47 @@ async function renderShop() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-const isOwner = (item.author === ADMIN_NAME);
+    // カード全体 → 商品ページ
+    card.addEventListener("click", () => {
+      location.href = `/shop/product/?id=${item.product_id}`;
+    });
 
-// ホームの「編集」は一旦 adminページ遷移のみにする
-const adminTools = (IS_ADMIN && isOwner) ? `
-  <div class="admin-tools">
-    <a class="admin-edit-btn" href="/shop/admin/?product=${item.product_id}">
-      商品管理
-    </a>
-  </div>
-` : "";
-
-
-
-
+    // admin ツール（今のまま）
+    const isOwner = (item.author === ADMIN_NAME);
+    const adminTools = (IS_ADMIN && isOwner) ? `
+      <div class="admin-tools">
+        <a class="admin-edit-btn" href="/shop/admin/?product=${item.product_id}">
+          商品管理
+        </a>
+      </div>
+    ` : "";
 
     card.innerHTML = `
       ${adminTools}
 
       <div class="item-thumb-box">
         <img src="${thumb}" class="item-thumb">
-        <img src="${icon}" class="author-icon">
+
+        <!-- 作者アイコンに key を載せておく -->
+        <img 
+          src="${icon}" 
+          class="author-icon" 
+          data-author-key="${item.author_key}"
+        >
       </div>
 
       <div class="item-title">${item.title}</div>
 
       <div class="item-meta">
         <div class="item-price">${item.price}円</div>
-        <div class="item-author">${item.author}</div>
+
+        <!-- 作者名にも key を載せる -->
+        <div 
+          class="item-author"
+          data-author-key="${item.author_key}"
+        >
+          ${item.author}
+        </div>
       </div>
 
       <div class="fav-zone">
@@ -213,6 +249,31 @@ const adminTools = (IS_ADMIN && isOwner) ? `
         </span>
       </div>
     `;
+
+    // ===============================
+    // 作者アイコン → 作者ページ
+    // ===============================
+    const iconEl = card.querySelector(".author-icon");
+    iconEl.addEventListener("click", (e) => {
+      e.stopPropagation(); // ← カードクリック阻止
+      const key = e.target.dataset.authorKey;
+      location.href = `/shop/author/?key=${key}`;
+    });
+
+    // ===============================
+    // 作者名 → 作者ページ
+    // ===============================
+    const nameEl = card.querySelector(".item-author");
+    nameEl.addEventListener("click", (e) => {
+      e.stopPropagation(); // ← カードクリック阻止
+      const key = e.target.dataset.authorKey;
+      location.href = `/shop/author/?key=${key}`;
+    });
+
+    grid.appendChild(card);
+  });
+}
+
 
     // ===============================
     // イベント
