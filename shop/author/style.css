@@ -150,8 +150,8 @@ main.author-header {
 }
 
 .sns-row img {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   opacity: 0.9;
   filter: invert(0);
 }
