@@ -104,6 +104,12 @@ async function loadAuthor() {
 
   document.getElementById("authorProfile").textContent =
     data.profile || "";
+document.getElementById("authorBanner").src =
+  `${API_BASE}/shop/r2/banner/${author_key}.png`;
+
+document.getElementById("authorBanner").onerror = () => {
+  document.querySelector(".author-banner").style.display = "none";
+};
 
   // ← SNS描画をここで呼ぶ
   renderSNS(data);
