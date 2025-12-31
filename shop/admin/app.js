@@ -147,9 +147,13 @@ document.getElementById("author-save-btn")?.addEventListener("click", async () =
   document.getElementById("author-save-result").style.display = "block";
   document.getElementById("author-save-result").textContent = "保存しました！";
 });
+// ===============================
+// バナー アップロード
+// ===============================
 document.getElementById("author-banner-upload-btn")?.addEventListener("click", async () => {
   const fileInput = document.getElementById("author-banner-file");
   const file = fileInput.files[0];
+
   if (!file) {
     alert("画像ファイルを選択してください");
     return;
@@ -157,13 +161,16 @@ document.getElementById("author-banner-upload-btn")?.addEventListener("click", a
 
   const designer = localStorage.getItem("ojshop-admin-designer");
   if (!designer) return;
+
   const author_key = encodeAuthorName(designer);
 
+  // --- FormData 作成（Workers と同じキー名 "file"）---
   const form = new FormData();
   form.append("author_key", author_key);
-  form.append("banner", file);
+  form.append("file", file);  // ★重要：Workers側と合わせる！
 
-  const res = await fetch(`${API_BASE}/shop/api/author_banner`, {
+  // --- 正しい API endpoint ---
+  const res = await fetch(`${API_BASE}/shop/api/upload_banner`, {
     method: "POST",
     body: form
   });
@@ -178,7 +185,7 @@ document.getElementById("author-banner-upload-btn")?.addEventListener("click", a
 
     // プレビュー更新
     const img = document.getElementById("author-banner-preview");
-    img.src = json.banner_url + "?t=" + Date.now();
+    img.src = `${API_BASE}/shop/r2/banners/${author_key}.png?t=${Date.now()}`;
     img.style.display = "block";
   } else {
     msg.textContent = "アップロードに失敗しました";
