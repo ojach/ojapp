@@ -21,15 +21,11 @@ function decodeAuthorKey(str) {
 function renderSNS(data) {
   const snsArea = document.getElementById("snsRow");
   snsArea.innerHTML = "";
-
+const base = "/OJapp/shop/author/sns-icon/";
  const snsList = [
-    { key: "sns_x",       url: data.sns_x,       svg: `<path d="M4 4l16 16M20 4L4 20"/>` },
-    { key: "sns_insta",   url: data.sns_insta,   svg: `
-        <rect x="4" y="4" width="16" height="16" rx="4"/>
-        <circle cx="12" cy="12" r="4"/>
-        <circle cx="17" cy="7" r="1.3"/>
-      ` },
-    { key: "sns_threads", url: data.sns_threads, svg: `<circle cx="12" cy="12" r="7"/>` },
+   { key: "sns_x", url: data.sns_x, file: "x.svg" },
+  { key: "sns_insta", url: data.sns_insta, file: "instagram-icon.svg" },
+    { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
     { key: "sns_booth",   url: data.sns_booth,   svg: `<rect x="5" y="7" width="14" height="10"/>` },
     { key: "sns_site",    url: data.sns_site,    svg: `<path d="M12 5l6 14H6z"/>` }
   ];
