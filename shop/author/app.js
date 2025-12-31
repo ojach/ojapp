@@ -106,10 +106,7 @@ async function loadAuthor() {
   document.getElementById("authorProfile").textContent =
     data.profile || "";
 
-  // ★バナー
-   document.getElementById("authorBanner").src =
-  `${API_BASE}/shop/r2/banners/${author_key}.png?t=${Date.now()}`;
-
+  // ★バナ
   const banner = document.getElementById("authorBanner");
   const bannerUrl = `${API_BASE}/shop/r2/banners/${author_key}.png`;
 
