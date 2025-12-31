@@ -65,7 +65,24 @@ async function loadItems() {
   grid.innerHTML = "";
 
   list.forEach(item => {
-    …
+    const box = document.createElement("div");
+      box.className = "grid-item";
+
+      const img = document.createElement("img");
+      img.src = `${API_BASE}/shop/r2/thumbs/${author_key}/${item.product_id}.png`;
+      img.onerror = () => (img.src = DEFAULT_ICON);
+
+      box.appendChild(img);
+
+      const heart = document.createElement("div");
+      heart.className = "grid-heart";
+      heart.textContent = "♡" + (item.favorite_count ?? 0; );
+      box.appendChild(heart);
+
+      box.onclick = () =>
+        (location.href = `/shop/item/?id=${item.product_id}`);
+
+      grid.appendChild(box);
   });
 }
 
@@ -92,39 +109,7 @@ async function loadAuthor() {
   renderSNS(data);
 }
 
-/* =====================================
-   商品ロード
-===================================== */
-async function loadItems() {
-  const res = await fetch(`${API_BASE}/shop/api/items?sort=new`);
-  const items = await res.json();
 
-  const grid = document.getElementById("itemGrid");
-  grid.innerHTML = "";
-
-  items
-    .filter(i => i.author_key === author_key && i.visible === 1)
-    .forEach(item => {
-      const box = document.createElement("div");
-      box.className = "grid-item";
-
-      const img = document.createElement("img");
-      img.src = `${API_BASE}/shop/r2/thumbs/${author_key}/${item.product_id}.png`;
-      img.onerror = () => (img.src = DEFAULT_ICON);
-
-      box.appendChild(img);
-
-      const heart = document.createElement("div");
-      heart.className = "grid-heart";
-      heart.textContent = "♡ ${item.favorite_count} ?? 0; ";
-      box.appendChild(heart);
-
-      box.onclick = () =>
-        (location.href = `/shop/item/?id=${item.product_id}`);
-
-      grid.appendChild(box);
-    });
-}
 
 /* =====================================
    RUN
