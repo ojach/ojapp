@@ -132,7 +132,7 @@ main.author-header {
 .author-profile {
   padding: 0 20px;
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;    /* ← 太字 */
   line-height: 1.55;
   white-space: pre-wrap;
@@ -218,6 +218,8 @@ main.author-header {
 .item-count {
   padding: 0 20px;
   font-size: 14px;
+   font-weight: 600;
+   margin-top: 16px;
   color: var(--text);
   margin-bottom: 10px;
 }
