@@ -225,7 +225,7 @@ main.author-header {
 }
 .author-banner {
   width: 100%;
-  aspect-ratio: 21 / 5; /* 1092x252 とほぼ同じ比率 */
+  aspect-ratio: 21 / 4; /* 1092x252 とほぼ同じ比率 */
   background-size: cover;
   background-position: center;
   border-radius: 14px;
