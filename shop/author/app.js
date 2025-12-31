@@ -27,7 +27,7 @@ const base = "/shop/author/sns-icon/";
   { key: "sns_insta", url: data.sns_insta, file: "instagram.svg" },
     { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
     { key: "sns_booth",   url: data.sns_booth,   file: "booth.svg" },
-    { key: "sns_site",    url: data.sns_site,    file: "link.svg" }
+    { key: "sns_site",    url: data.sns_site,    file: "JACH.svg" }
   ];
   
 
