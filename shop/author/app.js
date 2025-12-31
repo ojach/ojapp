@@ -76,7 +76,7 @@ async function loadItems() {
 
       const heart = document.createElement("div");
       heart.className = "grid-heart";
-      heart.textContent = "♡" + (item.favorite_count ?? 0; );
+      heart.textContent = "♡" + (item.favorite_count ?? 0); 
       box.appendChild(heart);
 
       box.onclick = () =>
