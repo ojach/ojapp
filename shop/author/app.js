@@ -49,6 +49,25 @@ const base = "/shop/author/sns-icon/";
   });
 }
 
+/* =====================================
+   商品数カウント
+===================================== */
+async function loadItems() {
+  const res = await fetch(`${API_BASE}/shop/api/items?sort=new`);
+  const items = await res.json();
+
+  const list = items.filter(i => i.author_key === author_key && i.visible === 1);
+
+  // ★ 商品数カウント
+  document.getElementById("itemCount").textContent = list.length + " 投稿";
+
+  const grid = document.getElementById("itemGrid");
+  grid.innerHTML = "";
+
+  list.forEach(item => {
+    …
+  });
+}
 
 /* =====================================
    作者情報ロード
