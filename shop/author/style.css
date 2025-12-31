@@ -184,8 +184,8 @@ main.author-header {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
+  transform: translate(-90%, -10%);
+  font-size: 16px;
   color: white;
   opacity: 0.85;
   pointer-events: none;
@@ -208,4 +208,10 @@ main.author-header {
     color: #aaa;
     border-color: #333;
   }
+.item-count {
+  padding: 0 20px;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
 
