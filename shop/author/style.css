@@ -203,12 +203,3 @@ main.author-header {
   filter: invert(1); /* ダークモード白 */
 }
 
-/* 太さ UP（黒の縁をちょい膨らませる） */
-.sns-icon img {
-  filter: drop-shadow(0 0 1px currentColor) invert(0);
-}
-
-.dark .sns-icon img {
-  filter: drop-shadow(0 0 1px white) invert(1);
-}
-
