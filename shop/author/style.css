@@ -196,21 +196,19 @@ main.author-header {
     border-color: #333;
   }
 .sns-icon img {
-  width: 24px;
-  height: 24px;
-  filter: brightness(0) invert(0); /* ライトモード黒 */
+  filter:  invert(0); /* ライトモード黒 */
 }
 
 .dark .sns-icon img {
-  filter: brightness(0) invert(1); /* ダークモード白 */
+  filter: invert(1); /* ダークモード白 */
 }
 
 /* 太さ UP（黒の縁をちょい膨らませる） */
 .sns-icon img {
-  filter: drop-shadow(0 0 0.8px currentColor) invert(0);
+  filter: drop-shadow(0 0 1px currentColor) invert(0);
 }
 
 .dark .sns-icon img {
-  filter: drop-shadow(0 0 0.8px white) invert(1);
+  filter: drop-shadow(0 0 1px white) invert(1);
 }
 
