@@ -93,25 +93,37 @@ async function loadAuthor() {
   const res = await fetch(`${API_BASE}/shop/api/author_info?key=${author_key}`);
   const data = await res.json();
 
-  document.getElementById("authorIcon").src =
-    `${API_BASE}/shop/r2/authors/${author_key}.png`;
+  // プロフィール画像
+  const iconEl = document.getElementById("authorIcon");
+  iconEl.src = `${API_BASE}/shop/r2/authors/${author_key}.png`;
+  iconEl.onerror = () => (iconEl.src = DEFAULT_ICON);
 
-  document.getElementById("authorIcon").onerror = () =>
-    (document.getElementById("authorIcon").src = DEFAULT_ICON);
-
+  // 名前
   document.getElementById("authorName").textContent =
     decodeAuthorKey(author_key);
 
+  // 自己紹介
   document.getElementById("authorProfile").textContent =
     data.profile || "";
-document.getElementById("authorBanner").src =
-  `${API_BASE}/shop/r2/banner/${author_key}.png`;
 
-document.getElementById("authorBanner").onerror = () => {
-  document.querySelector(".author-banner").style.display = "none";
-};
+  // ★バナー
+  const banner = document.getElementById("authorBanner");
+  const bannerUrl = `${API_BASE}/shop/r2/banners/${author_key}.png`;
 
-  // ← SNS描画をここで呼ぶ
+  // 画像が存在するか確認
+  fetch(bannerUrl, { method: "HEAD" })
+    .then(r => {
+      if (r.ok) {
+        banner.style.backgroundImage = `url(${bannerUrl})`;
+      } else {
+        banner.style.display = "none";
+      }
+    })
+    .catch(() => {
+      banner.style.display = "none";
+    });
+
+  // SNS 読み込み
   renderSNS(data);
 }
 
