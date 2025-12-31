@@ -239,4 +239,23 @@ main.author-header {
   padding-bottom: 0; 
 }
 
+/* =============================
+   バナー画像（author-banner）
+============================= */
+
+.author-banner {
+  width: 100%;
+  height: 252px;          /* 固定高さで統一 */
+  object-fit: cover;      /* ちょうどよく中央トリミング */
+  border-radius: 0;       /* ← 丸角なし */
+  display: block;
+  margin: 0;              /* ← 余白ゼロ */
+  padding: 0;
+}
+
+/* 商品グリッドとの隙間を 1px に */
+.banner-bottom-space {
+  height: 1px;
+  width: 100%;
+}
 
