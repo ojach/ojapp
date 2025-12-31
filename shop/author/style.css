@@ -195,3 +195,10 @@ main.author-header {
     color: #aaa;
     border-color: #333;
   }
+.sns-icon img {
+  filter: invert(0);  /* ライト → 黒 */
+}
+
+.dark .sns-icon img {
+  filter: invert(1);  /* ダーク → 白 */
+}
