@@ -80,7 +80,7 @@ async function loadItems() {
       box.appendChild(heart);
 
       box.onclick = () =>
-        (location.href = `/shop/priduct/?id=${item.product_id}`);
+        (location.href = `/shop/product/?id=${item.product_id}`);
 
       grid.appendChild(box);
   });
