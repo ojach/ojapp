@@ -29,12 +29,13 @@
   gtag('config', 'G-83E7Y5R335');
 </script>
 <!-- ▼ ヘッダー -->
-<div id="header"></div>
-<script>
-fetch("/header.html")
-  .then(r => r.text())
-  .then(h => document.getElementById("header").innerHTML = h);
-</script>
+<div class="header">
+  <a href="/shop" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp Shop</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
 
 <!-- ▼ メイン -->
 <div class="main shop-page">
