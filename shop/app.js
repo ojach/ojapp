@@ -199,12 +199,7 @@ async function renderShop() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-    // カード全体 → 商品ページ
-    card.addEventListener("click", () => {
-      location.href = `/shop/product/?id=${item.product_id}`;
-    });
-
-    // admin ツール（今のまま）
+    // admin
     const isOwner = (item.author === ADMIN_NAME);
     const adminTools = (IS_ADMIN && isOwner) ? `
       <div class="admin-tools">
@@ -220,7 +215,6 @@ async function renderShop() {
       <div class="item-thumb-box">
         <img src="${thumb}" class="item-thumb">
 
-        <!-- 作者アイコンに key を載せておく -->
         <img 
           src="${icon}" 
           class="author-icon" 
@@ -232,12 +226,7 @@ async function renderShop() {
 
       <div class="item-meta">
         <div class="item-price">${item.price}円</div>
-
-        <!-- 作者名にも key を載せる -->
-        <div 
-          class="item-author"
-          data-author-key="${item.author_key}"
-        >
+        <div class="item-author" data-author-key="${item.author_key}">
           ${item.author}
         </div>
       </div>
@@ -251,65 +240,65 @@ async function renderShop() {
     `;
 
     // ===============================
-    // 作者アイコン → 作者ページ
+    // 作者ページリンク（アイコン / 名前）
     // ===============================
     const iconEl = card.querySelector(".author-icon");
     iconEl.addEventListener("click", (e) => {
-      e.stopPropagation(); // ← カードクリック阻止
+      e.stopPropagation();
       const key = e.target.dataset.authorKey;
       location.href = `/shop/author/?key=${key}`;
     });
 
-    // ===============================
-    // 作者名 → 作者ページ
-    // ===============================
     const nameEl = card.querySelector(".item-author");
     nameEl.addEventListener("click", (e) => {
-      e.stopPropagation(); // ← カードクリック阻止
+      e.stopPropagation();
       const key = e.target.dataset.authorKey;
       location.href = `/shop/author/?key=${key}`;
     });
 
-    grid.appendChild(card);
-  });
-}
-
-
     // ===============================
-    // イベント
+    // 商品ページへ移動
     // ===============================
-
-    // 商品ページ
     card.addEventListener("click", (e) => {
       if (e.target.classList.contains("fav-btn")) return;
-      if (e.target.closest(".admin-tools")) return; // admin UIクリック時は移動しない
+      if (e.target.closest(".admin-tools")) return;
       location.href = `/shop/product/?id=${item.product_id}`;
     });
 
+    // ===============================
     // ハート押し
-    card.querySelector(".fav-btn").addEventListener("click", (e) => {
+    // ===============================
+    const favBtn = card.querySelector(".fav-btn");
+    favBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       toggleFav(e.target);
     });
 
- // ★ Admin の公開/非公開（ボタンがある場合だけ動く）
-if (IS_ADMIN) {
-  const btn = card.querySelector(".admin-visible-btn");
-  if (btn) {
-    btn.addEventListener("click", async (e) => {
-      e.stopPropagation();
-      await toggleVisible(item.product_id, !item.visible);
-      start(); // 再描画
-    });
-  }
-}
+    // ===============================
+    // Admin visible 切替
+    // ===============================
+    if (IS_ADMIN) {
+      const btn = card.querySelector(".admin-visible-btn");
+      if (btn) {
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          await toggleVisible(item.product_id, !item.visible);
+          start();
+        });
+      }
+    }
 
+    // グリッドに追加
     grid.appendChild(card);
+
+    // アニメ
     requestAnimationFrame(() => card.classList.add("show"));
   });
 
+  // ハート初期状態
   loadFavorites();
 }
+
 
 
 // ===============================
