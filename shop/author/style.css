@@ -244,8 +244,7 @@ main.author-header {
 ============================= */
 
 .author-banner {
-  width: 100%;
-  height: 252px;          /* 固定高さで統一 */
+  width: 100%;    
   object-fit: cover;      /* ちょうどよく中央トリミング */
   border-radius: 0;       /* ← 丸角なし */
   display: block;
