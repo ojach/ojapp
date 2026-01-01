@@ -115,7 +115,6 @@ body {
 }
 
 .counter-block {
-  background: #fff;
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 12px;
@@ -156,27 +155,6 @@ body {
   margin-bottom: 6px;
 }
 
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  background: #fff;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-}
-
-.footer-btn {
-  flex: 1;
-  padding: 14px 0;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
 .reset { background: #ddd; }
 .analyze { background: #37b0ff; color: #fff; }
 
@@ -199,7 +177,6 @@ body {
   font-family: sans-serif;
   margin: 0;
   padding: 12px;
-  background: #fafafa;
 }
 
 .header h1 {
