@@ -12,4 +12,49 @@
 <div class="footer">
   <a href="free.html" class="free-link">🔧 フリーモードへ</a>
 </div>
+<script>
+// ▼ 現行ジャグラー一覧
+const machines = [
+  { id: "im_juggler", name: "アイムジャグラーEX", img: "img/im.jpg" },
+  { id: "neo_im_juggler", name: "ネオアイムジャグラーEX", img: "img/neoim.jpg" },
+  { id: "myj5", name: "マイジャグラーV", img: "img/myj5.jpg" },
+  { id: "funky2", name: "ファンキージャグラー2", img: "img/funky2.jpg" },
+  { id: "gogo3", name: "ゴーゴージャグラー3", img: "img/gogo3.jpg" },
+  { id: "happyv3", name: "ハッピージャグラーVⅢ", img: "img/happyv3.jpg" },
+  { id: "girlss", name: "ジャグラーガールズSS", img: "img/girlss.jpg" },
+  { id: "mrj", name: "ミスタージャグラー", img: "img/mrj.jpg" },
+  { id: "umj", name: "ウルトラミラクルジャグラー", img: "img/umj.jpg" }
+];
+
+// ▼ 機種カードを表示
+function renderMachines(list) {
+  const container = document.getElementById("machineList");
+  container.innerHTML = "";
+
+  list.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "machine-card";
+    div.onclick = () => {
+      location.href = `juggler.html?id=${m.id}`;
+    };
+    div.innerHTML = `
+      <img src="${m.img}">
+      <div class="machine-name">${m.name}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ▼ 検索フィルタ
+function filterMachines() {
+  const keyword = document.getElementById("searchInput").value.trim();
+  const filtered = machines.filter(m =>
+    m.name.includes(keyword)
+  );
+  renderMachines(filtered);
+}
+
+// 最初の表示
+renderMachines(machines);
+</script>
 
