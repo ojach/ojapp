@@ -202,11 +202,11 @@ body {
   bottom: 0;
   width: 100%;
   background: #ffffff;
-  border-radius: 16px 16px 0 0;
+  border-radius: 16px 16px 0 0 !important;
   box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
   z-index: 100;
   max-height: 70vh;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 20px 18px;
 
   transform: translateY(100%);
@@ -267,13 +267,14 @@ body {
 /* ------- 閉じるボタン ------- */
 .close-btn {
   width: 100%;
-  margin-top: 22px;
-  padding: 12px 0;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background: #f3f3f3;
-  color: #333;
+  margin: 0;                 /* ← 下に張り付ける */
+  margin-top: 20px;          /* ← シート内部上マージンだけ生かす */
+  padding: 14px;
+  background: #f5f5f5;
+  border-radius: 0 0 16px 16px;  /* ← ボトムシートの角丸とつなげる */
+  border-top: 1px solid #e3e3e3;
+  position: sticky;
+  bottom: 0;                 /* ← 下に固定 */
 }
 
 
