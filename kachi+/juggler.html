@@ -341,12 +341,16 @@ function updateSettingAnalysis() {
   top.innerText = `🎯 設定${bestSetting}（${bestValue.toFixed(1)}%）`;
 
   // 一覧表示
-  let html = "";
-  for (let s = 1; s <= 6; s++) {
-    const mark = s === bestSetting ? " ←最高" : "";
-    html += `設定${s}：${resultPercent[s].toFixed(1)}%${mark}<br>`;
+ let html = "";
+for (let s = 1; s <= 6; s++) {
+  const percent = resultPercent[s].toFixed(1);
+  if (s === bestSetting) {
+    html += `<div class="best">設定${s}：${percent}% ←最高</div>`;
+  } else {
+    html += `<div>設定${s}：${percent}%</div>`;
   }
-  list.innerHTML = html;
+}
+list.innerHTML = html;
 }
 
 render();
