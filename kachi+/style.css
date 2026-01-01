@@ -195,31 +195,32 @@ body {
   user-select: none;
 }
 
-/* ------- ボトムシート（絶対動く完全版） ------- */
-
+/* ------- ボトムシート本体（見やすく、中央寄せ） ------- */
 #sheet {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  background: #fff;
+  background: #ffffff;
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
   z-index: 100;
   max-height: 70vh;
   overflow-y: auto;
+  padding: 20px 18px;
 
-  /* 初期は完全に隠す */
   transform: translateY(100%);
   transition: transform 0.3s ease;
+
+  text-align: center; /* ← 全体センター寄せ */
 }
 
-/* 開く時に付けるクラス */
+/* 出現時 */
 #sheet.active {
   transform: translateY(0);
 }
 
-/* オーバーレイ */
+/* ------- オーバーレイ ------- */
 #sheetOverlay {
   position: fixed;
   inset: 0;
@@ -229,9 +230,50 @@ body {
   transition: opacity 0.25s ease;
   z-index: 90;
 }
-
 #sheetOverlay.active {
   opacity: 1;
   pointer-events: auto;
 }
+
+/* ------- つまみハンドル ------- */
+#sheetHandle {
+  width: 50px;
+  height: 5px;
+  background: #ccc;
+  border-radius: 8px;
+  margin: 0 auto 12px;
+}
+
+/* ------- トップ：最も高い設定 ------- */
+.sheet-top {
+  font-size: 22px;       /* ← 大きく！ */
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #222;
+}
+
+/* ------- 設定一覧 ------- */
+.sheet-list {
+  font-size: 18px;       /* ← 各行を大きく */
+  line-height: 1.9;
+  color: #333;
+}
+
+.sheet-list .best {
+  font-weight: 700;
+  color: #007aff;        /* ← iOS青っぽく強調 */
+}
+
+/* ------- 閉じるボタン ------- */
+.close-btn {
+  width: 100%;
+  margin-top: 22px;
+  padding: 12px 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f3f3;
+  color: #333;
+}
+
 
