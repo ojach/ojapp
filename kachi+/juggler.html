@@ -283,9 +283,12 @@ function getActualRate(count, games) {
 
 // ズレ率 → 信頼度変換
 function trustWeight(actual, theory) {
-  const diff = actual / theory;
-  return 1 / diff; // diff が1に近いほど1に近い
+  if (actual === 999999) return 0.01;  // データなしは最弱
+
+  const diffRate = Math.abs(actual - theory) / theory; // 比率差
+  return 1 / (diffRate + 0.001); // 差が小さいほど大きい
 }
+
 
 function updateSettingAnalysis() {
   const top = document.getElementById("resultTop");
