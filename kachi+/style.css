@@ -1,0 +1,95 @@
+body {
+  font-family: sans-serif;
+  background: #fafafa;
+  margin: 0;
+  padding: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.machine-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.counter-area {
+  margin-top: 10px;
+}
+
+.counter-block {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.counter-block .label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.count-btn {
+  width: 100%;
+  padding: 16px 0;
+  font-size: 22px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.grape .count-btn { background: #5cc16f; color: #fff; }
+.big   .count-btn { background: #d83d3d; color: #fff; }
+.reg   .count-btn { background: #3d7ad8; color: #fff; }
+
+.bonus-row {
+  display: flex;
+  gap: 12px;
+}
+
+.result-area {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.result {
+  margin-bottom: 6px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+
+.footer-btn {
+  flex: 1;
+  padding: 14px 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reset { background: #ddd; }
+.analyze { background: #37b0ff; color: #fff; }
