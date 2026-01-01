@@ -235,7 +235,8 @@ function render() {
   document.getElementById("grapeCount").innerText = grape;
   document.getElementById("bigCount").innerText = big;
   document.getElementById("regCount").innerText = reg;
-  document.getElementById("totalGames").innerText = totalGames;
+  document.getElementById("totalGamesDisplay").textContent = totalGames;
+
 
   document.getElementById("grapeRate").innerText = rate(grape, totalGames);
   document.getElementById("grapeRate2").innerText = rate(grape, totalGames);
