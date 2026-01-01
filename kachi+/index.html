@@ -1,8 +1,45 @@
- <link rel="stylesheet" href="style.css">
-<div class="header">
+<!-- すべてのページのヘッダーとフッターのコピペ用 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OJapp Kachi+</title>
+
+<!-- ファビコン -->
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+
+<!-- iPhone ホームアイコン -->
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<!-- PWA（必要なら有効化） -->
+<!-- <link rel="manifest" href="/manifest.json"> -->
+
+<meta name="theme-color" content="#2bb7ff">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="style.css">
+<!-- ダークモード呼ぶ -->
+<script src="/darkmode.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("/header.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("header").innerHTML = h);
+</script>
+
+<div class="main">
   <h1>ジャグラー選択</h1>
   <p>使う機種を選んでください</p>
-</div>
+
 
 <div class="search-box">
   <input type="text" id="searchInput" placeholder="機種名で検索…" oninput="filterMachines()">
@@ -13,6 +50,15 @@
 <div class="footer">
   <a href="free.html" class="free-link">🔧 フリーモードへ</a>
 </div>
+ </div>
+ <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("footer").innerHTML = h);
+</script>
+
+
 <script>
 // ▼ 現行ジャグラー一覧
 const machines = [
@@ -57,4 +103,5 @@ function filterMachines() {
 // 最初の表示
 renderMachines(machines);
 </script>
-
+</body>
+</html>
