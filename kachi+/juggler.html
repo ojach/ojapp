@@ -243,6 +243,115 @@ function render() {
   document.getElementById("totalRate").innerText = totalBonusRate();
 }
 
+  /* ================================
+   ボトムシート開閉
+================================ */
+const footer = document.getElementById("kachiFooter");
+const sheet = document.getElementById("sheet");
+const sheetOverlay = document.getElementById("sheetOverlay");
+const closeBtn = document.getElementById("closeSheet");
+
+// 開く
+function openSheet() {
+  sheet.style.transform = "translateY(0)";
+  sheetOverlay.style.opacity = "1";
+  sheetOverlay.style.pointerEvents = "auto";
+
+  updateSettingAnalysis(); // ← 開くたびに最新データで解析
+}
+
+// 閉じる
+function closeSheet() {
+  sheet.style.transform = "translateY(100%)";
+  sheetOverlay.style.opacity = "0";
+  sheetOverlay.style.pointerEvents = "none";
+}
+
+footer.addEventListener("click", openSheet);
+sheetOverlay.addEventListener("click", closeSheet);
+closeBtn.addEventListener("click", closeSheet);
+
+
+/* ================================
+   設定期待度ロジック（Kachi+）
+================================ */
+
+// 実測確率（count=回数、games=総回転数）
+function getActualRate(count, games) {
+  if (count === 0 || games === 0) return 999999; // 無限大の代わり
+  return games / count;
+}
+
+// ズレ率 → 信頼度変換
+function trustWeight(actual, theory) {
+  const diff = actual / theory;
+  return 1 / diff; // diff が1に近いほど1に近い
+}
+
+function updateSettingAnalysis() {
+  const top = document.getElementById("resultTop");
+  const list = document.getElementById("resultList");
+
+  const games = totalGames;
+  const bigC = big;
+  const regC = reg;
+  const grapeC = grape;
+
+  // ゲーム数0は無効
+  if (games === 0) {
+    top.innerText = "ゲーム数がありません";
+    list.innerHTML = "";
+    return;
+  }
+
+  let scores = {};
+
+  for (let s = 1; s <= 6; s++) {
+    const theoBig = settingValues.big[s];
+    const theoReg = settingValues.reg[s];
+    const theoGrape = settingValues.grape[s];
+
+    const actBig = getActualRate(bigC, games);
+    const actReg = getActualRate(regC, games);
+    const actGrape = getActualRate(grapeC, games);
+
+    const wBig = trustWeight(actBig, theoBig);
+    const wReg = trustWeight(actReg, theoReg);
+    const wGrape = trustWeight(actGrape, theoGrape);
+
+    const score = wBig * wReg * wGrape;
+    scores[s] = score;
+  }
+
+  // 正規化
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  let resultPercent = {};
+  for (let s = 1; s <= 6; s++) {
+    resultPercent[s] = (scores[s] / total) * 100;
+  }
+
+  // 最大設定
+  let bestSetting = 1;
+  let bestValue = 0;
+  for (let s = 1; s <= 6; s++) {
+    if (resultPercent[s] > bestValue) {
+      bestSetting = s;
+      bestValue = resultPercent[s];
+    }
+  }
+
+  // トップ表示
+  top.innerText = `🎯 設定${bestSetting}（${bestValue.toFixed(1)}%）`;
+
+  // 一覧表示
+  let html = "";
+  for (let s = 1; s <= 6; s++) {
+    const mark = s === bestSetting ? " ←最高" : "";
+    html += `設定${s}：${resultPercent[s].toFixed(1)}%${mark}<br>`;
+  }
+  list.innerHTML = html;
+}
+
 render();
 </script>
 
