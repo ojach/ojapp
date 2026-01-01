@@ -253,18 +253,15 @@ const closeBtn = document.getElementById("closeSheet");
 
 // 開く
 function openSheet() {
-  sheet.style.transform = "translateY(0)";
-  sheetOverlay.style.opacity = "1";
-  sheetOverlay.style.pointerEvents = "auto";
-
-  updateSettingAnalysis(); // ← 開くたびに最新データで解析
+  document.getElementById("sheet").classList.add("active");
+  document.getElementById("sheetOverlay").classList.add("active");
+  updateSettingAnalysis();
 }
 
 // 閉じる
 function closeSheet() {
-  sheet.style.transform = "translateY(100%)";
-  sheetOverlay.style.opacity = "0";
-  sheetOverlay.style.pointerEvents = "none";
+  document.getElementById("sheet").classList.remove("active");
+  document.getElementById("sheetOverlay").classList.remove("active");
 }
 
 footer.addEventListener("click", openSheet);
