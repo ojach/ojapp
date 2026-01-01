@@ -16,15 +16,15 @@
 <script>
 // ▼ 現行ジャグラー一覧
 const machines = [
-  { id: "im_juggler", name: "アイムジャグラーEX", img: "img/im.jpg" },
-  { id: "neo_im_juggler", name: "ネオアイムジャグラーEX", img: "img/neoim.jpg" },
-  { id: "myj5", name: "マイジャグラーV", img: "img/myj5.jpg" },
-  { id: "funky2", name: "ファンキージャグラー2", img: "img/funky2.jpg" },
-  { id: "gogo3", name: "ゴーゴージャグラー3", img: "img/gogo3.jpg" },
-  { id: "happyv3", name: "ハッピージャグラーVⅢ", img: "img/happyv3.jpg" },
-  { id: "girlss", name: "ジャグラーガールズSS", img: "img/girlss.jpg" },
-  { id: "mrj", name: "ミスタージャグラー", img: "img/mrj.jpg" },
-  { id: "umj", name: "ウルトラミラクルジャグラー", img: "img/umj.jpg" }
+  { id: "im_juggler", name: "アイムジャグラーEX" },
+  { id: "neo_im_juggler", name: "ネオアイムジャグラーEX" },
+  { id: "myj5", name: "マイジャグラーV" },
+  { id: "funky2", name: "ファンキージャグラー2" },
+  { id: "gogo3", name: "ゴーゴージャグラー3" },
+  { id: "happyv3", name: "ハッピージャグラーVⅢ"},
+  { id: "girlss", name: "ジャグラーガールズSS" },
+  { id: "mrj", name: "ミスタージャグラー" },
+  { id: "umj", name: "ウルトラミラクルジャグラー" }
 ];
 
 // ▼ 機種カードを表示
@@ -39,7 +39,6 @@ function renderMachines(list) {
       location.href = `juggler.html?id=${m.id}`;
     };
     div.innerHTML = `
-      <img src="${m.img}">
       <div class="machine-name">${m.name}</div>
     `;
     container.appendChild(div);
