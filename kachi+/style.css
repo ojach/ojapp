@@ -195,86 +195,76 @@ body {
   user-select: none;
 }
 
-/* ------- ボトムシート本体（見やすく、中央寄せ） ------- */
+/* ▼ ボトムシート本体 */
 #sheet {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
+  max-height: 75vh;
+
   background: #ffffff;
-  border-radius: 16px 16px 0 0 !important;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
-  z-index: 100;
-  max-height: 70vh;
-  overflow: hidden;
-  padding: 20px 18px;
+  border-radius: 20px 20px 0 0;  /* ← 四隅統一 */
+  overflow: hidden;             /* ← 角丸を正しく見せる */
+  box-shadow: 0 -4px 18px rgba(0,0,0,0.2);
 
   transform: translateY(100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease;
 
-  text-align: center; /* ← 全体センター寄せ */
+  z-index: 100;
+  text-align: center;
+  display: flex;
+  flex-direction: column;       /* ← 下にボタン固定のため */
 }
 
-/* 出現時 */
+/* 出現 */
 #sheet.active {
   transform: translateY(0);
 }
 
-/* ------- オーバーレイ ------- */
-#sheetOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 90;
-}
-#sheetOverlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ------- つまみハンドル ------- */
+/* ▼ 上のグレーつまみ */
 #sheetHandle {
-  width: 50px;
+  width: 46px;
   height: 5px;
   background: #ccc;
-  border-radius: 8px;
-  margin: 0 auto 12px;
+  border-radius: 999px;
+  margin: 12px auto;
 }
 
-/* ------- トップ：最も高い設定 ------- */
+/* ▼ 内容エリア（スクロール可能） */
+.sheet-content {
+  padding: 0 22px 20px;
+  overflow-y: auto;
+  flex: 1;                    /* ← ボタン以外がスクロール領域 */
+}
+
+/* ▼ トップの設定 */
 .sheet-top {
-  font-size: 22px;       /* ← 大きく！ */
+  font-size: 23px;
   font-weight: 700;
   margin-bottom: 18px;
-  color: #222;
 }
 
-/* ------- 設定一覧 ------- */
+/* ▼ 設定一覧 */
 .sheet-list {
-  font-size: 18px;       /* ← 各行を大きく */
-  line-height: 1.9;
-  color: #333;
+  font-size: 18px;
+  line-height: 2;
 }
-
 .sheet-list .best {
+  color: #007aff;
   font-weight: 700;
-  color: #007aff;        /* ← iOS青っぽく強調 */
 }
 
-/* ------- 閉じるボタン ------- */
+/* ▼ 閉じるボタン（完全に最下部へ） */
 .close-btn {
   width: 100%;
-  margin: 0;                 /* ← 下に張り付ける */
-  margin-top: 20px;          /* ← シート内部上マージンだけ生かす */
-  padding: 14px;
-  background: #f5f5f5;
-  border-radius: 0 0 16px 16px;  /* ← ボトムシートの角丸とつなげる */
-  border-top: 1px solid #e3e3e3;
-  position: sticky;
-  bottom: 0;                 /* ← 下に固定 */
+  padding: 15px 0;
+  background: #f4f4f4;
+  border-top: 1px solid #e5e5e5;
+
+  font-size: 16px;
+  border-radius: 0 0 20px 20px;  /* ← シートの角丸と完全一致 */
 }
+
 
 
