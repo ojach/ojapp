@@ -1,14 +1,15 @@
-<div class="mode-select">
-  <h1>Kachi+</h1>
-  <p>使いたいモードを選んでください</p>
-
-  <a href="juggler.html" class="btn mode-btn jug">
-    🎰 ジャグラーモード
-    <span>設定推測つき</span>
-  </a>
-
-  <a href="free.html" class="btn mode-btn free">
-    🔧 フリーモード
-    <span>全機種対応のカウンター</span>
-  </a>
+<div class="header">
+  <h1>ジャグラー選択</h1>
+  <p>使う機種を選んでください</p>
 </div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="機種名で検索…" oninput="filterMachines()">
+</div>
+
+<div id="machineList" class="machine-list"></div>
+
+<div class="footer">
+  <a href="free.html" class="free-link">🔧 フリーモードへ</a>
+</div>
+
