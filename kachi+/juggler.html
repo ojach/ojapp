@@ -46,3 +46,84 @@
   <button class="footer-btn reset" onclick="resetAll()">リセット</button>
   <button class="footer-btn analyze" onclick="location.href='analyze.html'">設定期待度 ▶</button>
 </div>
+<script>
+let grape = 0;
+let big = 0;
+let reg = 0;
+let totalGames = 0;
+
+// -------------------------------
+// 入力（総回転数）
+// -------------------------------
+function updateGames() {
+  const val = parseInt(document.getElementById("inputGames").value || 0);
+  totalGames = val;
+  render();
+}
+
+// -------------------------------
+// カウント
+// -------------------------------
+function addGrape() {
+  grape++;
+  render();
+}
+
+function addBig() {
+  big++;
+  render();
+}
+
+function addReg() {
+  reg++;
+  render();
+}
+
+// -------------------------------
+// リセット
+// -------------------------------
+function resetAll() {
+  grape = 0;
+  big = 0;
+  reg = 0;
+  totalGames = 0;
+  document.getElementById("inputGames").value = "";
+  render();
+}
+
+// -------------------------------
+// 計算処理
+// -------------------------------
+function rate(count, games) {
+  if (count === 0 || games === 0) return "1/0";
+  return "1/" + (games / count).toFixed(2);
+}
+
+function totalBonusRate() {
+  const t = big + reg;
+  if (t === 0 || totalGames === 0) return "1/0";
+  return "1/" + (totalGames / t).toFixed(2);
+}
+
+// -------------------------------
+// 画面反映
+// -------------------------------
+function render() {
+  // カウンタ表示
+  document.getElementById("grapeCount").innerText = grape;
+  document.getElementById("bigCount").innerText = big;
+  document.getElementById("regCount").innerText = reg;
+
+  // 総回転数
+  document.getElementById("totalGames").innerText = totalGames;
+
+  // 確率計算
+  document.getElementById("grapeRate").innerText = rate(grape, totalGames);
+  document.getElementById("grapeRate2").innerText = rate(grape, totalGames);
+  document.getElementById("bigRate").innerText = rate(big, totalGames);
+  document.getElementById("regRate").innerText = rate(reg, totalGames);
+  document.getElementById("totalRate").innerText = totalBonusRate();
+}
+
+render();
+</script>
