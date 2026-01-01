@@ -1,0 +1,48 @@
+<div class="header">
+  <button class="back-btn" onclick="location.href='index.html'">←</button>
+  <div class="machine-name">ファンキージャグラー2</div>
+  <div class="total-games">G数：<span id="totalGames">0</span></div>
+</div>
+
+<div class="counter-area">
+
+  <!-- ぶどう -->
+  <div class="counter-block grape">
+    <div class="label">ぶどう</div>
+    <button class="count-btn" onclick="addGrape()">+1</button>
+    <div class="count-display">
+      回数：<span id="grapeCount">0</span><br>
+      確率：<span id="grapeRate">1/0</span>
+    </div>
+  </div>
+
+  <!-- BIG REG -->
+  <div class="bonus-row">
+
+    <div class="counter-block big">
+      <div class="label">BIG</div>
+      <button class="count-btn" onclick="addBig()">+1</button>
+      <div class="count-display">回数：<span id="bigCount">0</span></div>
+    </div>
+
+    <div class="counter-block reg">
+      <div class="label">REG</div>
+      <button class="count-btn" onclick="addReg()">+1</button>
+      <div class="count-display">回数：<span id="regCount">0</span></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="result-area">
+  <div class="result">BIG：<span id="bigRate">1/0</span></div>
+  <div class="result">REG：<span id="regRate">1/0</span></div>
+  <div class="result">合算：<span id="totalRate">1/0</span></div>
+  <div class="result">ぶどう：<span id="grapeRate2">1/0</span></div>
+</div>
+
+<div class="footer">
+  <button class="footer-btn reset" onclick="resetAll()">リセット</button>
+  <button class="footer-btn analyze" onclick="location.href='analyze.html'">設定期待度 ▶</button>
+</div>
