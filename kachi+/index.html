@@ -25,24 +25,32 @@
   margin: 20px auto;
 }
 
+/* select本体 */
 .select-box select {
   width: 100%;
   padding: 14px 18px;
   font-size: 16px;
   border-radius: 14px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   background: var(--bg2);
   color: var(--text);
   appearance: none;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 }
 
-.select-box select:focus {
-  border-color: #2bb7ff;
-  box-shadow: 0 0 0 2px rgba(43,183,255,0.3);
+/* ▼ option カスタム（最新ブラウザ対応） */
+select, option {
+  background-color: var(--bg2);
+  color: var(--text);
 }
+
+/* ▼ iOS Safari対応（暗くなる問題） */
+select:focus option {
+  background-color: var(--bg2);
+  color: var(--text);
+}
+
 
 .select-arrow {
   position: relative;
@@ -70,6 +78,27 @@
   color: #2b9eff;
   text-decoration: none;
 }
+  .free-button {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 14px 18px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: #2b9eff;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.free-button:hover {
+  background: var(--bg3);
+}
+
 </style>
 
 </head>
@@ -98,7 +127,8 @@
 
   <!-- ▼ フリーモード -->
   <div class="free">
-    <a href="free.html" class="free-link">🔧 フリーモードへ</a>
+    <a href="free.html" class="free-button">🔧 フリーモードへ</a>
+
   </div>
 </div>
 
