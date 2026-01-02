@@ -99,6 +99,10 @@ select:focus option {
 .free-button:hover {
   background: var(--bg3);
 }
+.star.ghost {
+  opacity: 0;
+  pointer-events: none;
+}
 
 </style>
 
@@ -128,11 +132,11 @@ select:focus option {
 
   <!-- ▼ フリーモード -->
   <div class="free">
-    <a href="free.html" class="free-button">🔧 フリーモード      </a>
+    <a href="free.html" class="free-button">🔧 フリーモード <span class="star ghost">⭐⭐</span></a>
 </div>
 
   <div class="free">
-    <a href="https://ofuse.me/o?uid=137629" class="free-button">⭐ OFUSEで応援する    </a>
+    <a href="https://ofuse.me/o?uid=137629" class="free-button">⭐ OFUSEで応援する <span class="star ghost">⭐</span></a>
 </div>
 <b>🧸 開発を応援してくれたら嬉しいです！<br>
 Kachi+ は完全無料。広告もつけてません。<br>
