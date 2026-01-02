@@ -29,12 +29,13 @@
 
 <body>
 
-<div id="header"></div>
-<script>
-fetch("/header.html")
-  .then(r => r.text())
-  .then(h => document.getElementById("header").innerHTML = h);
-</script>
+<div class="header">
+  <a href="/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
 
 <div class="main">
   <div class="machine-name" id="machineName">読み込み中…</div>
