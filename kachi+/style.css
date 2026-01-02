@@ -306,15 +306,13 @@ body {
   line-height: 2;
 }
 .sheet-list .best {
-  color: #007aff;
   font-weight: 700;
 }
 
 /* ▼ 閉じるボタン（完全に最下部へ） */
 .close-btn {
   width: 100%;
-  padding: 15px 0;
-  background: #ffffff; /* ← シートと同じ色に！ */
+  padding: 15px 0; 
   border: none;        /* ← 下線（黒線）を完全に削除 */
   border-radius: 0 0 20px 20px;
   font-size: 16px;
