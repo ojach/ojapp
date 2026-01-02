@@ -1,4 +1,4 @@
-const CACHE_NAME = "kachi-plus-v1";
+const CACHE_NAME = "kachi-plus-cache-v1";
 
 const urlsToCache = [
   "/kachi-plus/",
@@ -6,21 +6,23 @@ const urlsToCache = [
   "/kachi-plus/free.html",
   "/kachi-plus/juggler.html",
   "/kachi-plus/style.css",
+  "/kachi-plus/sw.js",
   "/icon/icon-180.png",
   "/icon/ojapp-logo.png"
 ];
 
-
-// install
-self.addEventListener("install", event => {
-  event.waitUntil(
+// インストール
+self.addEventListener("install", (e) => {
+  e.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// fetch
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(res => res || fetch(event.request))
+// オフライン対応
+self.addEventListener("fetch", (e) => {
+  e.respondWith(
+    caches.match(e.request, { ignoreSearch: true }).then(res => {
+      return res || fetch(e.request);
+    })
   );
 });
