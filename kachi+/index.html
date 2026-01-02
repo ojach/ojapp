@@ -152,6 +152,10 @@ fetch("/footer.html")
 </script>
 
 <script>
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/kachi+/sw.js');
+}
+
 // ▼ 機種データ
 const machines = [
   { id: "im_juggler", name: "アイムジャグラーEX" },
