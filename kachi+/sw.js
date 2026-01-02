@@ -5,7 +5,6 @@ const urlsToCache = [
   "/kachi+/free.html",
   "/kachi+/juggler.html",
   "/kachi+/style.css",
-  "/kachi+/app.js",
   "/icon/icon-180.png",
   "/icon/ojapp-logo.png"
 ];
