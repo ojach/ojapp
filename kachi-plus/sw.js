@@ -1,14 +1,15 @@
-const CACHE_NAME = "kachi-cache-v1";
+const CACHE_NAME = "kachi-plus-v1";
 
 const urlsToCache = [
-  "./",
-  "./index.html",
-  "./free.html",
-  "./juggler.html",
-  "./style.css",
-  "../icon/icon-180.png",
-  "../icon/ojapp-logo.png"
+  "/kachi-plus/",
+  "/kachi-plus/index.html",
+  "/kachi-plus/free.html",
+  "/kachi-plus/juggler.html",
+  "/kachi-plus/style.css",
+  "/icon/icon-180.png",
+  "/icon/ojapp-logo.png"
 ];
+
 
 // install
 self.addEventListener("install", event => {
