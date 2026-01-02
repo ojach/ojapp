@@ -167,6 +167,13 @@ function render() {
   document.getElementById("bigRate").innerText   = rate(big, totalGames);
   document.getElementById("regRate").innerText   = rate(reg, totalGames);
   document.getElementById("totalRate").innerText = totalBonusRate();
+document.getElementById("cherryCount").innerText = cherry;
+document.getElementById("watermelonCount").innerText = watermelon;
+document.getElementById("specialCount").innerText = special;
+
+document.getElementById("cherryRate").innerText = rate(cherry, totalGames);
+document.getElementById("watermelonRate").innerText = rate(watermelon, totalGames);
+document.getElementById("specialRate").innerText = rate(special, totalGames);
 }
 
 render();
