@@ -1,0 +1,177 @@
+<!-- free.html : 拡張フリーモード -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<title>Free Mode | OJapp Kachi+</title>
+
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<meta name="theme-color" content="#2bb7ff">
+
+<link rel="stylesheet" href="style.css">
+<script src="/darkmode.js"></script>
+</head>
+
+<body>
+
+<header>
+<div class="header">
+  <a href="/kachi+/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp Free</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
+</header>
+
+<div class="main">
+
+  <h1>フリーモード</h1>
+  <p>全小役カウンター（設定推測なし）</p>
+
+  <div class="games-input">
+    総回転数(G)：
+    <input type="number" id="inputGames" placeholder="0" oninput="updateGames()">
+  </div>
+
+  <!-- 小役カウンター群 -->
+  <div class="counter-area">
+
+    <!-- ぶどう -->
+    <div class="counter-block grape">
+      <div class="label">ぶどう</div>
+      <button class="count-btn" onclick="addGrape()">+1</button>
+      <div class="count-display">回数：<span id="grapeCount">0</span></div>
+    </div>
+
+    <!-- チェリー -->
+    <div class="counter-block">
+      <div class="label">チェリー</div>
+      <button class="count-btn" onclick="addCherry()">+1</button>
+      <div class="count-display">回数：<span id="cherryCount">0</span></div>
+    </div>
+
+    <!-- スイカ -->
+    <div class="counter-block">
+      <div class="label">スイカ</div>
+      <button class="count-btn" onclick="addWatermelon()">+1</button>
+      <div class="count-display">回数：<span id="watermelonCount">0</span></div>
+    </div>
+
+    <!-- 特殊小役 -->
+    <div class="counter-block">
+      <div class="label">特殊小役</div>
+      <button class="count-btn" onclick="addSpecial()">+1</button>
+      <div class="count-display">回数：<span id="specialCount">0</span></div>
+    </div>
+
+    <!-- BIG REG -->
+    <div class="bonus-row">
+
+      <div class="counter-block big">
+        <div class="label">BIG</div>
+        <button class="count-btn" onclick="addBig()">+1</button>
+        <div class="count-display">回数：<span id="bigCount">0</span></div>
+      </div>
+
+      <div class="counter-block reg">
+        <div class="label">REG</div>
+        <button class="count-btn" onclick="addReg()">+1</button>
+        <div class="count-display">回数：<span id="regCount">0</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="result-area">
+    <div class="result">BIG：<span id="bigRate">1/0</span></div>
+    <div class="result">REG：<span id="regRate">1/0</span></div>
+    <div class="result">合算：<span id="totalRate">1/0</span></div>
+    <div class="result">ぶどう：<span id="grapeRate">1/0</span></div>
+    <div class="result">チェリー：<span id="cherryRate">1/0</span></div>
+    <div class="result">スイカ：<span id="watermelonRate">1/0</span></div>
+    <div class="result">特殊小役：<span id="specialRate">1/0</span></div>
+  </div>
+
+</div>
+
+<script>
+// ------------------------------
+// 変数
+// ------------------------------
+let totalGames = 0;
+let grape = 0;
+let cherry = 0;
+let watermelon = 0;
+let special = 0;
+let big = 0;
+let reg = 0;
+
+// ------------------------------
+// 回転数入力
+// ------------------------------
+function updateGames() {
+  totalGames = parseInt(document.getElementById("inputGames").value || 0);
+  render();
+}
+
+// ------------------------------
+// 各 +1
+// ------------------------------
+function addGrape()      { grape++;      render(); }
+function addCherry()     { cherry++;     render(); }
+function addWatermelon() { watermelon++; render(); }
+function addSpecial()    { special++;    render(); }
+function addBig()        { big++;        render(); }
+function addReg()        { reg++;        render(); }
+
+// ------------------------------
+// 共通：確率計算
+// ------------------------------
+function rate(count, games) {
+  if (count === 0 || games === 0) return "1/0";
+  return "1/" + (games / count).toFixed(2);
+}
+
+// 合算
+function totalBonusRate() {
+  const t = big + reg;
+  if (t === 0 || totalGames === 0) return "1/0";
+  return "1/" + (totalGames / t).toFixed(2);
+}
+
+// ------------------------------
+// 画面反映
+// ------------------------------
+function render() {
+  document.getElementById("grapeCount").innerText      = grape;
+  document.getElementById("cherryCount").innerText     = cherry;
+  document.getElementById("watermelonCount").innerText = watermelon;
+  document.getElementById("specialCount").innerText    = special;
+
+  document.getElementById("bigCount").innerText = big;
+  document.getElementById("regCount").innerText = reg;
+
+  document.getElementById("grapeRate").innerText      = rate(grape, totalGames);
+  document.getElementById("cherryRate").innerText     = rate(cherry, totalGames);
+  document.getElementById("watermelonRate").innerText = rate(watermelon, totalGames);
+  document.getElementById("specialRate").innerText    = rate(special, totalGames);
+
+  document.getElementById("bigRate").innerText   = rate(big, totalGames);
+  document.getElementById("regRate").innerText   = rate(reg, totalGames);
+  document.getElementById("totalRate").innerText = totalBonusRate();
+}
+
+render();
+</script>
+
+</body>
+</html>
