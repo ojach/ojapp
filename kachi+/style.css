@@ -6,7 +6,7 @@
   --bg: #ffffff;
   --text: #222;
   --header-border: #eee;
-
+  
   --section-bg: #ffffff;
   --section-shadow: rgba(0, 0, 0, .05);
 
@@ -350,32 +350,32 @@ body {
 /* 色設定 */
 .counter-block.grape .count-btn {
   background: #4CAF50; /* 緑 */
-   color: #000;
+   color: #fff;
    font-weight: 700;
 }
 .counter-block.cherry .count-btn {
   background: #E53935; /* 赤 */
-   color: #000;
+   color: #fff;
    font-weight: 700;
 }
 .counter-block.watermelon .count-btn {
   background: #1E88E5; /* 青 */
-   color: #000;
+   color: #fff;
    font-weight: 700;
 }
 .counter-block.special .count-btn {
-  background: var(--bg); /* 白 */
-   color: var(--text);
+  background: var(--text); /* 白 */
+   color: var(--bg);
    font-weight: 700;
 }
 .counter-block.big .count-btn {
   background: #FFA93A; /* orange */
-  color: #000;
+  color: #fff;
    font-weight: 700;
 }
 .counter-block.reg .count-btn {
   background: #8E24AA; /* 紫 */
-  color: #000;
+  color: #fff;
    font-weight: 700; 
 }
 
