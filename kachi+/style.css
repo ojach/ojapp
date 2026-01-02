@@ -340,5 +340,33 @@ body {
   font-size: 24px;
   cursor: pointer;
 }
+.counter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
 
+/* 色設定 */
+.counter-block.grape .count-btn {
+  background: #4CAF50; /* 緑 */
+}
+.counter-block.cherry .count-btn {
+  background: #E53935; /* 赤 */
+}
+.counter-block.watermelon .count-btn {
+  background: #1E88E5; /* 青 */
+}
+.counter-block.special .count-btn {
+  background: #8E24AA; /* 紫 */
+}
+.counter-block.big .count-btn {
+  background: #FDD835; /* 黄 */
+  color: #000;
+}
+.counter-block.reg .count-btn {
+  background: #ffffff; /* 白 */
+  color: #000;
+  border: 1px solid #ccc;
+}
 
