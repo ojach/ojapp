@@ -1,8 +1,6 @@
-<!-- すべてのページのヘッダーとフッターのコピペ用 -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,57 +11,106 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
 
-<!-- iPhone ホームアイコン -->
 <link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
-
-<!-- PWA（必要なら有効化） -->
-<!-- <link rel="manifest" href="/manifest.json"> -->
-
 <meta name="theme-color" content="#2bb7ff">
 
-<!-- 共通CSS -->
 <link rel="stylesheet" href="style.css">
-<!-- ダークモード呼ぶ -->
 <script src="/darkmode.js"></script>
-</head>
 
+<style>
+/* ▼ カスタムプルダウン */
+.select-box {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto;
+}
+
+.select-box select {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: 1px solid #ccc;
+  background: var(--bg2);
+  color: var(--text);
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.select-box select:focus {
+  border-color: #2bb7ff;
+  box-shadow: 0 0 0 2px rgba(43,183,255,0.3);
+}
+
+.select-arrow {
+  position: relative;
+}
+
+.select-arrow::after {
+  content: "▼";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  pointer-events: none;
+  color: var(--text);
+}
+
+/* フリーモード */
+.free {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.free-link {
+  font-size: 18px;
+  color: #2b9eff;
+  text-decoration: none;
+}
+</style>
+
+</head>
 <body>
 
 <header>
-<div class="header">
-  <a href="/kachi+/" class="logo-link">
-    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
-    <span class="logo-text">OJapp Kachi+</span>
-  </a>
-  <div class="switch" onclick="toggleTheme()">🤩</div>
-</div>
+  <div class="header">
+    <a href="/kachi+/" class="logo-link">
+      <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+      <span class="logo-text">OJapp Kachi+</span>
+    </a>
+    <div class="switch" onclick="toggleTheme()">🤩</div>
+  </div>
 </header>
 
 <div class="main">
   <h1>OJapp Kachi+</h1>
   <p>使う機種を選んでください</p>
 
+  <!-- ▼ カスタムプルダウン -->
+  <div class="select-box select-arrow">
+    <select id="machineSelect" onchange="goMachine()">
+      <option value="" disabled selected>機種を選択...</option>
+    </select>
+  </div>
 
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="機種名で検索…" oninput="filterMachines()">
+  <!-- ▼ フリーモード -->
+  <div class="free">
+    <a href="free.html" class="free-link">🔧 フリーモードへ</a>
+  </div>
 </div>
 
-<div id="machineList" class="machine-list"></div>
-
-<div class="free">
-  <a href="free.html" class="free-link">🔧 フリーモードへ</a>
-</div>
- </div>
- <div id="footer"></div>
+<div id="footer"></div>
 <script>
 fetch("/footer.html")
   .then(r => r.text())
   .then(h => document.getElementById("footer").innerHTML = h);
 </script>
 
-
 <script>
-// ▼ 現行ジャグラー一覧
+// ▼ 機種データ
 const machines = [
   { id: "im_juggler", name: "アイムジャグラーEX" },
   { id: "neo_im_juggler", name: "ネオアイムジャグラーEX" },
@@ -76,35 +123,24 @@ const machines = [
   { id: "umj", name: "ウルトラミラクルジャグラー" }
 ];
 
-// ▼ 機種カードを表示
-function renderMachines(list) {
-  const container = document.getElementById("machineList");
-  container.innerHTML = "";
+// ▼ セレクトの中身を生成
+const select = document.getElementById("machineSelect");
 
-  list.forEach(m => {
-    const div = document.createElement("div");
-    div.className = "machine-card";
-    div.onclick = () => {
-      location.href = `juggler.html?id=${m.id}`;
-    };
-    div.innerHTML = `
-      <div class="machine-name">${m.name}</div>
-    `;
-    container.appendChild(div);
-  });
+machines.forEach(m => {
+  const op = document.createElement("option");
+  op.value = m.id;
+  op.innerText = m.name;
+  select.appendChild(op);
+});
+
+// ▼ 選択時に遷移
+function goMachine() {
+  const id = select.value;
+  if (id) {
+    location.href = `juggler.html?id=${id}`;
+  }
 }
-
-// ▼ 検索フィルタ
-function filterMachines() {
-  const keyword = document.getElementById("searchInput").value.trim();
-  const filtered = machines.filter(m =>
-    m.name.includes(keyword)
-  );
-  renderMachines(filtered);
-}
-
-// 最初の表示
-renderMachines(machines);
 </script>
+
 </body>
 </html>
