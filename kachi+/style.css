@@ -351,26 +351,32 @@ body {
 .counter-block.grape .count-btn {
   background: #4CAF50; /* 緑 */
    color: var(--text);
+   font-weight: 700;
 }
 .counter-block.cherry .count-btn {
   background: #E53935; /* 赤 */
    color: var(--text);
+   font-weight: 700;
 }
 .counter-block.watermelon .count-btn {
   background: #1E88E5; /* 青 */
    color: var(--text);
+   font-weight: 700;
 }
 .counter-block.special .count-btn {
-  background: #8E24AA; /* 紫 */
-   color: var(--text);
+  background: #ffffff; /* 白 */
+   color: #000;
+   font-weight: 700;
+   border: 1px solid #ccc;
 }
 .counter-block.big .count-btn {
   background: #FDD835; /* 黄 */
   color: var(--text);
+   font-weight: 700;
 }
 .counter-block.reg .count-btn {
-  background: #ffffff; /* 白 */
-  color: #000;
-  border: 1px solid #ccc;
+  background: #8E24AA; /* 紫 */
+  color: var(--text);
+   font-weight: 700; 
 }
 
