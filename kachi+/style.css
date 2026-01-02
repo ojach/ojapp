@@ -252,6 +252,7 @@ body {
   bottom: 0;
   width: 100%;
   max-height: 75vh;
+   background: var(--bg);
   border-radius: 20px 20px 0 0;  /* ← 四隅統一 */
   overflow: hidden;             /* ← 角丸を正しく見せる */
   box-shadow: 0 -4px 18px rgba(0,0,0,0.2);
