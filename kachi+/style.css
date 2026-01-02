@@ -291,6 +291,7 @@ body {
   border: none;        /* ← 下線（黒線）を完全に削除 */
   border-radius: 0 0 20px 20px;
   font-size: 16px;
+   background: var(--bg);
 }
 
 .header {
