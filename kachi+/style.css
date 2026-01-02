@@ -138,6 +138,13 @@ body {
 .bonus-row {
   display: flex;
   gap: 12px;
+   margin-top: 12px;
+}
+
+.counter-block.big,
+.counter-block.reg {
+  flex: 1;          /* 横幅を均等に広げる */
+  max-width: none;  /* 変な制限があれば無効化 */
 }
 
 .result-area {
