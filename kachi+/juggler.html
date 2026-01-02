@@ -1,11 +1,49 @@
+<!-- すべてのページのヘッダーとフッターのコピペ用 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OJapp</title>
+
+<!-- ファビコン -->
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+
+<!-- iPhone ホームアイコン -->
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<!-- PWA（必要なら有効化） -->
+<!-- <link rel="manifest" href="/manifest.json"> -->
+
+<meta name="theme-color" content="#2bb7ff">
+
+<!-- 共通CSS -->
 <link rel="stylesheet" href="style.css">
-<div class="header">
+<!-- ダークモード呼ぶ -->
+<script src="/darkmode.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("/header.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("header").innerHTML = h);
+</script>
+
+<div class="main">
+
   <button class="back-btn" onclick="location.href='index.html'">←</button>
   <div class="machine-name" id="machineName">読み込み中…</div>
 
   <div class="total-games">G数：<span id="totalGamesDisplay">0</span></div>
 
-</div>
+
 
 <div class="games-input">
   総回転数：
@@ -50,6 +88,7 @@
   <div class="result">ぶどう：<span id="grapeRate2">1/0</span></div>
 </div>
 </div>
+  </div>
 <!-- ▼ 固定フッター（タップで開く） -->
 <div id="kachiFooter">▲ 設定推測</div>
 
@@ -365,4 +404,7 @@ list.innerHTML = html;
 
 render();
 </script>
+
+  </body>
+</html>
 
