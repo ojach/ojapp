@@ -59,6 +59,7 @@
     <button class="count-btn" onclick="addGrape()">+1</button>
     <div class="count-display">
       回数：<span id="grapeCount">0</span><br>
+      確率：<span id="grapeRate">1/0</span>
     </div>
   </div>
 
@@ -297,7 +298,7 @@ function render() {
   document.getElementById("regCount").innerText = reg;
 
   // ▼従来の総回転数表示
- // document.getElementById("totalGamesDisplay").textContent = totalGames;
+ document.getElementById("totalGamesDisplay").textContent = totalGames;
 
   // ▼ぶどうだけ「自分が回した回転数」
   const gGames = grapeGames();
