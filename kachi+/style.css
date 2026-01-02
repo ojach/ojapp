@@ -232,6 +232,7 @@ body {
   z-index: 50;
   cursor: pointer;
   user-select: none;
+   color: #67c8ff;
 }
 
 /* ▼ ボトムシート本体 */
@@ -299,7 +300,7 @@ body {
   border-radius: 0 0 20px 20px;
   font-size: 16px;
    background: var(--bg);
-   color: var(--text);
+   color: #67c8ff;
 }
 
 .header {
