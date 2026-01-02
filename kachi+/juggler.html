@@ -46,6 +46,11 @@
   <input type="number" id="inputGames" placeholder="0" oninput="updateGames()">
 </div>
 
+<div class="games-input">
+  引継ぎ総回転数（任意）：
+  <input type="number" id="prevGames" placeholder="0" oninput="updateGames()">
+</div>
+
 <div class="counter-area">
 
   <!-- ぶどう -->
@@ -215,18 +220,19 @@ let grape = 0;
 let big = 0;
 let reg = 0;
 let totalGames = 0;
+let prevGames = 0; // ← 追加（前任者総回転数）
 
 // ========================================
-// 4. 総回転数入力
+// 4. 総回転数入力 + 前任者総回転数入力
 // ========================================
 function updateGames() {
-  const val = parseInt(document.getElementById("inputGames").value || 0);
-  totalGames = val;
+  totalGames = parseInt(document.getElementById("inputGames").value || 0);
+  prevGames  = parseInt(document.getElementById("prevGames").value || 0);
   render();
 }
 
 // ========================================
-// 5. ボタン（+1）
+// 5. ＋1 ボタン
 // ========================================
 function addGrape() {
   grape++;
@@ -249,18 +255,33 @@ function resetAll() {
   big = 0;
   reg = 0;
   totalGames = 0;
+  prevGames = 0;
+
   document.getElementById("inputGames").value = "";
+  document.getElementById("prevGames").value = "";
+
   render();
 }
 
 // ========================================
-// 7. 確率計算
+// 実際にぶどうで使うゲーム数
+// ========================================
+function grapeGames() {
+  const g = totalGames - prevGames;
+  return g > 0 ? g : 0;
+}
+
+// ========================================
+// 確率計算（BIG・REG・合算）
 // ========================================
 function rate(count, games) {
   if (count === 0 || games === 0) return "1/0";
   return "1/" + (games / count).toFixed(2);
 }
 
+// ========================================
+// 合算（BIG+REG）
+// ========================================
 function totalBonusRate() {
   const t = big + reg;
   if (t === 0 || totalGames === 0) return "1/0";
@@ -275,8 +296,16 @@ function render() {
   document.getElementById("bigCount").innerText = big;
   document.getElementById("regCount").innerText = reg;
 
-  document.getElementById("grapeRate").innerText = rate(grape, totalGames);
-  document.getElementById("grapeRate2").innerText = rate(grape, totalGames);
+  // ▼従来の総回転数表示
+  document.getElementById("totalGamesDisplay").textContent = totalGames;
+
+  // ▼ぶどうだけ「自分が回した回転数」
+  const gGames = grapeGames();
+
+  document.getElementById("grapeRate").innerText = rate(grape, gGames);
+  document.getElementById("grapeRate2").innerText = rate(grape, gGames);
+
+  // BIG / REG / 合算はそのまま
   document.getElementById("bigRate").innerText = rate(big, totalGames);
   document.getElementById("regRate").innerText = rate(reg, totalGames);
   document.getElementById("totalRate").innerText = totalBonusRate();
