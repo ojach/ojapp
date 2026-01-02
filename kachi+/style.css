@@ -99,8 +99,6 @@ body {
 }
 
 .back-btn {
-  background: none;
-  border: none;
   font-size: 22px;
   cursor: pointer;
 }
