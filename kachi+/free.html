@@ -42,51 +42,51 @@
     <input type="number" id="inputGames" placeholder="0" oninput="updateGames()">
   </div>
 
-  <!-- 小役カウンター群 -->
-  <div class="counter-area">
+  <div class="counter-grid">
 
-    <!-- ぶどう -->
-    <div class="counter-block grape">
-      <div class="label">ぶどう</div>
-      <button class="count-btn" onclick="addGrape()">+1</button>
-      <div class="count-display">回数：<span id="grapeCount">0</span></div>
-    </div>
+  <!-- ぶどう（緑） -->
+  <div class="counter-block grape">
+    <div class="label">ぶどう</div>
+    <button class="count-btn" onclick="addGrape()">+1</button>
+    <div class="count-display">回数：<span id="grapeCount">0</span></div>
+  </div>
 
-    <!-- チェリー -->
-    <div class="counter-block">
-      <div class="label">チェリー</div>
-      <button class="count-btn" onclick="addCherry()">+1</button>
-      <div class="count-display">回数：<span id="cherryCount">0</span></div>
-    </div>
+  <!-- チェリー（赤） -->
+  <div class="counter-block cherry">
+    <div class="label">チェリー</div>
+    <button class="count-btn" onclick="addCherry()">+1</button>
+    <div class="count-display">回数：<span id="cherryCount">0</span></div>
+  </div>
 
-    <!-- スイカ -->
-    <div class="counter-block">
-      <div class="label">スイカ</div>
-      <button class="count-btn" onclick="addWatermelon()">+1</button>
-      <div class="count-display">回数：<span id="watermelonCount">0</span></div>
-    </div>
+  <!-- スイカ（青） -->
+  <div class="counter-block watermelon">
+    <div class="label">スイカ</div>
+    <button class="count-btn" onclick="addWatermelon()">+1</button>
+    <div class="count-display">回数：<span id="watermelonCount">0</span></div>
+  </div>
 
-    <!-- 特殊小役 -->
-    <div class="counter-block">
-      <div class="label">特殊小役</div>
-      <button class="count-btn" onclick="addSpecial()">+1</button>
-      <div class="count-display">回数：<span id="specialCount">0</span></div>
-    </div>
+  <!-- 特殊小役（紫） -->
+  <div class="counter-block special">
+    <div class="label">特殊小役</div>
+    <button class="count-btn" onclick="addSpecial()">+1</button>
+    <div class="count-display">回数：<span id="specialCount">0</span></div>
+  </div>
 
-    <!-- BIG REG -->
-    <div class="bonus-row">
+  <!-- BIG（黄色） -->
+  <div class="counter-block big">
+    <div class="label">BIG</div>
+    <button class="count-btn" onclick="addBig()">+1</button>
+    <div class="count-display">回数：<span id="bigCount">0</span></div>
+  </div>
 
-      <div class="counter-block big">
-        <div class="label">BIG</div>
-        <button class="count-btn" onclick="addBig()">+1</button>
-        <div class="count-display">回数：<span id="bigCount">0</span></div>
-      </div>
+  <!-- REG（白） -->
+  <div class="counter-block reg">
+    <div class="label">REG</div>
+    <button class="count-btn" onclick="addReg()">+1</button>
+    <div class="count-display">回数：<span id="regCount">0</span></div>
+  </div>
 
-      <div class="counter-block reg">
-        <div class="label">REG</div>
-        <button class="count-btn" onclick="addReg()">+1</button>
-        <div class="count-display">回数：<span id="regCount">0</span></div>
-      </div>
+</div>
 
     </div>
   </div>
