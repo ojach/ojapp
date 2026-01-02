@@ -1,26 +1,25 @@
 const CACHE_NAME = "kachi-cache-v1";
+
 const urlsToCache = [
-  "/kachi+/",
-  "/kachi+/index.html",
-  "/kachi+/free.html",
-  "/kachi+/juggler.html",
-  "/kachi+/style.css",
-  "/icon/icon-180.png",
-  "/icon/ojapp-logo.png"
+  "./",
+  "./index.html",
+  "./free.html",
+  "./juggler.html",
+  "./style.css",
+  "../icon/icon-180.png",
+  "../icon/ojapp-logo.png"
 ];
 
-// インストール
-self.addEventListener("install", (e) => {
-  e.waitUntil(
+// install
+self.addEventListener("install", event => {
+  event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// オフライン対応
-self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    caches.match(e.request).then(response => {
-      return response || fetch(e.request);
-    })
+// fetch
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
