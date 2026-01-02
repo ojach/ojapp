@@ -213,8 +213,8 @@ body {
 }
 
 .free-link {
-  font-size: 15px;
-  color: #007bff;
+  font-size: 26px;
+  color: #67c8ff;
   text-decoration: none;
 }
 /* ▼ フッター（固定トリガー） */
@@ -225,7 +225,7 @@ body {
   width: 100%;
   height: 46px;
    background: var(--bg);
-  border-top: 1px solid #ddd;
+  border-top: 0.5px solid #ddd;
   text-align: center;
   line-height: 46px;
   font-size: 16px;
