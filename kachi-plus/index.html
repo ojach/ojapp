@@ -186,8 +186,23 @@ function goMachine() {
   const id = select.value;
   if (!id) return;
 
-  // ▼ juggler フォルダに直リンク
-  location.href = `/kachi-plus/juggler/${id}.html`;
+  // 静的フォルダへのマップ
+  const pageMap = {
+    "im_juggler":        "/kachi-plus/juggler/im_juggler/",
+    "neo_im_juggler":    "/kachi-plus/juggler/neo_im_juggler/",
+    "myj5":              "/kachi-plus/juggler/myj5/",
+    "funky2":            "/kachi-plus/juggler/funky2/",
+    "gogo3":             "/kachi-plus/juggler/gogo3/",
+    "happyv3":           "/kachi-plus/juggler/happyv3/",
+    "girlss":            "/kachi-plus/juggler/girlss/",
+    "mrj":               "/kachi-plus/juggler/mrj/",
+    "umj":               "/kachi-plus/juggler/umj/"
+  };
+
+  // 完全静的パスへ遷移
+  if (pageMap[id]) {
+    location.href = pageMap[id];
+  }
 }
 
 </script>
