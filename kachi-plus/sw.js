@@ -1,10 +1,10 @@
-const CACHE_NAME = "kachi-plus-v5";
+const CACHE_NAME = "kachi-plus-v6";
 
 const urlsToCache = [
   "/kachi-plus/",
   "/kachi-plus/index.html",
-  "/kachi-plus/free/",
   "/kachi-plus/juggler.html",
+  "/kachi-plus/free.html",
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
   "/icon/icon-180.png",
@@ -37,15 +37,21 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
+// fetch
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(cacheRes => {
-      // キャッシュがあれば返す
-      if (cacheRes) return cacheRes;
+      if (cacheRes) {
+        return cacheRes; // キャッシュにある → 即返す
+      }
 
-      // キャッシュがない場合は fetch
-      return fetch(event.request).catch(() => {
-        // fetch エラー（外部 JS など）は無視（何も返さない）
+      return fetch(event.request).catch(err => {
+        // オフラインでページ系を取得したときのみ fallback
+        if (event.request.mode === "navigate") {
+          return caches.match("/kachi-plus/juggler.html");
+        }
+
+        // 画像・CSS・JSなどは何も返さない
         return new Response("", { status: 200 });
       });
     })
