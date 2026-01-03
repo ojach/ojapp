@@ -1,7 +1,7 @@
 {
   "name": "OJapp Kachi+",
   "short_name": "Kachi+",
-  "start_url": "/kachi-plus/index.html",
+  "start_url": "/kachi-plus/",
   "scope": "/kachi-plus/",
   "display": "standalone",
   "background_color": "#000000",
