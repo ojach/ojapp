@@ -58,17 +58,41 @@ function grapeGames() {
   return g > 0 ? g : 0;
 }
 
-function showJudgeResult() {
-  const gGames = grapeGames();
+function showJudgeModal() {
 
-  const rGrape = rate(grape, gGames);
-  const rBig   = rate(big, totalGames);
-  const rReg   = rate(reg, totalGames);
+  const big = countBig;
+  const reg = countReg;
+  const grape = countGrape;
+  const total = big + reg;
 
-  document.getElementById("judgeResult").innerHTML = `
-    🍇 ぶどう：1/${rGrape.toFixed(2)}<br>
-    🔶 BIG：1/${rBig.toFixed(2)}<br>
-    🟣 REG：1/${rReg.toFixed(2)}<br><br>
-    （※ ステルス版は簡易表示）
+  // 合算（BIGとREGの合計回数）
+  const totalRate = total > 0 ? (spins / total).toFixed(1) : "-";
+
+  // ぶどう確率
+  const grapeRate = grape > 0 ? (spins / grape).toFixed(1) : "-";
+
+  // ------------ 設定推測ロジック（簡易版）--------------
+  const rates = calcSettingExpect(); 
+  // 返り値例 → {1:0.1, 2:0.15, 3:0.17, 4:0.25, 5:0.18, 6:0.15}
+
+  // 最有力設定
+  const bestSetting = Object.entries(rates)
+    .sort((a,b)=>b[1]-a[1])[0][0]; 
+  // -----------------------------------------------------
+
+  document.getElementById("judge-modal").innerHTML = `
+    <div class="modal-inner">
+      <div class="judge-title">推測結果</div>
+      <div class="judge-main">最有力設定：<span>${bestSetting}</span></div>
+
+      <div class="judge-sub">
+        BIG：${big} / REG：${reg}<br>
+        合算：1/${totalRate}<br>
+        ぶどう：1/${grapeRate}
+      </div>
+    </div>
   `;
+
+  document.getElementById("judge-bg").classList.add("show");
 }
+
