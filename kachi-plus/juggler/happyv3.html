@@ -1,1 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<title>Kachi+ | OJapp</title>
+
+<!-- ファビコン -->
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+
+<!-- iPhone ホームアイコン -->
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<!-- PWA（必要なら有効化） -->
+<!-- <link rel="manifest" href="/manifest.json"> -->
+
+<meta name="theme-color" content="#2bb7ff">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/kachi-plus/style.css">
+<!-- ダークモード呼ぶ -->
+<script src="/darkmode.js"></script>
+</head>
+
+<body>
+<header>
+<div class="header">
+  <a href="/kachi-plus/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp Kachi+</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
+</header>
+<div class="main">
+  <div class="machine-name" id="machineName">読み込み中…</div>
+
+<div class="games-input">
+  総回転数(G)：
+  <input type="number" id="inputGames" placeholder="0" oninput="updateGames()">
+</div>
+
+<div class="games-input">
+  引継ぎG数（任意）：
+  <input type="number" id="prevGames" placeholder="0" oninput="updateGames()">
+</div>
+
+<div class="counter-area">
+
+  <!-- ぶどう -->
+  <div class="counter-block grape">
+    <div class="label"></div>
+    <button class="count-btn" onclick="addGrape()">ぶどう +1</button>
+    <div class="count-display">
+      回数：<span id="grapeCount">0</span>
+  <!--   確率：<span id="grapeRate">1/0</span> -->
+    </div>
+  </div>
+
+  <!-- BIG REG -->
+  <div class="bonus-row">
+
+    <div class="counter-block big">
+      <div class="label"></div>
+      <button class="count-btn" onclick="addBig()">BIG +1</button>
+      <div class="count-display">回数：<span id="bigCount">0</span></div>
+    </div>
+
+    <div class="counter-block reg">
+      <div class="label"></div>
+      <button class="count-btn" onclick="addReg()">REG +1</button>
+      <div class="count-display">回数：<span id="regCount">0</span></div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="result-area">
+  <div class="result">BIG：<span id="bigRate">1/0</span></div>
+  <div class="result">REG：<span id="regRate">1/0</span></div>
+  <div class="result">合算：<span id="totalRate">1/0</span></div>
+  <div class="result">ぶどう：<span id="grapeRate2">1/0</span></div>
+</div>
+</div>
+  </div>
+<!-- ▼ 固定フッター（タップで開く） -->
+<div id="kachiFooter">▲ 設定推測</div>
+
+<!-- ▼ ボトムシート背景（タップで閉じる） -->
+<div id="sheetOverlay"></div>
+
+<!-- ▼ ボトムシート本体 -->
+<div id="sheet">
+  <div id="sheetHandle"></div>
+
+  <div class="sheet-content">
+    <div id="resultTop" class="sheet-top"></div>
+    <div id="resultList" class="sheet-list"></div>
+  </div>
+
+  <button id="closeSheet" class="close-btn">▼ 設定推測</button>
+</div>
+
+
+
+  
+<script>
+// ========================================
+// 1. 機種設定マスタ（JSON マスタ）
+// ========================================
+const machineData = {
+  im_juggler: {
+    name: "アイムジャグラーEX",
+    roles: {
+      big:   {1:273, 2:270, 3:269, 4:268, 5:266, 6:255},
+      reg:   {1:439, 2:399, 3:331, 4:315, 5:255, 6:255},
+      grape: {1:6.02,2:6.02,3:6.02,4:5.78,5:5.78,6:5.66}
+    }
+  },
+
+  neo_im_juggler: {
+    name: "ネオアイムジャグラーEX",
+    roles: {
+      big:   {1:273.1,2:269.7,3:269.7,4:259,5:259,6:255},
+      reg:   {1:439.8,2:399.6,3:331,4:315.1,5:255,6:255},
+      grape: {1:6.02,2:6.02,3:6.02,4:5.78,5:5.78,6:5.66}
+    }
+  },
+
+  funky2: {
+    name: "ファンキージャグラー2",
+    roles: {
+      big:   {1:266.4,2:259.0,3:256.0,4:249.2,5:240.1,6:219.9},
+      reg:   {1:439.8,2:407.1,3:366.1,4:322.8,5:299.3,6:262.1},
+      grape: {1:5.93,2:5.89,3:5.82,4:5.81,5:5.76,6:5.68}
+    }
+  },
+
+  myj5: {
+    name: "マイジャグラーV",
+    roles: {
+      big:   {1:272.2,2:270.8,3:266.4,4:259.0,5:255.0,6:255.0},
+      reg:   {1:439.8,2:399.6,3:331.0,4:315.1,5:255.0,6:255.0},
+      grape: {1:6.03,2:6.03,3:6.00,4:5.94,5:5.90,6:5.85}
+    }
+  },
+
+  happyv3: {
+    name: "ハッピージャグラーVⅢ",
+    roles: {
+      big:   {1:282.5,2:275.4,3:268.6,4:259.0,5:249.2,6:240.1},
+      reg:   {1:431.2,2:390.0,3:336.0,4:315.1,5:292.6,6:273.1},
+      grape: {1:6.32,2:6.29,3:6.25,4:6.16,5:6.10,6:6.05}
+    }
+  },
+
+  gogo3: {
+    name: "ゴーゴージャグラー3",
+    roles: {
+      big:   {1:282.5,2:275.4,3:268.6,4:259.0,5:249.2,6:240.1},
+      reg:   {1:431.2,2:390.0,3:336.0,4:315.1,5:292.6,6:273.1},
+      grape: {1:6.30,2:6.26,3:6.20,4:6.15,5:6.10,6:6.05}
+    }
+  },
+
+  girlss: {
+    name: "ジャグラーガールズSS",
+    roles: {
+      big:   {1:273.1,2:270.8,3:269.7,4:259.0,5:255.0,6:255.0},
+      reg:   {1:431.2,2:390.0,3:336.0,4:315.1,5:255.0,6:255.0},
+      grape: {1:6.10,2:6.05,3:6.00,4:5.95,5:5.90,6:5.85}
+    }
+  },
+
+  mrj: {
+    name: "ミスタージャグラー",
+    roles: {
+      big:   {1:268.6,2:259.0,3:249.2,4:240.1,5:234.0,6:225.0},
+      reg:   {1:431.2,2:390.0,3:336.0,4:315.1,5:292.6,6:273.1},
+      grape: {1:6.15,2:6.09,3:6.02,4:5.97,5:5.88,6:5.79}
+    }
+  },
+
+  umj: {
+    name: "ウルトラミラクルジャグラー",
+    roles: {
+      big:   {1:292.6,2:282.5,3:268.6,4:259.0,5:249.2,6:240.1},
+      reg:   {1:431.2,2:390.0,3:336.0,4:315.1,5:292.6,6:273.1},
+      grape: {1:6.35,2:6.30,3:6.25,4:6.20,5:6.10,6:6.00}
+    }
+  }
+};
+
+// ========================================
+// 2. URLパラメータから機種IDを取得
+// ========================================
+const id = new URLSearchParams(location.search).get("id");
+const machine = machineData[id];
+
+// 機種名の表示
+if (machine) {
+  document.getElementById("machineName").innerText = machine.name;
+} else {
+  document.getElementById("machineName").innerText = "機種が見つかりません";
+}
+
+// この機種の設定値
+let settingValues = machine.roles;
+
+// ========================================
+// 3. カウンタ変数
+// ========================================
+let grape = 0;
+let big = 0;
+let reg = 0;
+let totalGames = 0;
+let prevGames = 0; // ← 追加（前任者総回転数）
+
+// ========================================
+// 4. 総回転数入力 + 前任者総回転数入力
+// ========================================
+function updateGames() {
+  totalGames = parseInt(document.getElementById("inputGames").value || 0);
+  prevGames  = parseInt(document.getElementById("prevGames").value || 0);
+  render();
+}
+
+// ========================================
+// 5. ＋1 ボタン
+// ========================================
+function addGrape() {
+  grape++;
+  render();
+}
+function addBig() {
+  big++;
+  render();
+}
+function addReg() {
+  reg++;
+  render();
+}
+
+// ========================================
+// 6. リセット
+// ========================================
+function resetAll() {
+  grape = 0;
+  big = 0;
+  reg = 0;
+  totalGames = 0;
+  prevGames = 0;
+
+  document.getElementById("inputGames").value = "";
+  document.getElementById("prevGames").value = "";
+
+  render();
+}
+
+// ========================================
+// 実際にぶどうで使うゲーム数
+// ========================================
+function grapeGames() {
+  const g = totalGames - prevGames;
+  return g > 0 ? g : 0;
+}
+
+// ========================================
+// 確率計算（BIG・REG・合算）
+// ========================================
+function rate(count, games) {
+  if (count === 0 || games === 0) return "1/0";
+  return "1/" + (games / count).toFixed(2);
+}
+
+// ========================================
+// 合算（BIG+REG）
+// ========================================
+function totalBonusRate() {
+  const t = big + reg;
+  if (t === 0 || totalGames === 0) return "1/0";
+  return "1/" + (totalGames / t).toFixed(2);
+}
+
+// ========================================
+// 8. 画面反映
+// ========================================
+function render() {
+  document.getElementById("grapeCount").innerText = grape;
+  document.getElementById("bigCount").innerText = big;
+  document.getElementById("regCount").innerText = reg;
+
+  // ▼従来の総回転数表示
+// document.getElementById("totalGamesDisplay").textContent = totalGames;
+
+  // ▼ぶどうだけ「自分が回した回転数」
+  const gGames = grapeGames();
+
+//  document.getElementById("grapeRate").innerText = rate(grape, gGames);
+  document.getElementById("grapeRate2").innerText = rate(grape, gGames);
+
+  // BIG / REG / 合算はそのまま
+  document.getElementById("bigRate").innerText = rate(big, totalGames);
+  document.getElementById("regRate").innerText = rate(reg, totalGames);
+  document.getElementById("totalRate").innerText = totalBonusRate();
+}
+
+  /* ================================
+   ボトムシート開閉
+================================ */
+const footer = document.getElementById("kachiFooter");
+const sheet = document.getElementById("sheet");
+const sheetOverlay = document.getElementById("sheetOverlay");
+const closeBtn = document.getElementById("closeSheet");
+
+// 開く
+function openSheet() {
+  document.getElementById("sheet").classList.add("active");
+  document.getElementById("sheetOverlay").classList.add("active");
+  updateSettingAnalysis();
+}
+
+// 閉じる
+function closeSheet() {
+  document.getElementById("sheet").classList.remove("active");
+  document.getElementById("sheetOverlay").classList.remove("active");
+}
+
+footer.addEventListener("click", openSheet);
+sheetOverlay.addEventListener("click", closeSheet);
+closeBtn.addEventListener("click", closeSheet);
+
+
+/* ================================
+   設定期待度ロジック（Kachi+）
+================================ */
+
+// 実測確率（count=回数、games=総回転数）
+function getActualRate(count, games) {
+  if (count === 0 || games === 0) return 999999; // 無限大の代わり
+  return games / count;
+}
+
+// ズレ率 → 信頼度変換
+function trustWeight(actual, theory) {
+  if (actual === 999999) return 0.01;  // データなしは最弱
+
+  const diffRate = Math.abs(actual - theory) / theory; // 比率差
+  return 1 / (diffRate + 0.001); // 差が小さいほど大きい
+}
+
+
+function updateSettingAnalysis() {
+  const top = document.getElementById("resultTop");
+  const list = document.getElementById("resultList");
+
+  const games = totalGames;
+  const bigC = big;
+  const regC = reg;
+  const grapeC = grape;
+
+  // ゲーム数0は無効
+  if (games === 0) {
+    top.innerText = "ゲーム数がありません";
+    list.innerHTML = "";
+    return;
+  }
+
+  let scores = {};
+
+  for (let s = 1; s <= 6; s++) {
+    const theoBig = settingValues.big[s];
+    const theoReg = settingValues.reg[s];
+    const theoGrape = settingValues.grape[s];
+
+    const actBig = getActualRate(bigC, games);
+    const actReg = getActualRate(regC, games);
+    const actGrape = getActualRate(grapeC, games);
+
+    const wBig = trustWeight(actBig, theoBig);
+    const wReg = trustWeight(actReg, theoReg);
+    const wGrape = trustWeight(actGrape, theoGrape);
+
+    const score = wBig * wReg * wGrape;
+    scores[s] = score;
+  }
+
+  // 正規化
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  let resultPercent = {};
+  for (let s = 1; s <= 6; s++) {
+    resultPercent[s] = (scores[s] / total) * 100;
+  }
+
+  // 最大設定
+  let bestSetting = 1;
+  let bestValue = 0;
+  for (let s = 1; s <= 6; s++) {
+    if (resultPercent[s] > bestValue) {
+      bestSetting = s;
+      bestValue = resultPercent[s];
+    }
+  }
+
+  // トップ表示
+  top.innerText = `🎯 設定${bestSetting}（${bestValue.toFixed(1)}%）`;
+
+  // 一覧表示
+ let html = "";
+for (let s = 1; s <= 6; s++) {
+  const percent = resultPercent[s].toFixed(1);
+  if (s === bestSetting) {
+    html += `<div class="best">設定${s}：${percent}% ←最高</div>`;
+  } else {
+    html += `<div>設定${s}：${percent}%</div>`;
+  }
+}
+list.innerHTML = html;
+}
+
+render();
+</script>
+
+  </body>
+</html>
 
