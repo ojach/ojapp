@@ -5,7 +5,7 @@ const FILES_TO_CACHE = [
   "/OJ-Pass/index.html",
   "/OJ-Pass/style.css",
   "/OJ-Pass/app.js",
-  "/OJ-Pass/darkmode.js",
+  "/darkmode.js",
   "/OJ-Pass/icon-192.png",
   "/OJ-Pass/icon-512.png"
 ];
