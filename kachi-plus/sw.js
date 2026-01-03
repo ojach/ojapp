@@ -4,7 +4,7 @@ const FILES = [
   "/kachi-plus/",
   "/kachi-plus/free/",
   "/kachi-plus/manifest.json",
-
+ "/kachi-plus/juggler/",
   // --- juggler（静的8ページ） ---
   "/kachi-plus/juggler/im_juggler/",
   "/kachi-plus/juggler/neo_im_juggler/",
