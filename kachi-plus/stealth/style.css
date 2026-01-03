@@ -145,3 +145,7 @@ body {
   opacity: .9;
   line-height: 1.6;
 }
+.modal {
+  display: none !important;
+  pointer-events: none !important;
+}
