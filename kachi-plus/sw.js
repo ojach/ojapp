@@ -1,4 +1,4 @@
-const CACHE_NAME = "kachi-plus-v4";
+const CACHE_NAME = "kachi-plus-v5";
 
 const urlsToCache = [
   "/kachi-plus/",
