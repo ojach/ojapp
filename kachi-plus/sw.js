@@ -37,12 +37,19 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
-// fetch
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(res => {
-      return res || fetch(event.request);
+    caches.match(event.request).then(cacheRes => {
+      // キャッシュがあれば返す
+      if (cacheRes) return cacheRes;
+
+      // キャッシュがない場合は fetch
+      return fetch(event.request).catch(() => {
+        // fetch エラー（外部 JS など）は無視（何も返さない）
+        return new Response("", { status: 200 });
+      });
     })
   );
 });
+
 
