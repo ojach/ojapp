@@ -10,7 +10,8 @@ const urlsToCache = [
   "/icon/icon-180.png",
   "/icon/ojapp-logo.png",
   "/icon/favicon-16.png",
-  "/icon/favicon-32.png"
+  "/icon/favicon-32.png",
+  "/darkmode.js"
 ];
 
 // install
