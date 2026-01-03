@@ -4,7 +4,7 @@ const FILES = [
   "/kachi-plus/",
   "/kachi-plus/free/",
   "/kachi-plus/manifest.json",
- "/kachi-plus/juggler/",
+
   // --- juggler（静的8ページ） ---
   "/kachi-plus/juggler/im_juggler/",
   "/kachi-plus/juggler/neo_im_juggler/",
@@ -15,15 +15,7 @@ const FILES = [
   "/kachi-plus/juggler/girlss/",
   "/kachi-plus/juggler/mrj/",
   "/kachi-plus/juggler/umj/",
-  "/kachi-plus/juggler/im_juggler.html",
-  "/kachi-plus/juggler/neo_im_juggler.html",
-  "/kachi-plus/juggler/myj5.html",
-  "/kachi-plus/juggler/funky2.html",
-  "/kachi-plus/juggler/gogo3.html",
-  "/kachi-plus/juggler/happyv3.html",
-  "/kachi-plus/juggler/girlss.html",
-  "/kachi-plus/juggler/mrj.html",
-  "/kachi-plus/juggler/umj.html",
+
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
   "/icon/icon-180.png",
