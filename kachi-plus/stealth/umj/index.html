@@ -4,130 +4,79 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Stealth Mode | OJapp Kachi+</title>
+<title>Stealth Kachi+ | OJapp</title>
 
-<link rel="stylesheet" href="/kachi-plus/style.css">
-<script src="/darkmode.js"></script>
-
-<style>
-body {
-  background: #000;
-  margin: 0;
-  overflow: hidden;
-  height: 100vh;
-}
-
-/* ===== 丸アイコン共通 ===== */
-.circle {
-  position: absolute;
-  border-radius: 50%;
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity 0.15s ease, transform 0.2s ease;
-}
-
-.circle:active {
-  opacity: 0;
-  transform: scale(0.85);
-}
-
-/* --- 位置指定 --- */
-#grapeCircle {
-  left: 30px;
-  top: 80px;
-  width: 240px;
-  height: 240px;
-  background: #30d158; /* ぶどう緑 */
-}
-
-#regCircle {
-  right: 50px;
-  top: 42%;
-  width: 130px;
-  height: 130px;
-  background: #bf5af2; /* REG紫 */
-}
-
-#bigCircle {
-  left: 40px;
-  bottom: 80px;
-  width: 150px;
-  height: 150px;
-  background: #ff9f0a; /* BIGオレンジ */
-}
-
-/* ===== 設定推測タップゾーン ===== */
-#hiddenTrigger {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 5%;
-  height: 80px;
-  cursor: pointer;
-}
-
-/* ===== モーダル（既存流用） ===== */
-#sheetOverlay, #sheet, #kachiFooter { display: none; }
-#sheet.active, #sheetOverlay.active { display: block; }
-
-</style>
+<link rel="stylesheet" href="/kachi-plus/stealth/style.css">
+  <script>
+  const machineData = {
+     umj: {
+    name: "ウルトラミラクルジャグラー",
+    roles: {
+      big:   {1:292.6,2:282.5,3:268.6,4:259.0,5:249.2,6:240.1},
+      reg:   {1:431.2,2:390.0,3:336.0,4:315.1,5:292.6,6:273.1},
+      grape: {1:6.35,2:6.30,3:6.25,4:6.20,5:6.10,6:6.00}
+    }
+  }
+  };
+  /* ========================================
+   2. 機種ID（ステルスは固定でOK）
+======================================== */
+const id = "umj";
+const machine = machineData[id];
+const settingValues = machine.roles;
+</script>
+<script defer src="/kachi-plus/stealth/app.js"></script>
 </head>
 
 <body>
 
-<!-- 丸アイコン -->
-<div id="grapeCircle" class="circle" onclick="tap('grape')"></div>
-<div id="regCircle" class="circle" onclick="tap('reg')"></div>
-<div id="bigCircle" class="circle" onclick="tap('big')"></div>
+<!-- ▼ MAIN：黒背景 + 丸配置 -->
+<div id="stealth-screen">
 
-<!-- 下部タップ領域（設定推測呼び出し） -->
-<div id="hiddenTrigger" onclick="openSheet()"></div>
+  <!-- ぶどう（左上） -->
+  <div class="circle grape" onclick="tapGrape()"></div>
 
-<!-- ▼ 設定推測モーダル：既存コードをそのままコピペでOK -->
-<div id="sheetOverlay"></div>
-<div id="sheet">
-  <div id="sheetHandle"></div>
-  <div class="sheet-content">
-    <div id="resultTop" class="sheet-top"></div>
-    <div id="resultList" class="sheet-list"></div>
-  </div>
-  <button id="closeSheet" class="close-btn">▼ 閉じる</button>
+  <!-- REG（右中央） -->
+  <div class="circle reg" onclick="tapReg()"></div>
+
+  <!-- BIG（左下寄り） -->
+  <div class="circle big" onclick="tapBig()"></div>
+
+  <!-- 青丸：入力モーダル -->
+  <div class="circle input-btn" onclick="openInputModal()"></div>
+
+  <!-- 赤丸：推測モーダル -->
+  <div class="circle judge-btn" onclick="openJudgeModal()"></div>
+
 </div>
 
-<script>
-/* ========= カウンタ ========= */
-let grape = 0;
-let big = 0;
-let reg = 0;
 
-/* ========= タップ処理 ========= */
-function tap(type) {
-  if (type === "grape") grape++;
-  if (type === "big") big++;
-  if (type === "reg") reg++;
-}
+<!-- ▼ 入力モーダル -->
+<div id="inputModal" class="modal">
+  <div class="modal-content">
+    <h2>ゲーム数入力</h2>
 
-/* ========= 推測モーダル（既存関数を使用） ========= */
-// 下の3つは通常ページと同じ処理をコピペで使える
-function openSheet() {
-  document.getElementById("sheet").classList.add("active");
-  document.getElementById("sheetOverlay").classList.add("active");
-  updateSettingAnalysis(); // ← 既存のまま動く
-}
+    <label>総回転数(G)</label>
+    <input type="number" id="gamesInput" placeholder="0">
 
-document.getElementById("sheetOverlay").onclick = closeSheet;
-document.getElementById("closeSheet").onclick = closeSheet;
+    <label>引継ぎG（任意）</label>
+    <input type="number" id="gamesPrev" placeholder="0">
 
-function closeSheet() {
-  document.getElementById("sheet").classList.remove("active");
-  document.getElementById("sheetOverlay").classList.remove("active");
-}
+    <button class="modal-close" onclick="closeInputModal()">閉じる</button>
+  </div>
+</div>
 
-/* ========= 機種情報（通常 juggler.html と同じ） ========= */
-const id = new URLSearchParams(location.search).get("id");
-</script>
 
-<!-- ▼ 設定計算ロジックは juggler.html のまま丸ごとコピペ -->
+<!-- ▼ 設定推測モーダル -->
+<div id="judgeModal" class="modal">
+  <div class="modal-content">
+    <h2>設定推測</h2>
+
+    <div id="judgeResult">計算中…</div>
+
+    <button class="modal-close" onclick="closeJudgeModal()">閉じる</button>
+  </div>
+</div>
 
 </body>
 </html>
