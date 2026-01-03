@@ -3,7 +3,7 @@ const CACHE = "kachi-plus-v13";
 const FILES = [
   "/kachi-plus/",
   "/kachi-plus/free/",
-  "/kachi-plus/juggler",
+  "/kachi-plus/juggler/",
   "/kachi-plus/index.html",
   "/kachi-plus/free/index.html",
   "/kachi-plus/juggler.html",
