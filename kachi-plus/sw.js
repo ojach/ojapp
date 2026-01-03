@@ -5,31 +5,44 @@ const FILES = [
   "/kachi-plus/index.html",
   "/kachi-plus/juggler.html",
   "/kachi-plus/free/index.html",
+
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
+  "/darkmode.js",
 
   "/icon/icon-180.png",
-  "/icon/ojapp-logo.png",
   "/icon/favicon-16.png",
-  "/icon/favicon-32.png",
-  "/darkmode.js"
+  "/icon/favicon-32.png"
 ];
 
-// インストール（キャッシュ登録）
-self.addEventListener("install", (evt) => {
-  evt.waitUntil(
-    caches.open(CACHE).then((cache) => {
-      return cache.addAll(FILES);
-    })
+// -------- Install --------
+self.addEventListener("install", e => {
+  e.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(FILES))
   );
   self.skipWaiting();
 });
 
-// フェッチ（キャッシュ優先）
-self.addEventListener("fetch", (evt) => {
-  evt.respondWith(
-    caches.match(evt.request).then((res) => {
-      return res || fetch(evt.request);
+// -------- Fetch --------
+self.addEventListener("fetch", e => {
+  e.respondWith(
+    caches.match(e.request).then(res => {
+      if (res) return res;
+
+      return fetch(e.request).catch(() => {
+        // オフライン時のフォールバック
+        if (e.request.destination === "document") {
+          // 各ページに対応
+          if (e.request.url.includes("/free/")) {
+            return caches.match("/kachi-plus/free/index.html");
+          }
+          if (e.request.url.includes("juggler")) {
+            return caches.match("/kachi-plus/juggler.html");
+          }
+          return caches.match("/kachi-plus/index.html");
+        }
+        return new Response("", { status: 200 });
+      });
     })
   );
 });
