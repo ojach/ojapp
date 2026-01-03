@@ -7,6 +7,24 @@
 <title>Stealth Kachi+ | OJapp</title>
 
 <link rel="stylesheet" href="/kachi-plus/stealth/style.css">
+  <script>
+  const machineData = {
+     funky2: {
+    name: "ファンキージャグラー2",
+    roles: {
+      big:   {1:266.4,2:259.0,3:256.0,4:249.2,5:240.1,6:219.9},
+      reg:   {1:439.8,2:407.1,3:366.1,4:322.8,5:299.3,6:262.1},
+      grape: {1:5.93,2:5.89,3:5.82,4:5.81,5:5.76,6:5.68}
+    }
+  }
+  };
+  /* ========================================
+   2. 機種ID（ステルスは固定でOK）
+======================================== */
+const id = "funky2";
+const machine = machineData[id];
+const settingValues = machine.roles;
+</script>
 <script defer src="/kachi-plus/stealth/app.js"></script>
 </head>
 
@@ -59,23 +77,6 @@
     <button class="modal-close" onclick="closeJudgeModal()">閉じる</button>
   </div>
 </div>
-<script>
-  const machineData = {
-     funky2: {
-    name: "ファンキージャグラー2",
-    roles: {
-      big:   {1:266.4,2:259.0,3:256.0,4:249.2,5:240.1,6:219.9},
-      reg:   {1:439.8,2:407.1,3:366.1,4:322.8,5:299.3,6:262.1},
-      grape: {1:5.93,2:5.89,3:5.82,4:5.81,5:5.76,6:5.68}
-    }
-  }
-  };
-  /* ========================================
-   2. 機種ID（ステルスは固定でOK）
-======================================== */
-const id = "funky2";
-const machine = machineData[id];
-const settingValues = machine.roles;
-</script>
+
 </body>
 </html>
