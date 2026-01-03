@@ -15,21 +15,46 @@ const urlsToCache = [
 ];
 
 // install
-self.addEventListener("install", (evt) => {
-  evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
     })
   );
   self.skipWaiting();
 });
 
-// フェッチ（キャッシュ優先）
-self.addEventListener("fetch", (evt) => {
-  evt.respondWith(
-    caches.match(evt.request).then((res) => {
-      return res || fetch(evt.request);
+// activate
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) return caches.delete(key);
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// fetch
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(cacheRes => {
+      if (cacheRes) {
+        return cacheRes; // キャッシュにある → 即返す
+      }
+
+      return fetch(event.request).catch(err => {
+        // オフラインでページ系を取得したときのみ fallback
+        if (event.request.mode === "navigate") {
+          return caches.match("/kachi-plus/juggler.html");
+        }
+
+        // 画像・CSS・JSなどは何も返さない
+        return new Response("", { status: 200 });
+      });
     })
   );
 });
-
