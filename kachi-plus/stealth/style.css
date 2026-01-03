@@ -50,7 +50,7 @@ body {
   height: 150px;
   background: #FF6D00;
   bottom: 60px;
-  left: 40%;
+  left: 25%;
 }
 
 /* 青丸：入力 */
@@ -68,7 +68,7 @@ body {
   height: 55px;
   background: #D50000;
   bottom: 40px;
-  left: 50%;
+  left: 60%;
   transform: translateX(-50%);
 }
 
