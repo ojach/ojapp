@@ -152,9 +152,10 @@ fetch("/footer.html")
 </script>
 
 <script>
-  if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/kachi-plus/sw.js?v=1212');
+  if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/kachi-plus/sw.js", { scope: "/kachi-plus/" });
 }
+
 
 // ▼ 機種データ
 const machines = [
