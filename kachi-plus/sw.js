@@ -3,10 +3,18 @@ const CACHE = "kachi-plus-v13";
 const FILES = [
   "/kachi-plus/",
   "/kachi-plus/free/",
-  "/kachi-plus/juggler/",
-  "/kachi-plus/index.html",
-  "/kachi-plus/free/index.html",
-  "/kachi-plus/juggler.html",
+  "/kachi-plus/manifest.json",
+
+  // --- juggler（静的8ページ） ---
+  "/kachi-plus/juggler/im_juggler/",
+  "/kachi-plus/juggler/neo_im_juggler/",
+  "/kachi-plus/juggler/myj5/",
+  "/kachi-plus/juggler/funky2/",
+  "/kachi-plus/juggler/gogo3/",
+  "/kachi-plus/juggler/happyv3/",
+  "/kachi-plus/juggler/girlss/",
+  "/kachi-plus/juggler/mrj/",
+  "/kachi-plus/juggler/umj/",
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
   "/icon/icon-180.png",
