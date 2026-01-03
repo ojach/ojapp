@@ -6,8 +6,9 @@ const FILES_TO_CACHE = [
   "/OJ-Pass/style.css",
   "/OJ-Pass/app.js",
   "/darkmode.js",
-  "/OJ-Pass/icon-192.png",
-  "/OJ-Pass/icon-512.png"
+  "/icon/icon-192.png",
+  "/icon/icon-512.png",
+  "OJ-Pass/favicon2.ico"
 ];
 
 // インストール（キャッシュ登録）
