@@ -117,7 +117,7 @@ function showJudgeResult() {
   const grapeRate = grape === 0 ? "1/0" : "1/" + (gGames / grape).toFixed(2);
 
   // ★ ステルス仕様：最高設定だけ表示
-  document.getElementById("judgeModal").innerHTML = `
+  document.getElementById("judgeResult").innerHTML = `
     <div class="judgeBox">
       <div class="judgeTitle">推測結果</div>
       <div class="judgeMain">設定${r.best}（${r.percent.toFixed(1)}%）</div>
