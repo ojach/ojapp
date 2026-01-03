@@ -1,10 +1,9 @@
 const CACHE_NAME = "kachi-plus-v6";
 
 const urlsToCache = [
-  "/kachi-plus/",
   "/kachi-plus/index.html",
   "/kachi-plus/juggler.html",
-  "/kachi-plus/free.html",
+  "/kachi-plus/free/",
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
   "/icon/icon-180.png",
