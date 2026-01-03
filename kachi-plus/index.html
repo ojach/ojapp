@@ -103,6 +103,23 @@ select:focus option {
   opacity: 0;
   pointer-events: none;
 }
+.stealth-toggle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-left: 10px;
+  background: #555;         /* 通常は濃いグレー */
+  cursor: pointer;
+  transition: 0.25s ease;
+  border: 1px solid #888;   /* さりげない枠 */
+}
+
+/* ONのとき光る青丸（OJappカラー） */
+.stealth-toggle.on {
+  background: #2bb7ff;
+  border-color: #2bb7ff;
+  box-shadow: 0 0 6px #2bb7ff;
+}
 
 </style>
 <link rel="manifest" href="/kachi-plus/manifest.json">
@@ -116,6 +133,8 @@ select:focus option {
       <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
       <span class="logo-text">OJapp Kachi+</span>
     </a>
+    <div class="stealth-toggle" onclick="toggleStealth()"></div>
+
     <div class="switch" onclick="toggleTheme()">🤩</div>
   </div>
 </header>
@@ -156,6 +175,18 @@ fetch("/footer.html")
   if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/kachi-plus/sw.js", { scope: "/kachi-plus/" });
 }
+function toggleStealth() {
+  const now = localStorage.getItem("stealthMode") === "1";
+  const next = !now;
+
+  localStorage.setItem("stealthMode", next ? "1" : "0");
+  document.querySelector(".stealth-toggle").classList.toggle("on", next);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const enabled = localStorage.getItem("stealthMode") === "1";
+  document.querySelector(".stealth-toggle").classList.toggle("on", enabled);
+});
 
 
 // ▼ 機種データ
@@ -186,9 +217,17 @@ function goMachine() {
   const id = select.value;
   if (!id) return;
 
- location.href = `/kachi-plus/juggler/${id}/`;
+  const stealth = localStorage.getItem("stealthMode") === "1";
 
+  if (stealth) {
+    // ★ ステルスページへ飛ばす
+    location.href = `/kachi-plus/stealth/${id}/`;
+  } else {
+    // 通常ページへ
+    location.href = `/kachi-plus/juggler/${id}/`;
+  }
 }
+
 
 </script>
 
