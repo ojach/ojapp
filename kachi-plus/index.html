@@ -184,10 +184,12 @@ machines.forEach(m => {
 // ▼ 選択時に遷移
 function goMachine() {
   const id = select.value;
-  if (id) {
-    location.href = `/kachi-plus/juggler/?id=${id}`;
-  }
+  if (!id) return;
+
+  // ▼ juggler フォルダに直リンク
+  location.href = `/kachi-plus/juggler/${id}.html`;
 }
+
 </script>
 
 </body>
