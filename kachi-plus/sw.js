@@ -4,7 +4,7 @@ const urlsToCache = [
   "/kachi-plus/",
   "/kachi-plus/index.html",
   "/kachi-plus/free/",
-  "/kachi-plus/juggler/",
+  "/kachi-plus/juggler.html",
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
   "/icon/icon-180.png",
