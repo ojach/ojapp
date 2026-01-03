@@ -4,7 +4,7 @@ const FILES = [
   "/kachi-plus/",
   "/kachi-plus/index.html",
   "/kachi-plus/juggler.html",
-  "/kachi-plus/free/index.html",
+  "/kachi-plus/free/",
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
 
