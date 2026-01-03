@@ -1,4 +1,4 @@
-const CACHE = "kachi-plus-v11";
+const CACHE = "kachi-plus-v12";
 
 const FILES = [
   "/kachi-plus/",
