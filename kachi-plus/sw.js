@@ -4,7 +4,7 @@ const FILES = [
   "/kachi-plus/",
   "/kachi-plus/index.html",
   "/kachi-plus/juggler.html",
-  "/kachi-plus/free/",
+  "/kachi-plus/free/index.html",
   "/kachi-plus/style.css",
   "/kachi-plus/sw.js",
 
@@ -15,18 +15,22 @@ const FILES = [
   "/darkmode.js"
 ];
 
-self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(FILES))
+// インストール（キャッシュ登録）
+self.addEventListener("install", (evt) => {
+  evt.waitUntil(
+    caches.open(CACHE).then((cache) => {
+      return cache.addAll(FILES);
+    })
   );
   self.skipWaiting();
 });
 
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(res =>
-      res || fetch(e.request).catch(() => caches.match("/kachi-plus/index.html"))
-    )
+// フェッチ（キャッシュ優先）
+self.addEventListener("fetch", (evt) => {
+  evt.respondWith(
+    caches.match(evt.request).then((res) => {
+      return res || fetch(evt.request);
+    })
   );
 });
 
