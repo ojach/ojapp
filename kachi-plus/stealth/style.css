@@ -176,3 +176,10 @@ body {
   color: #fff;
   z-index: 10000; /* ← さらに上 */
 }
+body.modal-open {
+  pointer-events: none;
+}
+
+.modal {
+  pointer-events: auto;
+}
