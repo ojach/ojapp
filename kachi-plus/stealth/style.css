@@ -151,7 +151,6 @@ body {
   display: none !important;
   pointer-events: none !important;
 }
-* { outline: 1px solid rgba(255,0,0,0.4) !important; }
 .modal {
   position: fixed;
   top: 0;
@@ -220,4 +219,40 @@ body.modal-open {
 .circle {
   position: absolute;
   z-index: 1;     /* ← モーダルの下に固定 */
+}
+/* ▼ モーダル：最前面で確実にタップを取る */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;          /* ← 最前面固定 */
+  pointer-events: auto;
+}
+
+.modal.show {
+  display: flex !important; /* Safari完全対応 */
+}
+
+/* モーダルの中身 */
+.modal-content {
+  background: #111;
+  padding: 20px;
+  border-radius: 14px;
+  width: 80%;
+  max-width: 360px;
+  color: #fff;
+  z-index: 100000; /* さらに上（念押し） */
+}
+
+/* ▼ 丸がタップを奪わないように z-index を下げる */
+.circle {
+  position: absolute;
+  z-index: 1 !important;  /* ← ココで全部解決 */
+  pointer-events: auto;
 }
