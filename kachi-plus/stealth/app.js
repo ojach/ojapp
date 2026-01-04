@@ -46,7 +46,7 @@ function closeInputModal() {
 ======================================== */
 function openJudgeModal() {
   document.getElementById("judgeModal").classList.add("show");
-  updateJudgeResult();
+  showJudgeResult();
 }
 
 function closeJudgeModal() {
