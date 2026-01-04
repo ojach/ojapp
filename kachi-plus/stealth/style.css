@@ -149,3 +149,6 @@ body {
 .judgeMain{
   font-size: 25px;
 }
+strong {
+  font-weight: 700;
+}
