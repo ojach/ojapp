@@ -148,10 +148,6 @@ body {
   line-height: 1.6;
 }
 .modal {
-  display: none !important;
-  pointer-events: none !important;
-}
-.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -255,4 +251,55 @@ body.modal-open {
   position: absolute;
   z-index: 1 !important;  /* ← ココで全部解決 */
   pointer-events: auto;
+}
+/* ▼ モーダル背景 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  pointer-events: auto; /* ← 最重要（クリック拾う） */
+}
+
+.modal.show {
+  display: flex !important;
+}
+
+/* ▼ モーダル中身（閉じるボタン含む） */
+.modal-content {
+  background: #111;
+  padding: 24px;
+  border-radius: 16px;
+  color: #fff;
+  width: 80%;
+  max-width: 360px;
+  text-align: center;
+  z-index: 100000;
+  pointer-events: auto; /* ← 最重要（中がクリックできる） */
+}
+
+/* ▼ 丸が邪魔しないように必ず下にする */
+.circle {
+  position: absolute;
+  z-index: 1 !important;
+  pointer-events: auto; 
+}
+
+/* ▼ 「閉じる」ボタン */
+.modal-close {
+  background: #2b7bff;
+  color: #fff;
+  border: none;
+  padding: 12px 0;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 18px;
+  margin-top: 20px;
+  cursor: pointer;
 }
