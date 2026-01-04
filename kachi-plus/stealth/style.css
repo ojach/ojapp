@@ -5,6 +5,7 @@ body {
   height: 100vh;
   overflow: hidden;
   font-family: sans-serif;
+  position:relative;
 }
 
 /* 画面固定 */
