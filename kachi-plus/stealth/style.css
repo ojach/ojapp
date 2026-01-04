@@ -149,3 +149,4 @@ body {
   display: none !important;
   pointer-events: none !important;
 }
+* { outline: 1px solid rgba(255,0,0,0.4) !important; }
