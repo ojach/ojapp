@@ -14,6 +14,18 @@ let prevGames = 0;
 function tapGrape() { grape++; }
 function tapBig()   { big++; }
 function tapReg()   { reg++; }
+function bindTap(selector, handler) {
+  const el = document.querySelector(selector);
+  el.addEventListener("click", handler);
+  el.addEventListener("touchstart", handler);
+  el.addEventListener("pointerdown", handler);
+}
+
+bindTap(".grape", tapGrape);
+bindTap(".big", tapBig);
+bindTap(".reg", tapReg);
+bindTap(".input-btn", openInputModal);
+bindTap(".judge-btn", openJudgeModal);
 
 /* ========================================
    3. 入力モーダル
