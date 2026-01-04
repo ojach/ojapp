@@ -1,11 +1,12 @@
-/* 全体黒背景 */
+/* ======================================================
+   基本レイアウト
+====================================================== */
 body {
   background: #000;
   margin: 0;
   height: 100vh;
   overflow: hidden;
   font-family: sans-serif;
-  position:relative;
 }
 
 /* 画面固定 */
@@ -15,15 +16,17 @@ body {
   height: 100%;
 }
 
-/* ==== 丸ボタン ==== */
+/* ======================================================
+   丸ボタン
+====================================================== */
 .circle {
   position: absolute;
   border-radius: 50%;
   transition: opacity 0.12s;
-   z-index: 1; 
+  z-index: 1;               /* モーダルより下 */
+  pointer-events: auto;     /* タップ可能 */
 }
 
-/* タップ時の透明化 */
 .circle:active {
   opacity: 0.3;
 }
@@ -74,28 +77,42 @@ body {
   transform: translateX(-50%);
 }
 
-
-/* ===== モーダル ===== */
+/* ======================================================
+   モーダル（完全統一版）
+====================================================== */
 .modal {
-  display: none;
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(4px);
+  display: none;              /* 初期非表示 */
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;             /* 最前面 */
+  pointer-events: auto;       /* 背景クリックOK */
 }
 
+/* モーダルを表示する class */
+.modal.show {
+  display: flex !important;
+}
+
+/* モーダルの中身 */
 .modal-content {
-  width: 90%;
-  max-width: 380px;
   background: #111;
+  padding: 24px;
+  border-radius: 16px;
   color: #fff;
-  padding: 25px;
-  margin: 120px auto 0;
-  border-radius: 20px;
+  width: 80%;
+  max-width: 360px;
   text-align: center;
-  border: 1px solid #333;
+  z-index: 100000;            /* 中身はさらに上 */
+  pointer-events: auto;       /* クリック可能 */
 }
 
+/* 入力欄 */
 .modal input {
   width: 90%;
   margin: 10px 0 20px;
@@ -107,199 +124,24 @@ body {
   color: #fff;
 }
 
-.modal-close {
-  width: 100%;
-  padding: 12px;
-  background: #2979FF;
-  border: none;
-  color: #fff;
-  border-radius: 12px;
-  font-size: 18px;
-  margin-top: 10px;
-}
-#judge-modal {
-  background: #000;
-  color: #fff;
-  padding: 24px;
-  border-radius: 20px 20px 0 0;
-  text-align: center;
-  font-family: -apple-system, sans-serif;
-}
-
-.judge-title {
-  font-size: 18px;
-  opacity: .7;
-}
-
-.judge-main {
-  font-size: 26px;
-  margin: 10px 0 20px;
-}
-
-.judge-main span {
-  font-size: 30px;
-  color: #2bb7ff;
-  font-weight: bold;
-}
-
-.judge-sub {
-  font-size: 15px;
-  opacity: .9;
-  line-height: 1.6;
-}
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.55);
-  display: none;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 9999; /* ← これが絶対必要 */
-  pointer-events: auto; /* ← 念のため追加 */
-}
-
-.modal-content {
-  background: #111;
-  padding: 20px;
-  border-radius: 14px;
-  width: 80%;
-  max-width: 360px;
-  color: #fff;
-  z-index: 10000; /* ← さらに上 */
-}
-body.modal-open {
-  pointer-events: none;
-}
-
-.modal {
-  pointer-events: auto;
-}
-/* ============================
-   モーダル（ステルス専用）
-============================ */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.55);
-  display: none;          /* 初期非表示 */
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;          /* ← 常に最前面 */
-  pointer-events: auto;   /* ← 重要 */
-}
-
-.modal.show {
-  display: flex !important; /* ← Safari でも確実に前面に */
-}
-
-.modal-content {
-  background: #111;
-  padding: 20px;
-  border-radius: 14px;
-  width: 80%;
-  max-width: 360px;
-  color: #fff;
-  z-index: 10000;    /* ← 中身がさらに上 */
-}
-
-/* ============================
-   丸（タップ対象）がモーダルの邪魔をしない
-============================ */
-.circle {
-  position: absolute;
-  z-index: 1;     /* ← モーダルの下に固定 */
-}
-/* ▼ モーダル：最前面で確実にタップを取る */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.55);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;          /* ← 最前面固定 */
-  pointer-events: auto;
-}
-
-.modal.show {
-  display: flex !important; /* Safari完全対応 */
-}
-
-/* モーダルの中身 */
-.modal-content {
-  background: #111;
-  padding: 20px;
-  border-radius: 14px;
-  width: 80%;
-  max-width: 360px;
-  color: #fff;
-  z-index: 100000; /* さらに上（念押し） */
-}
-
-/* ▼ 丸がタップを奪わないように z-index を下げる */
-.circle {
-  position: absolute;
-  z-index: 1 !important;  /* ← ココで全部解決 */
-  pointer-events: auto;
-}
-/* ▼ モーダル背景 */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  pointer-events: auto; /* ← 最重要（クリック拾う） */
-}
-
-.modal.show {
-  display: flex !important;
-}
-
-/* ▼ モーダル中身（閉じるボタン含む） */
-.modal-content {
-  background: #111;
-  padding: 24px;
-  border-radius: 16px;
-  color: #fff;
-  width: 80%;
-  max-width: 360px;
-  text-align: center;
-  z-index: 100000;
-  pointer-events: auto; /* ← 最重要（中がクリックできる） */
-}
-
-/* ▼ 丸が邪魔しないように必ず下にする */
-.circle {
-  position: absolute;
-  z-index: 1 !important;
-  pointer-events: auto; 
-}
-
-/* ▼ 「閉じる」ボタン */
+/* 閉じるボタン */
 .modal-close {
   background: #2b7bff;
   color: #fff;
   border: none;
   padding: 12px 0;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 100%;
   font-size: 18px;
   margin-top: 20px;
   cursor: pointer;
 }
+
+/* ======================================================
+   推測結果（ステルス表示用）
+====================================================== */
+#judgeResult {
+  font-size: 22px;
+  padding-top: 10px;
+}
+
