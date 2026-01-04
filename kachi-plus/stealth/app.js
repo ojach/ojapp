@@ -146,7 +146,7 @@ function showJudgeResult() {
   // ★ ステルス仕様：最高設定だけ表示
   document.getElementById("judgeResult").innerHTML = `
     <div class="judgeBox">
-      <div class="judgeMain">【 ${r.best} 】 : ${r.percent.toFixed(1)}%</div>
+      <div class="judgeMain">【 <strong>${r.best}</strong> 】 : ${r.percent.toFixed(1)}%</div>
       <div class="judgeSub">
         BIG：${big} / REG：${reg}<br>
         🍇：${grape} [${grapeRate}]
