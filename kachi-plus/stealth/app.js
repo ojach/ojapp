@@ -16,10 +16,13 @@ function tapBig()   { big++; }
 function tapReg()   { reg++; }
 function bindTap(selector, handler) {
   const el = document.querySelector(selector);
-  el.addEventListener("click", handler);
-  el.addEventListener("touchstart", handler);
-  el.addEventListener("pointerdown", handler);
+
+  el.addEventListener("touchstart", (e) => {
+    e.preventDefault();    // ← click を殺す
+    handler();             // ← 1タップ1回だけ
+  }, { passive: false });
 }
+
 
 bindTap(".grape", tapGrape);
 bindTap(".big", tapBig);
