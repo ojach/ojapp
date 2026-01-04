@@ -140,18 +140,16 @@ function showJudgeResult() {
   const gGames = Math.max(0, totalGames - prevGames);
   const totalBonus = big + reg;
 
-  const totalRate = totalBonus === 0 ? "1/0" : "1/" + (totalGames / totalBonus).toFixed(2);
+  //const totalRate = totalBonus === 0 ? "1/0" : "1/" + (totalGames / totalBonus).toFixed(2);
   const grapeRate = grape === 0 ? "1/0" : "1/" + (gGames / grape).toFixed(2);
 
   // ★ ステルス仕様：最高設定だけ表示
   document.getElementById("judgeResult").innerHTML = `
     <div class="judgeBox">
-      <div class="judgeTitle">推測結果</div>
-      <div class="judgeMain">設定${r.best}（${r.percent.toFixed(1)}%）</div>
+      <div class="judgeMain">推測設定${r.best} : ${r.percent.toFixed(1)}%</div>
       <div class="judgeSub">
         BIG：${big} / REG：${reg}<br>
-        合算：${totalRate}<br>
-        ぶどう：${grapeRate}
+        🍇：${grape} [${grapeRate}]
       </div>
     </div>
   `;
