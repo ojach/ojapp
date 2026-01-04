@@ -17,11 +17,22 @@ function tapReg()   { reg++; }
 function bindTap(selector, handler) {
   const el = document.querySelector(selector);
 
+  let touched = false;
+
+  // スマホ用（最優先）
   el.addEventListener("touchstart", (e) => {
-    e.preventDefault();    // ← click を殺す
-    handler();             // ← 1タップ1回だけ
+    e.preventDefault();
+    touched = true;
+    handler();
   }, { passive: false });
+
+  // PC用（タッチでは発火しない）
+  el.addEventListener("click", () => {
+    if (!touched) handler();
+    touched = false; // 次のタップに備える
+  });
 }
+
 
 
 bindTap(".grape", tapGrape);
