@@ -31,25 +31,26 @@ bindTap(".judge-btn", openJudgeModal);
    3. 入力モーダル
 ======================================== */
 function openInputModal() {
-  document.getElementById("inputModal").style.display = "block";
+  document.getElementById("inputModal").classList.add("show");
 }
 
 function closeInputModal() {
   totalGames = parseInt(document.getElementById("gamesInput").value || 0);
   prevGames  = parseInt(document.getElementById("gamesPrev").value || 0);
-  document.getElementById("inputModal").style.display = "none";
+  document.getElementById("inputModal").classList.remove("show");
 }
+
 
 /* ========================================
    4. 設定推測モーダルを開く
 ======================================== */
 function openJudgeModal() {
-  showJudgeResult();
-  document.getElementById("judgeModal").style.display = "block";
+  document.getElementById("judgeModal").classList.add("show");
+  updateJudgeResult();
 }
 
 function closeJudgeModal() {
-  document.getElementById("judgeModal").style.display = "none";
+  document.getElementById("judgeModal").classList.remove("show");
 }
 
 /* ========================================
