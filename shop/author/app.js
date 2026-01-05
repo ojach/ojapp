@@ -24,25 +24,34 @@ function renderSNS(data) {
 const base = "/shop/author/sns-icon/";
  const snsList = [
    { key: "sns_x", url: data.sns_x, file: "x.svg" },
+    { key: "dummy2",      url: "__dummy__",      file: ""      }, 
   { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Black.svg" },
-    { key: "sns_threads", url: data.sns_threads, file: "Instagram_Glyph_Black.svg" },
+    { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
     { key: "sns_booth",   url: data.sns_booth,   file: "booth.svg" },
     { key: "sns_site",    url: data.sns_site,    file: "link.svg" }
   ];
   
 
  snsList.forEach(s => {
+    const a = document.createElement("a");
+    a.className = "sns-icon";
+
+    // ダミー枠
+    if (s.key === "dummy2") {
+      a.classList.add("sns-dummy");
+      snsArea.appendChild(a);
+      return;
+    }
+
     if (!s.url) return;
 
-    const a = document.createElement("a");
     a.href = s.url;
     a.target = "_blank";
-    a.className = "sns-icon";
 
     const img = document.createElement("img");
     img.src = base + s.file;
-    img.width = 22;
-    img.height = 22;
+    img.width = 24;
+    img.height = 24;
 
     a.appendChild(img);
     snsArea.appendChild(a);
