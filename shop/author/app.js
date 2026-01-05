@@ -23,7 +23,7 @@ function renderSNS(data) {
   snsArea.innerHTML = "";
 const base = "/shop/author/sns-icon/";
  const snsList = [
-   { key: "sns_x", url: data.sns_x, file: "x.svg" }, 
+   { key: "sns_x", url: data.sns_x, file: "x.svg" },
   { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Black.svg" },
     { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
     { key: "sns_booth",   url: data.sns_booth,   file: "booth.svg" },
@@ -32,31 +32,22 @@ const base = "/shop/author/sns-icon/";
   
 
  snsList.forEach(s => {
-    const a = document.createElement("a");
-    a.className = "sns-icon";
-
-    // ダミー枠
-    if (s.key === "dummy2") {
-      a.classList.add("sns-dummy");
-      snsArea.appendChild(a);
-      return;
-    }
-
     if (!s.url) return;
 
+    const a = document.createElement("a");
     a.href = s.url;
     a.target = "_blank";
+    a.className = "sns-icon";
 
     const img = document.createElement("img");
     img.src = base + s.file;
-    img.width = 24;
-    img.height = 24;
+    img.width = 22;
+    img.height = 22;
 
     a.appendChild(img);
     snsArea.appendChild(a);
   });
 }
-
 /* =====================================
    商品数カウント
 ===================================== */
