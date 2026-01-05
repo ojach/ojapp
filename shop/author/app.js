@@ -24,30 +24,14 @@ function renderSNS(data) {
 const base = "/shop/author/sns-icon/";
  const snsList = [
    { key: "sns_x", url: data.sns_x, file: "x.svg" },
-  { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Black.svg" },
-    { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
+   { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
+    { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Black.svg" },
     { key: "sns_booth",   url: data.sns_booth,   file: "booth.svg" },
     { key: "sns_site",    url: data.sns_site,    file: "link.svg" }
   ];
   
 
-  snsList.forEach(s => {
-    if (!s.url) return;
-
-    const a = document.createElement("a");
-    a.href = s.url;
-    a.target = "_blank";
-
-    const img = document.createElement("img");
-    img.src = base + s.file;
-    img.width = 22;
-    img.height = 22;
-     
-    a.appendChild(img);
-    snsArea.appendChild(a);
-  });
-}
-/* snsList.forEach(s => {
+ snsList.forEach(s => {
     if (!s.url) return;
 
     const a = document.createElement("a");
@@ -63,7 +47,7 @@ const base = "/shop/author/sns-icon/";
     a.appendChild(img);
     snsArea.appendChild(a);
   });
-} */
+} 
 /* =====================================
    商品数カウント
 ===================================== */
