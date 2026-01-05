@@ -144,7 +144,7 @@ main.author-header {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* ← 5個均等配置 */
   gap: 10px;
-  padding: 16px 20px 18px 20px;
+  padding: 14px 18px 14px 18px;
   align-items: center;
   justify-items: center;
 }
