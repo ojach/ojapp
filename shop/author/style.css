@@ -142,12 +142,18 @@ main.author-header {
 ======================================== */
 .sns-row {
     display: flex;
+   justify-content: space-between;
 /* display: grid;
  /* grid-template-columns: repeat(5, 1fr); /* ← 5個均等配置 */
  gap: 18px;
   padding: 14px 18px 14px 18px; 
   align-items: center;
  /* justify-items: center; */
+}
+.sns-row a {
+  flex: 1 1 auto;          /* ← 各アイコンの領域を均等化 */
+  display: flex;
+  justify-content: center; /* アイコンを中央寄せ */
 }
 .sns-row img {
   width: 22px;
