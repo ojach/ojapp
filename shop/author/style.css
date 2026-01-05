@@ -149,8 +149,8 @@ main.author-header {
   justify-items: center; 
 }
 .sns-row img {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   opacity: 1;
   filter: invert(0);
 }  
@@ -158,6 +158,14 @@ main.author-header {
 /* ダークで白く */
 .dark .sns-row img {
   filter: invert(1);
+}
+.sns-row svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dark .sns-row svg {
+  color: white;
 }
 
 /* ====================================
