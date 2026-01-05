@@ -141,20 +141,28 @@ main.author-header {
    SNSアイコン（グリッド等間隔）
 ======================================== */
 .sns-row {
-  display: grid;
+ /* display: grid;
   grid-template-columns: repeat(5, 1fr); /* ← 5個均等配置 */
-  gap: 10px;
-  padding: 14px 18px 14px 18px;
+  /* gap: 10px;
+  padding: 14px 18px 14px 18px; 
   align-items: center;
-  justify-items: center;
+  justify-items: center; */
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
 }
-
-.sns-row img {
+.sns-row a {
+  flex: 1 1 auto;          /* ← 各アイコンの領域を均等化 */
+  display: flex;
+  justify-content: center; /* アイコンを中央寄せ */
+}
+/*.sns-row img {
   width: 24px;
   height: 24px;
   opacity: 1;
   filter: invert(0);
-}
+}  */
 
 /* ダークで白く */
 .dark .sns-row img {
