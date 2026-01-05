@@ -141,12 +141,13 @@ main.author-header {
    SNSアイコン（グリッド等間隔）
 ======================================== */
 .sns-row {
- display: grid;
-  grid-template-columns: repeat(5, 1fr); /* ← 5個均等配置 */
- gap: 10px;
+    display: flex;
+/* display: grid;
+ /* grid-template-columns: repeat(5, 1fr); /* ← 5個均等配置 */
+ gap: 18px;
   padding: 14px 18px 14px 18px; 
   align-items: center;
-  justify-items: center; 
+ /* justify-items: center; */
 }
 .sns-row img {
   width: 22px;
@@ -162,6 +163,8 @@ main.author-header {
 .sns-row svg {
   width: 22px;
   height: 22px;
+   display: block;
+}
    filter: invert(0);
 }
 
