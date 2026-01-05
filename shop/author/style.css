@@ -261,7 +261,7 @@ main.author-header {
   width: 100%;
 }
 .sns-dummy {
-  width: 24px;
+  width: 0.1px;
   height: 24px;
   visibility: hidden;
 }
