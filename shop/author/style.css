@@ -260,5 +260,10 @@ main.author-header {
   height: 1px;
   width: 100%;
 }
+.sns-dummy {
+  width: 24px;
+  height: 24px;
+  visibility: hidden;
+}
 
 
