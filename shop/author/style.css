@@ -142,25 +142,23 @@ main.author-header {
 ======================================== */
 .sns-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* ← 5個均等配置 */
-  gap: 10px;
-  padding: 14px 18px 14px 18px;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(20px, auto);
+  gap: 20px;
+  justify-content: center;
   align-items: center;
-  justify-items: center;
 }
 
 .sns-row img {
-   display: block;
   width: 24px;
   height: 24px;
-  opacity: 1;
-  filter: invert(0);
+  display: block;
 }
 
-/* ダークで白く */
 .dark .sns-row img {
   filter: invert(1);
 }
+
 /* ====================================
    Item Grid (3 columns)
 ==================================== */
@@ -259,11 +257,6 @@ main.author-header {
 .banner-bottom-space {
   height: 1px;
   width: 100%;
-}
-.sns-dummy {
-  width: 0.1px;
-  height: 24px;
-  visibility: hidden;
 }
 
 
