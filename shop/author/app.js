@@ -40,7 +40,9 @@ const base = "/shop/author/sns-icon/";
 
     const img = document.createElement("img");
     img.src = base + s.file;
-
+    img.width = 22;
+    img.height = 22;
+     
     a.appendChild(img);
     snsArea.appendChild(a);
   });
