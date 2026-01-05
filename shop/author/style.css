@@ -162,10 +162,11 @@ main.author-header {
 .sns-row svg {
   width: 22px;
   height: 22px;
+   filter: invert(0);
 }
 
 .dark .sns-row svg {
-  color: white;
+ filter: invert(1);
 }
 
 /* ====================================
