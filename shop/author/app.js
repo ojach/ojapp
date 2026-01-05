@@ -31,7 +31,21 @@ const base = "/shop/author/sns-icon/";
   ];
   
 
- snsList.forEach(s => {
+  snsList.forEach(s => {
+    if (!s.url) return;
+
+    const a = document.createElement("a");
+    a.href = s.url;
+    a.target = "_blank";
+
+    const img = document.createElement("img");
+    img.src = base + s.file;
+
+    a.appendChild(img);
+    snsArea.appendChild(a);
+  });
+}
+/* snsList.forEach(s => {
     if (!s.url) return;
 
     const a = document.createElement("a");
@@ -47,7 +61,7 @@ const base = "/shop/author/sns-icon/";
     a.appendChild(img);
     snsArea.appendChild(a);
   });
-}
+} */
 /* =====================================
    商品数カウント
 ===================================== */
