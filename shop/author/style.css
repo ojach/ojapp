@@ -263,5 +263,11 @@ main.author-header {
   height: 1px;
   width: 100%;
 }
+/* 長押しメニュー禁止（iOS最強） */
+.item-thumb {
+  -webkit-touch-callout: none; /* 長押しメニュー */
+  -webkit-user-select: none;   /* 選択禁止 */
+  user-select: none;    
+}
 
 
