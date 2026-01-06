@@ -23,7 +23,7 @@ function renderSNS(data) {
   snsArea.innerHTML = "";
 const base = "/shop/author/sns-icon/";
  const snsList = [
-    { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Black.svg" },
+    { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Gradient.png" },
    { key: "sns_x", url: data.sns_x, file: "x.svg" },
    { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
      { key: "sns_booth",   url: data.sns_booth,   file: "booth.svg" },
