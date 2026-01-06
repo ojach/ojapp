@@ -154,8 +154,15 @@ main.author-header {
   opacity: 1;
    filter: invert(0);
 }   
-.dark .sns-row img {
- filter: invert(1);
+
+/* ダークモードでは SVG だけ反転
+   （Instagram PNG は除外する） */
+.dark .sns-row img:not(.no-invert) {
+  filter: invert(1);
+}
+/* Instagram PNG 用：絶対に反転させない */
+.sns-row img.no-invert {
+  filter: none !important;
 }
 /* ====================================
    Item Grid (3 columns)
