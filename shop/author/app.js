@@ -23,11 +23,11 @@ function renderSNS(data) {
   snsArea.innerHTML = "";
 const base = "/shop/author/sns-icon/";
    const snsList = [
-   { key: "sns_x", url: data.sns_x, svg: "x.svg" },
-   { key: "sns_threads", url: data.sns_threads, svg: "threads.svg" },
+   { key: "sns_x", url: data.sns_x, file: "x.svg" },
+   { key: "sns_threads", url: data.sns_threads, file: "threads.svg" },
       { key: "sns_insta", url: data.sns_insta, file: "Instagram_Glyph_Gradient.png" },
-     { key: "sns_booth",   url: data.sns_booth,   svg: "booth.svg" },
-    { key: "sns_site",    url: data.sns_site,    svg: "link.svg" }
+     { key: "sns_booth",   url: data.sns_booth,   file: "booth.svg" },
+    { key: "sns_site",    url: data.sns_site,    file: "link.svg" }
   ];
  /* const snsList = [
      
@@ -65,11 +65,6 @@ snsList.forEach(s => {
     img.src = base + s.file;
     img.width = 22;
     img.height = 22;
-
-     const svg = document.createElement("svg");
-    svg.src = base + s.svg;
-    svg.width = 22;
-    svg.height = 22;
 
     a.appendChild(img);
     snsArea.appendChild(a);
