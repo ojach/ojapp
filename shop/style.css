@@ -843,3 +843,9 @@ input:focus {
   object-fit: cover;
 }
 
+/* 長押しメニュー禁止（iOS最強） */
+.item-thumb {
+  -webkit-touch-callout: none; /* 長押しメニュー */
+  -webkit-user-select: none;   /* 選択禁止 */
+  user-select: none;    
+}
