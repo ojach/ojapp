@@ -152,13 +152,9 @@ main.author-header {
   width: 22px;
   height: 22px;
   opacity: 1;
-  filter: invert(0);
 }  
 
 /* ダークで白く */
-.dark .sns-row img {
-  filter: invert(1);
-}
 .sns-row svg {
   width: 22px;
   height: 22px;
