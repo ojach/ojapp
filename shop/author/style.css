@@ -142,11 +142,11 @@ main.author-header {
 ======================================== */
 .sns-row {
  display: grid;
-  grid-template-columns: 42px 42px 42px 42px 42px;/* ← 5個均等配置 */
- gap: 0px;
-  padding: 14px 18px 14px 18px; 
+  grid-template-columns: repeat(5, 1fr); /* ← 5枠均等 */
+  gap: 12px;
+  padding: 14px 18px 12px 18px; 
   align-items: center;
-  justify-items: end; 
+  justify-items: center; 
 }
 .sns-row img {
   width: 22px;
