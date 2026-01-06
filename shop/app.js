@@ -12,6 +12,11 @@ const IS_ADMIN = Boolean(ADMIN_NAME);
 let items = [];
 let viewItems = [];
 
+document.addEventListener("contextmenu", e => {
+  if (e.target.classList.contains("item-thumb")) {
+    e.preventDefault();
+  }
+});
 
 // ===============================
 // 商品一覧取得
