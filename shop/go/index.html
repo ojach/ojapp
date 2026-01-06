@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Redirecting...</title>
+</head>
+<body>
+<script>
+  const params = new URLSearchParams(location.search);
+  const url = params.get("url");
+
+  if (url) {
+    location.href = url;
+  } else {
+    document.body.textContent = "Invalid URL";
+  }
+</script>
+</body>
+</html>
