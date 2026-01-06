@@ -263,32 +263,31 @@ main.author-header {
   height: 1px;
   width: 100%;
 }
-/* 長押しメニュー禁止（iOS最強） */
-.item-thumb {
-  -webkit-touch-callout: none; /* 長押しメニュー */
+/* ============================================
+   作者ページ：画像コピー・保存の完全禁止
+============================================ */
+
+/* 作者アイコン（丸画像） */
+.author-icon {
+  -webkit-touch-callout: none; /* iOS 長押し保存メニュー */
   -webkit-user-select: none;   /* 選択禁止 */
-  user-select: none;    
+  user-select: none;
+  pointer-events: none;        /* タップの保存封じ */
 }
 
-/* サムネ箱は相対位置 */
-.item-thumb-box {
-  position: relative;
+/* バナー画像（背景扱い） */
+.author-banner {
+  pointer-events: none;        /* 背景画像の長押し抑止 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-/* 透明オーバーレイ（画像保存を完全ブロック） */
-.item-thumb-box::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-
-  /* 完全透明 */
-  background: rgba(0,0,0,0);
-
-  /* 画像として扱わせない */
-  pointer-events: auto;
+/* 商品グリッドの画像 */
+#itemGrid img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
 }
 
