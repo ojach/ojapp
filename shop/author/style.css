@@ -152,14 +152,9 @@ main.author-header {
   width: 22px;
   height: 22px;
   opacity: 1;
-}  
-.sns-row svg {
-  width: 22px;
-  height: 22px;
-  opacity: 1;
    filter: invert(0);
-}  
-.dark .sns-row svg {
+}   
+.dark .sns-row img {
  filter: invert(1);
 }
 /* ====================================
