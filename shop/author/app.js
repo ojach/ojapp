@@ -4,6 +4,12 @@ const DEFAULT_ICON = "https://ojapp.app/shop/author/ojach.png";
 const params = new URL(location.href).searchParams;
 const author_key = params.get("key");
 
+document.addEventListener("contextmenu", e => {
+  if (e.target.classList.contains("item-thumb")) {
+    e.preventDefault();
+  }
+});
+
 /* =====================================
    Base64URL → 作者名
 ===================================== */
