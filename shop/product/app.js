@@ -20,6 +20,12 @@ async function loadProduct() {
     return;
   }
 
+  document.addEventListener("contextmenu", e => {
+  if (e.target.classList.contains("item-thumb")) {
+    e.preventDefault();
+  }
+});
+
   // ===============================
   //  商品表示
   // ===============================
