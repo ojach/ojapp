@@ -39,7 +39,7 @@ const base = "/shop/author/sns-icon/";
   { key: "sns_booth", url: data.sns_booth, svg: SVG_BOOTH },
   { key: "sns_site", url: data.sns_site, svg: SVG_LINK }
 ];
-/*snsList.forEach(s => {
+snsList.forEach(s => {
   if (!s.url) return;
 
   const a = document.createElement("a");
@@ -52,7 +52,7 @@ const base = "/shop/author/sns-icon/";
   `;
 
   snsArea.appendChild(a);
-   });*/
+   });
 /*snsList.forEach(s => {
     if (!s.url) return;
 
