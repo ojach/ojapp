@@ -20,19 +20,24 @@ async function loadProduct() {
     return;
   }
 
+  // ===============================
+  // 長押し保存メニュー禁止（iOS）
+  // ===============================
   document.addEventListener("contextmenu", e => {
-  if (e.target.classList.contains("item-thumb")) {
-    e.preventDefault();
-  }
-});
+    if (e.target.id === "product-img") e.preventDefault();
+  });
+
+  const productImg = document.getElementById("product-img");
+  productImg.style.pointerEvents = "none";  // ← 最強の一撃
+  productImg.style.webkitUserSelect = "none";
+  productImg.style.userSelect = "none";
 
   // ===============================
-  //  商品表示
+  // 商品表示
   // ===============================
 
   // 画像
-  document.getElementById("product-img").src =
-    `${API_BASE}/shop/r2/${item.thumbnail}`;
+  productImg.src = `${API_BASE}/shop/r2/${item.thumbnail}`;
 
   // タイトル
   document.getElementById("product-title").textContent = item.title;
@@ -45,57 +50,59 @@ async function loadProduct() {
   nameEl.textContent = item.author;
 
   // ===============================
-  //  作者ページへ遷移（← NEW）
+  // 作者ページへ遷移
   // ===============================
-
   const toAuthorPage = () => {
     location.href = `/shop/author/?key=${item.author_key}`;
   };
-
   iconEl.addEventListener("click", toAuthorPage);
   nameEl.addEventListener("click", toAuthorPage);
 
-// ===============================
-// ❤️ お気に入りボタン
-// ===============================
-const favBtn = document.getElementById("fav-btn");
-const favCountEl = document.getElementById("fav-count");
+  // ===============================
+  // ❤️ お気に入りボタン（1回だけ）
+  // ===============================
+  const favBtn = document.getElementById("fav-btn");
+  const favCountEl = document.getElementById("fav-count");
 
-// 初期表示（数字だけ）
-favCountEl.textContent = item.favorite_count;
+  // 初期表示
+  favCountEl.textContent = item.favorite_count;
 
-// すでに押した？
-if (localStorage.getItem(`liked_${item.product_id}`)) {
-  favBtn.textContent = "❤️";
-  favBtn.style.pointerEvents = "none";
-}
+  const localKey = `fav_${item.product_id}`;
 
-// 押した時
-favBtn.addEventListener("click", async () => {
-  if (localStorage.getItem(`liked_${item.product_id}`)) return;
-
-  favBtn.style.pointerEvents = "none";
-
-  const res = await fetch(`${API_BASE}/shop/api/fav?id=${item.product_id}`, {
-    method: "POST"
-  });
-  const json = await res.json();
-
-  if (json.ok) {
-    favCountEl.textContent = json.favorite_count;
+  // すでに押した？
+  if (localStorage.getItem(localKey)) {
     favBtn.textContent = "❤️";
-    localStorage.setItem(`liked_${item.product_id}`, "1");
+    favBtn.classList.add("active");
+    favBtn.style.pointerEvents = "none";
   }
-});
+
+  // 押した時
+  favBtn.addEventListener("click", async () => {
+    if (localStorage.getItem(localKey)) return;
+
+    favBtn.style.pointerEvents = "none";
+
+    const res = await fetch(`${API_BASE}/shop/api/fav?id=${item.product_id}`, {
+      method: "POST"
+    });
+    const json = await res.json();
+
+    if (json.ok) {
+      favBtn.textContent = "❤️";
+      favBtn.classList.add("active");
+      favCountEl.textContent = json.favorite_count;
+      localStorage.setItem(localKey, "1");
+    }
+  });
 
   // ===============================
-  //  価格
+  // 価格
   // ===============================
   const priceEl = document.getElementById("price");
   priceEl.textContent = `${item.price}円`;
 
   // ===============================
-  //  ボタン（無料/有料）
+  // ボタン
   // ===============================
   const btn = document.getElementById("buy-btn");
   btn.href = item.product_url;
@@ -107,7 +114,7 @@ favBtn.addEventListener("click", async () => {
   }
 
   // ===============================
-  //  view_count +1
+  // view_count +1
   // ===============================
   fetch(`${API_BASE}/shop/api/view`, {
     method: "POST",
