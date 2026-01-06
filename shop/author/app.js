@@ -57,7 +57,7 @@ snsList.forEach(s => {
     if (!s.url) return;
 
     const a = document.createElement("a");
-    a.href = s.url;
+    a.href = `/shop/go/?url=${encodeURIComponent(s.url)}`;
     a.target = "_blank";
     a.className = "sns-icon";
 
