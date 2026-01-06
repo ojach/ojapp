@@ -5,10 +5,15 @@ const params = new URL(location.href).searchParams;
 const author_key = params.get("key");
 
 document.addEventListener("contextmenu", e => {
-  if (e.target.classList.contains("item-thumb")) {
+  if (
+    e.target.classList.contains("author-icon") ||
+    e.target.closest(".author-banner") ||
+    e.target.closest("#itemGrid")
+  ) {
     e.preventDefault();
   }
 });
+
 
 /* =====================================
    Base64URL → 作者名
