@@ -30,10 +30,10 @@ const base = "/shop/author/sns-icon/";
     { key: "sns_site",    url: data.sns_site,    file: "link.svg" }
   ];*/
   const snsList = [
-     { key: "sns_x", url: data.sns_x, svg: SVG_dammy },
-  { key: "sns_insta", url: data.sns_insta, svg: SVG_X },
-  
      
+  { key: "sns_x", url: data.sns_x, svg: SVG_X },
+  
+     { key: "sns_insta", url: data.sns_insta, svg: SVG_dammy },
      { key: "sns_insta", url: data.sns_insta, svg: SVG_INSTAGRAM },
   { key: "sns_threads", url: data.sns_threads, svg: SVG_THREADS },
   { key: "sns_booth", url: data.sns_booth, svg: SVG_BOOTH },
