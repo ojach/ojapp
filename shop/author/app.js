@@ -144,7 +144,7 @@ document.getElementById("authorName").textContent =
   // SNS 読み込み
   renderSNS(data);
 }
-
+document.title = `${name} のアイコン作品一覧 | OJapp Shop`;
 
 
 /* =====================================
