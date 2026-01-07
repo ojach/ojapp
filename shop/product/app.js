@@ -49,6 +49,13 @@ async function loadProduct() {
   iconEl.src = `${API_BASE}/shop/r2/authors/${item.author_key}.png`;
   nameEl.textContent = item.author;
 
+  // バッヂ
+  let badge = "";
+  if (authorInfo.founder) badge += " ⭐";
+  if (authorInfo.supporter) badge += " 💝";
+
+nameEl.textContent = item.author + badge;
+
   // ===============================
   // 作者ページへ遷移
   // ===============================
