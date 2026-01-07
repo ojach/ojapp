@@ -203,5 +203,4 @@ body {
   -webkit-touch-callout: none; /* iOS 長押し保存メニュー */
   -webkit-user-select: none;   /* 選択禁止 */
   user-select: none;
-   pointer-events: none;  
 }
