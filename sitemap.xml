@@ -1,77 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- OJapp メイン -->
-  <url>
-    <loc>https://ojapp.app/</loc>
-    <priority>1.0</priority>
-    <changefreq>weekly</changefreq>
-  </url>
+  <sitemap>
+    <loc>https://ojapp.app/sitemap-main.xml</loc>
+  </sitemap>
 
-  <!-- splitter -->
-  <url>
-    <loc>https://ojapp.app/split/</loc>
-    <priority>0.9</priority>
-    <changefreq>weekly</changefreq>
-  </url>
+  <sitemap>
+    <loc>https://ojapp.app/shop/sitemap.xml</loc>
+  </sitemap>
 
-  <!-- splitter 説明 -->
-  <url>
-    <loc>https://ojapp.app/split-info/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- ガイド -->
-  <url>
-    <loc>https://ojapp.app/guide/</loc>
-    <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- FAQ -->
-  <url>
-    <loc>https://ojapp.app/faq/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- 安全ガイド -->
-  <url>
-    <loc>https://ojapp.app/safety/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- サポート -->
-  <url>
-    <loc>https://ojapp.app/support/</loc>
-    <priority>0.6</priority>
-    <changefreq>yearly</changefreq>
-  </url>
-
-  <!-- Web to App -->
-  <url>
-    <loc>https://ojapp.app/web-to-app/</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- 更新履歴 -->
-  <url>
-    <loc>https://ojapp.app/changelog/</loc>
-    <priority>0.5</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- OJapp Shop -->
-  <url>
-    <loc>https://ojapp.app/shop/</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-
-</urlset>
+</sitemapindex>
 
