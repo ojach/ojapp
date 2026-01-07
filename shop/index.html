@@ -3,13 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OJapp アイコンショップ</title>
+<title>OJapp Shop — 個性が光るスマホアイコンのマーケット</title>
+<meta name="description" content="OJapp Shop は、クリエイターが自由にスマホアイコンを共有できる新しいマーケット。無料アイコンや販売リンクに対応。作者ページ・リンク・SNS連携がワンセット。">
 
   <!-- ファビコン（超重要） -->
   <link rel="icon" href="/shop/favicon3.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/shop/iconki.png">
 
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "${item.title}",
+  "image": "${API_BASE}/shop/r2/${item.thumbnail}",
+  "brand": "${item.author}",
+  "offers": {
+    "@type": "Offer",
+    "price": "${item.price}",
+    "priceCurrency": "JPY",
+    "availability": "https://schema.org/InStock",
+    "url": "https://ojach.com/shop/product/?id=${item.product_id}"
+  }
+}
+</script>
 
   <!-- shop専用CSS -->
   <link rel="stylesheet" href="/shop/style.css">
