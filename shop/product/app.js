@@ -49,7 +49,7 @@ document.title = `${item.title} | OJapp Shop`;
   iconEl.src = `${API_BASE}/shop/r2/authors/${item.author_key}.png`;
   nameEl.textContent = item.author;
 
-nameEl.textContent = item.author + badge;
+
 
   // ===============================
   // 作者ページへ遷移
