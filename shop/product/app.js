@@ -19,7 +19,7 @@ async function loadProduct() {
     alert("商品が見つかりません");
     return;
   }
-
+document.title = `${item.title} | OJapp Shop`;
   // ===============================
   // 長押し保存メニュー禁止（iOS）
   // ===============================
