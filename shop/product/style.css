@@ -199,9 +199,3 @@ body {
   user-select: none;    
    pointer-events: none;   
 }
-
-.author-icon {
-  -webkit-touch-callout: none; /* iOS 長押し保存メニュー */
-  -webkit-user-select: none;   /* 選択禁止 */
-  user-select: none;    
-}
