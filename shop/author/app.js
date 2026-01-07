@@ -112,6 +112,7 @@ async function loadAuthor() {
   // 名前
   document.getElementById("authorName").textContent =
     decodeAuthorKey(author_key);
+  document.title = `${name} のアイコン作品一覧 | OJapp Shop`;
   // バッヂ
   let badge = "";
 if (data.founder) badge += " ⭐";
@@ -144,7 +145,7 @@ document.getElementById("authorName").textContent =
   // SNS 読み込み
   renderSNS(data);
 }
-document.title = `${name} のアイコン作品一覧 | OJapp Shop`;
+
 
 
 /* =====================================
