@@ -112,6 +112,13 @@ async function loadAuthor() {
   // 名前
   document.getElementById("authorName").textContent =
     decodeAuthorKey(author_key);
+  // バッヂ
+  let badge = "";
+if (data.founder) badge += " ⭐";
+if (data.supporter) badge += " 💝";
+
+document.getElementById("authorName").textContent =
+  decodeAuthorKey(author_key) + badge;
 
   // 自己紹介
   document.getElementById("authorProfile").textContent =
