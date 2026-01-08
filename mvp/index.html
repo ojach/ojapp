@@ -3,12 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <title>OJapp CopyGuard MVP</title>
+
+<!-- Interフォント（OJapp Sansとして採用） -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-  body { font-family: 'Inter', sans-serif; margin: 20px; background:#f8f8f8;}
-  input, select { margin: 8px 0; }
-  canvas { width: 100%; max-width: 500px; background:#ddd; }
-  .section { margin-bottom: 20px; }
+/* ======================
+      全体レイアウト
+====================== */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f5f7fb;
+    color: #222;
+}
+
+h2 {
+    margin: 0 0 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* ======================
+      コンテナ
+====================== */
+.section {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* ======================
+      input系
+====================== */
+input[type="file"] {
+    padding: 8px;
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    width: 100%;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e0e3eb;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+input[type="text"]:focus {
+    border-color: #5c8aff;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #e0e3eb;
+    font-size: 16px;
+    outline: none;
+}
+select:focus {
+    border-color: #5c8aff;
+}
+
+/* ======================
+      スライダー
+====================== */
+input[type="range"] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* ======================
+      Canvas
+====================== */
+#canvas {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    background: repeating-linear-gradient(
+        45deg,
+        #ddd,
+        #ddd 10px,
+        #eee 10px,
+        #eee 20px
+    );
+}
+
+/* ======================
+      ボタン
+====================== */
+button {
+    width: 100%;
+    padding: 14px;
+    background: #5c8aff;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+button:hover {
+    background: #4a76e6;
+}
 </style>
+
 </head>
 
 <body>
@@ -16,26 +133,26 @@
 <h2>OJapp CopyGuard MVP</h2>
 
 <!-- ======================
-       UI
+        UI セクション
 ====================== -->
 
 <div class="section">
-  <label>背景画像：</label>
+  <span class="label">背景画像</span>
   <input type="file" id="bgInput" accept="image/*">
 </div>
 
 <div class="section">
-  <label>ロゴ画像（任意）：</label>
+  <span class="label">ロゴ画像（任意）</span>
   <input type="file" id="logoInput" accept="image/*">
 </div>
 
 <div class="section">
-  <label>透かし文字：</label>
+  <span class="label">透かし文字</span>
   <input type="text" id="textInput" value="sample">
 </div>
 
 <div class="section">
-  <label>タイプ：</label>
+  <span class="label">透かしタイプ</span>
   <select id="mode">
     <option value="single">単発デカ文字</option>
     <option value="repeat">反復テキスト</option>
@@ -43,204 +160,185 @@
 </div>
 
 <div class="section" id="singleBlock">
-  <label>単発文字サイズ（最大300px）：</label><br>
+  <span class="label">単発文字サイズ（最大300px）</span>
   <input type="range" id="singleSize" min="30" max="300" value="300">
-  <br>
-  <label>単発透明度：</label><br>
+
+  <span class="label">単発透明度</span>
   <input type="range" id="singleOpacity" min="0" max="1" step="0.05" value="1">
 </div>
 
 <div class="section" id="repeatBlock" style="display:none;">
-  <label>反復サイズ（10〜20px）：</label><br>
+  <span class="label">反復文字サイズ（10〜20px）</span>
   <input type="range" id="repeatSize" min="10" max="20" value="15">
-  <br>
-  <label>反復透明度：</label><br>
+
+  <span class="label">反復透明度</span>
   <input type="range" id="repeatOpacity" min="0" max="0.3" step="0.02" value="0.2">
-  <br>
-  <label>角度：</label><br>
+
+  <span class="label">角度（-60°〜60°）</span>
   <input type="range" id="repeatAngle" min="-60" max="60" value="-45">
 </div>
 
-<hr>
+<!-- ======================
+        プレビュー
+====================== -->
 
-<canvas id="canvas" width="1080" height="1350"></canvas>
+<div class="section">
+    <canvas id="canvas" width="1080" height="1350"></canvas>
+</div>
 
-<br><br>
 <button id="savePng">PNGで保存</button>
 
+<!-- ======================
+         JS（Canvas処理）
+====================== -->
 <script>
-/* ===========================
-      グローバル変数
-=========================== */
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 let bgImg = null;
 let logoImg = null;
 
-/* ===========================
-      画像読み込み
-=========================== */
+/* ===== 背景読み込み ===== */
 document.getElementById("bgInput").addEventListener("change", (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
+    const f = e.target.files[0];
+    if(!f) return;
     bgImg = new Image();
     bgImg.onload = render;
-    bgImg.src = URL.createObjectURL(file);
+    bgImg.src = URL.createObjectURL(f);
 });
 
+/* ===== ロゴ読み込み ===== */
 document.getElementById("logoInput").addEventListener("change", (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
+    const f = e.target.files[0];
+    if(!f) return;
     logoImg = new Image();
     logoImg.onload = render;
-    logoImg.src = URL.createObjectURL(file);
+    logoImg.src = URL.createObjectURL(f);
 });
 
-/* ===========================
-      UI連動
-=========================== */
+/* ===== UI更新でリレンダリング ===== */
 document.querySelectorAll("input, select").forEach(el=>{
     el.addEventListener("input", render);
 });
 
-/* モード切り替え */
 document.getElementById("mode").addEventListener("change", ()=>{
-  const mode = document.getElementById("mode").value;
-  document.getElementById("singleBlock").style.display = (mode==="single") ? "block" : "none";
-  document.getElementById("repeatBlock").style.display = (mode==="repeat") ? "block" : "none";
-  render();
+    const mode = document.getElementById("mode").value;
+    document.getElementById("singleBlock").style.display = (mode==="single") ? "block" : "none";
+    document.getElementById("repeatBlock").style.display = (mode==="repeat") ? "block" : "none";
+    render();
 });
 
-/* ===========================
-      背景描画
-=========================== */
+/* ===== 背景描画 ===== */
 function drawBackground(){
-  if(!bgImg){
-    ctx.fillStyle="#ccc";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    return;
-  }
-
-  const iw = bgImg.width;
-  const ih = bgImg.height;
-  const cw = canvas.width;
-  const ch = canvas.height;
-
-  const ir = iw/ih;
-  const cr = cw/ch;
-
-  let dw, dh;
-  if(ir > cr){
-    dh = ch;
-    dw = dh * ir;
-  } else {
-    dw = cw;
-    dh = dw / ir;
-  }
-
-  const dx = (cw - dw)/2;
-  const dy = (ch - dh)/2;
-
-  ctx.drawImage(bgImg, dx, dy, dw, dh);
-}
-
-/* ===========================
-      ロゴ（下中央）
-=========================== */
-function drawLogo(){
-  if(!logoImg) return;
-
-  const w = 150;
-  const ratio = logoImg.height / logoImg.width;
-  const h = w * ratio;
-
-  const x = (canvas.width - w)/2;
-  const y = canvas.height - h - 60;
-
-  ctx.globalAlpha = 0.9;
-  ctx.drawImage(logoImg, x, y, w, h);
-  ctx.globalAlpha = 1;
-}
-
-/* ===========================
-      単発デカ文字
-=========================== */
-function drawSingle(){
-  const text = document.getElementById("textInput").value;
-  let size = Number(document.getElementById("singleSize").value);
-  const opacity = Number(document.getElementById("singleOpacity").value);
-
-  ctx.globalAlpha = opacity;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  // 自動縮小
-  while(true){
-    ctx.font = `bold ${size}px sans-serif`;
-    if(ctx.measureText(text).width < canvas.width * 0.9) break;
-    size--;
-    if(size <= 30) break;
-  }
-
-  ctx.fillStyle = "#ffffff"; // 白固定（MVP）
-  ctx.fillText(text, canvas.width/2, canvas.height/2);
-
-  ctx.globalAlpha = 1;
-}
-
-/* ===========================
-      反復テキスト
-=========================== */
-function drawRepeat(){
-  const text = document.getElementById("textInput").value;
-  const size = Number(document.getElementById("repeatSize").value);
-  const opacity = Number(document.getElementById("repeatOpacity").value);
-  const angle = Number(document.getElementById("repeatAngle").value);
-
-  ctx.save();
-  ctx.translate(canvas.width/2, canvas.height/2);
-  ctx.rotate(angle * Math.PI/180);
-  ctx.globalAlpha = opacity;
-  ctx.font = `${size}px sans-serif`;
-  ctx.fillStyle = "#ffffff";
-
-  for(let y=-canvas.height; y<canvas.height; y+= size*5){
-    for(let x=-canvas.width; x<canvas.width; x+= size*12){
-      ctx.fillText(text, x, y);
+    if(!bgImg){
+      ctx.fillStyle="#ddd";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      return;
     }
-  }
 
-  ctx.restore();
-  ctx.globalAlpha = 1;
+    const iw = bgImg.width, ih = bgImg.height;
+    const cw = canvas.width, ch = canvas.height;
+    const ir = iw/ih, cr = cw/ch;
+
+    let dw, dh;
+    if(ir > cr){
+        dh = ch;
+        dw = dh * ir;
+    } else {
+        dw = cw;
+        dh = dw / ir;
+    }
+
+    const dx = (cw - dw)/2;
+    const dy = (ch - dh)/2;
+
+    ctx.drawImage(bgImg, dx, dy, dw, dh);
 }
 
-/* ===========================
-      メインレンダリング
-=========================== */
+/* ===== ロゴ（下中央） ===== */
+function drawLogo(){
+    if(!logoImg) return;
+
+    const w = 150;
+    const h = w * (logoImg.height / logoImg.width);
+
+    const x = (canvas.width - w)/2;
+    const y = canvas.height - h - 60;
+
+    ctx.globalAlpha = 0.9;
+    ctx.drawImage(logoImg, x, y, w, h);
+    ctx.globalAlpha = 1;
+}
+
+/* ===== 単発デカ文字 ===== */
+function drawSingle(){
+    const text = document.getElementById("textInput").value;
+    let size = Number(document.getElementById("singleSize").value);
+    const opacity = Number(document.getElementById("singleOpacity").value);
+
+    ctx.globalAlpha = opacity;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // 自動縮小
+    while(true){
+        ctx.font = `700 ${size}px 'Inter', sans-serif`;
+        if(ctx.measureText(text).width < canvas.width * 0.9) break;
+        size--;
+        if(size <= 30) break;
+    }
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(text, canvas.width/2, canvas.height/2);
+    ctx.globalAlpha = 1;
+}
+
+/* ===== 反復テキスト ===== */
+function drawRepeat(){
+    const text = document.getElementById("textInput").value;
+    const size = Number(document.getElementById("repeatSize").value);
+    const opacity = Number(document.getElementById("repeatOpacity").value);
+    const angle = Number(document.getElementById("repeatAngle").value);
+
+    ctx.save();
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.rotate(angle * Math.PI/180);
+
+    ctx.font = `${size}px 'Inter', sans-serif`;
+    ctx.fillStyle = "#ffffff";
+    ctx.globalAlpha = opacity;
+
+    for(let y=-canvas.height; y<canvas.height; y+= size*5){
+      for(let x=-canvas.width; x<canvas.width; x+= size*12){
+        ctx.fillText(text, x, y);
+      }
+    }
+
+    ctx.restore();
+    ctx.globalAlpha = 1;
+}
+
+/* ===== レンダー統合 ===== */
 function render(){
-  // 背景
-  drawBackground();
+    drawBackground();
+    drawLogo();
 
-  // ロゴ
-  drawLogo();
-
-  // 透かし
-  const mode = document.getElementById("mode").value;
-  if(mode === "single") drawSingle();
-  if(mode === "repeat") drawRepeat();
+    if(document.getElementById("mode").value === "single"){
+        drawSingle();
+    } else {
+        drawRepeat();
+    }
 }
 
-/* ===========================
-      保存
-=========================== */
+/* ===== 保存ボタン ===== */
 document.getElementById("savePng").addEventListener("click", ()=>{
-  const link = document.createElement("a");
-  link.href = canvas.toDataURL("image/png");
-  link.download = "ojapp_copyguard.png";
-  link.click();
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "ojapp_copyguard.png";
+    link.click();
 });
-
 </script>
+
 </body>
 </html>
