@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OJapp splitter | Free Tool to Split Images into Perfect Squares</title>
+
+<meta name="description" content="OJapp splitter lets you divide any image into perfect square pieces for home screen icons or grid layouts. Choose your rows and columns freely. Fully free and mobile-friendly.">
+
+<link rel="canonical" href="https://ojapp.app/en/split/">
+<link rel="alternate" hreflang="ja" href="https://ojapp.app/split/">
+
+<!-- OGP -->
+<meta property="og:title" content="OJapp splitter | Free Image Splitting Tool">
+<meta property="og:description" content="Split any image into square pieces for home screen icons or custom layouts. Free, fast, no app required.">
+<meta property="og:url" content="https://ojapp.app/en/split/">
+<meta property="og:image" content="https://ojapp.app/ogp.png">
+<meta property="og:type" content="website">
+
+<!-- Twitterカード -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OJapp splitter | Free Image Splitter">
+<meta name="twitter:description" content="Easily turn images into square icons for your home screen or grid posts.">
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="64x64" href="/split/icon/ojappsplit-favi.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/split/icon/ojappsplit-logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/split/icon/ojappsplit-logo.png">
+
+<meta name="theme-color" content="#2bb7ff">
+
+<link rel="stylesheet" href="/split/split.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "OJapp",
+      "item": "https://ojapp.app/en/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "OJapp splitter",
+      "item": "https://ojapp.app/en/split/"
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-83E7Y5R335"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-83E7Y5R335');
+</script>
+
+<!-- Header -->
+<div class="header">
+  <a href="/en/" class="logo-link">
+    <img src="/split/icon/ojappsplit-logo.png" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp splitter</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
+
+<div class="main">
+
+  <nav class="breadcrumb">
+    <a href="/en/">OJapp</a> › 
+    <span>Splitter</span>
+  </nav>
+
+<h2>📸 Split Your Image into Perfect Squares</h2>
+
+<!-- Image input -->
+<input type="file" id="imgInput" style="margin-top:10px;">
+
+<!-- Aspect ratio mode -->
+<input type="radio" name="mode" value="square" checked> Square
+<input type="radio" name="mode" value="instagram"> 3:4 (Instagram)
+
+<!-- Rows/columns input -->
+<div class="split-control">
+  <div>Rows <input type="number" id="rows" value="3" min="1" max="6"></div>
+  <div>Cols <input type="number" id="cols" value="3" min="1" max="4"></div>
+</div>
+
+<!-- Button -->
+<button id="splitBtn" class="btn pulse" style="margin-top:10px;">
+  GO Split!!! 🎉
+</button>
+
+<!-- Result Grid -->
+<div id="result"></div>
+
+<div class="center" style="margin-top:20px;">
+  <a href="/en/" class="guide-link">OJapp Main Tool</a>
+</div>
+
+</div><!-- /main -->
+
+<!-- Footer -->
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(html => footer.innerHTML = html)
+</script>
+
+<script src="/split/split.js"></script>
+<script src="/darkmode.js"></script>
+
+</body>
+</html>
