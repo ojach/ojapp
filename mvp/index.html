@@ -279,11 +279,15 @@ function drawRepeat(){
     ctx.fillStyle = color;
     ctx.globalAlpha = opacity;
 
-    const stepY = size * 10;
-    const stepX = size * 18;
+    // ★密度調整（前より2倍詰める）
+    const stepY = size * 5;
+    const stepX = size * 10;
 
-    for(let y=-canvas.height; y<canvas.height; y+=stepY){
-        for(let x=-canvas.width; x<canvas.width; x+=stepX){
+    const rangeY = canvas.height * 1.4;
+    const rangeX = canvas.width  * 1.4;
+
+    for(let y = -rangeY; y < rangeY; y += stepY){
+        for(let x = -rangeX; x < rangeX; x += stepX){
             ctx.fillText(text, x, y);
         }
     }
