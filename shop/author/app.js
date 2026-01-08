@@ -116,8 +116,8 @@ async function loadAuthor() {
   `${decodeAuthorKey(author_key)} のアイコン作品一覧 | OJapp Shop`;
   // バッヂ
   let badge = "";
-if (data.founder) badge += " ⭐";
-if (data.supporter) badge += " 💝";
+if (data.founder) badge += " 👑";
+if (data.supporter) badge += " 🏵";
 
 document.getElementById("authorName").textContent =
   decodeAuthorKey(author_key) + badge;
