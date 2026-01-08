@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>OJapp CopyGuard MVP</title>
+<style>
+  body { font-family: 'Inter', sans-serif; margin: 20px; background:#f8f8f8;}
+  input, select { margin: 8px 0; }
+  canvas { width: 100%; max-width: 500px; background:#ddd; }
+  .section { margin-bottom: 20px; }
+</style>
+</head>
+
+<body>
+
+<h2>OJapp CopyGuard MVP</h2>
+
+<!-- ======================
+       UI
+====================== -->
+
+<div class="section">
+  <label>背景画像：</label>
+  <input type="file" id="bgInput" accept="image/*">
+</div>
+
+<div class="section">
+  <label>ロゴ画像（任意）：</label>
+  <input type="file" id="logoInput" accept="image/*">
+</div>
+
+<div class="section">
+  <label>透かし文字：</label>
+  <input type="text" id="textInput" value="sample">
+</div>
+
+<div class="section">
+  <label>タイプ：</label>
+  <select id="mode">
+    <option value="single">単発デカ文字</option>
+    <option value="repeat">反復テキスト</option>
+  </select>
+</div>
+
+<div class="section" id="singleBlock">
+  <label>単発文字サイズ（最大300px）：</label><br>
+  <input type="range" id="singleSize" min="30" max="300" value="300">
+  <br>
+  <label>単発透明度：</label><br>
+  <input type="range" id="singleOpacity" min="0" max="1" step="0.05" value="1">
+</div>
+
+<div class="section" id="repeatBlock" style="display:none;">
+  <label>反復サイズ（10〜20px）：</label><br>
+  <input type="range" id="repeatSize" min="10" max="20" value="15">
+  <br>
+  <label>反復透明度：</label><br>
+  <input type="range" id="repeatOpacity" min="0" max="0.3" step="0.02" value="0.2">
+  <br>
+  <label>角度：</label><br>
+  <input type="range" id="repeatAngle" min="-60" max="60" value="-45">
+</div>
+
+<hr>
+
+<canvas id="canvas" width="1080" height="1350"></canvas>
+
+<br><br>
+<button id="savePng">PNGで保存</button>
+
+<script>
+/* ===========================
+      グローバル変数
+=========================== */
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let bgImg = null;
+let logoImg = null;
+
+/* ===========================
+      画像読み込み
+=========================== */
+document.getElementById("bgInput").addEventListener("change", (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    bgImg = new Image();
+    bgImg.onload = render;
+    bgImg.src = URL.createObjectURL(file);
+});
+
+document.getElementById("logoInput").addEventListener("change", (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    logoImg = new Image();
+    logoImg.onload = render;
+    logoImg.src = URL.createObjectURL(file);
+});
+
+/* ===========================
+      UI連動
+=========================== */
+document.querySelectorAll("input, select").forEach(el=>{
+    el.addEventListener("input", render);
+});
+
+/* モード切り替え */
+document.getElementById("mode").addEventListener("change", ()=>{
+  const mode = document.getElementById("mode").value;
+  document.getElementById("singleBlock").style.display = (mode==="single") ? "block" : "none";
+  document.getElementById("repeatBlock").style.display = (mode==="repeat") ? "block" : "none";
+  render();
+});
+
+/* ===========================
+      背景描画
+=========================== */
+function drawBackground(){
+  if(!bgImg){
+    ctx.fillStyle="#ccc";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+
+  const iw = bgImg.width;
+  const ih = bgImg.height;
+  const cw = canvas.width;
+  const ch = canvas.height;
+
+  const ir = iw/ih;
+  const cr = cw/ch;
+
+  let dw, dh;
+  if(ir > cr){
+    dh = ch;
+    dw = dh * ir;
+  } else {
+    dw = cw;
+    dh = dw / ir;
+  }
+
+  const dx = (cw - dw)/2;
+  const dy = (ch - dh)/2;
+
+  ctx.drawImage(bgImg, dx, dy, dw, dh);
+}
+
+/* ===========================
+      ロゴ（下中央）
+=========================== */
+function drawLogo(){
+  if(!logoImg) return;
+
+  const w = 150;
+  const ratio = logoImg.height / logoImg.width;
+  const h = w * ratio;
+
+  const x = (canvas.width - w)/2;
+  const y = canvas.height - h - 60;
+
+  ctx.globalAlpha = 0.9;
+  ctx.drawImage(logoImg, x, y, w, h);
+  ctx.globalAlpha = 1;
+}
+
+/* ===========================
+      単発デカ文字
+=========================== */
+function drawSingle(){
+  const text = document.getElementById("textInput").value;
+  let size = Number(document.getElementById("singleSize").value);
+  const opacity = Number(document.getElementById("singleOpacity").value);
+
+  ctx.globalAlpha = opacity;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  // 自動縮小
+  while(true){
+    ctx.font = `bold ${size}px sans-serif`;
+    if(ctx.measureText(text).width < canvas.width * 0.9) break;
+    size--;
+    if(size <= 30) break;
+  }
+
+  ctx.fillStyle = "#ffffff"; // 白固定（MVP）
+  ctx.fillText(text, canvas.width/2, canvas.height/2);
+
+  ctx.globalAlpha = 1;
+}
+
+/* ===========================
+      反復テキスト
+=========================== */
+function drawRepeat(){
+  const text = document.getElementById("textInput").value;
+  const size = Number(document.getElementById("repeatSize").value);
+  const opacity = Number(document.getElementById("repeatOpacity").value);
+  const angle = Number(document.getElementById("repeatAngle").value);
+
+  ctx.save();
+  ctx.translate(canvas.width/2, canvas.height/2);
+  ctx.rotate(angle * Math.PI/180);
+  ctx.globalAlpha = opacity;
+  ctx.font = `${size}px sans-serif`;
+  ctx.fillStyle = "#ffffff";
+
+  for(let y=-canvas.height; y<canvas.height; y+= size*5){
+    for(let x=-canvas.width; x<canvas.width; x+= size*12){
+      ctx.fillText(text, x, y);
+    }
+  }
+
+  ctx.restore();
+  ctx.globalAlpha = 1;
+}
+
+/* ===========================
+      メインレンダリング
+=========================== */
+function render(){
+  // 背景
+  drawBackground();
+
+  // ロゴ
+  drawLogo();
+
+  // 透かし
+  const mode = document.getElementById("mode").value;
+  if(mode === "single") drawSingle();
+  if(mode === "repeat") drawRepeat();
+}
+
+/* ===========================
+      保存
+=========================== */
+document.getElementById("savePng").addEventListener("click", ()=>{
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "ojapp_copyguard.png";
+  link.click();
+});
+
+</script>
+</body>
+</html>
