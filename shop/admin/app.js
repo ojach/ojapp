@@ -408,7 +408,7 @@ myItemsCache = myItemsCache.filter(i => i.author_key === author_key);
       <div class="admin-info">
         <b>${item.title}</b><br>
         <b>${item.price}円 / ${item.category}</b><br>
-        <b>❤️ ${item.favorite_count} 👁 ${item.view_count}</b><br>
+        <b>❤️ ${item.favorite_count} 👁‍🗨 ${item.view_count}</b><br>
          <span style="
     font-size:12px;
     font-weight:600;
