@@ -34,6 +34,33 @@ document.addEventListener("click", (e) => {
   console.log("clicked:", e.target);
 });
 
+// 言語メニュー（ヘッダー読み込み後も動く）
+document.addEventListener("click", e => {
+  const btn = document.querySelector(".lang-btn");
+  const list = document.querySelector(".lang-list");
+
+  if (!btn || !list) return;
+
+  if (btn.contains(e.target)) {
+    list.style.display = (list.style.display === "block") ? "none" : "block";
+  } else {
+    list.style.display = "none";
+  }
+
+  // 言語切り替え
+  if (e.target.dataset.lang) {
+    const current = location.pathname;  
+    const isEn = current.startsWith("/en/");
+
+    if (e.target.dataset.lang === "ja") {
+      location.href = current.replace("/en/", "/");
+    } else {
+      if (!isEn) {
+        location.href = "/en" + current;
+      }
+    }
+  }
+});
 
 // ===============================
 // アイコン処理（高品質版）
