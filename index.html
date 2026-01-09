@@ -45,11 +45,17 @@
   gtag('config', 'G-83E7Y5R335');
 </script>
 <!-- ▼ 会員登録用保留 -->
+<header>
+<div class="header">
+  <a href="/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp</span>
+  </a>
+<a href="/en/" class="lang-btn">EN</a>
 
-<div id="header"></div>
-<script>
-fetch("/header.html").then(r=>r.text()).then(h=>header.innerHTML=h)
-</script>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</div>
+</header>
 <!-- 未実装会員登録用
 <div style="text-align:center;margin-top:10px;">
 <button id="loginGithub" style="
