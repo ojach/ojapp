@@ -109,26 +109,7 @@
 
   <div class="switch" onclick="toggleTheme()">🤩</div>
 </div>
-<script>
-setTimeout(() => {
-  const btn  = document.getElementById("langBtn");
-  const list = document.getElementById("langList");
 
-  if (!btn || !list) return;
-
-  // 開閉
-  btn.onclick = e => {
-    e.stopPropagation();
-    list.style.display = (list.style.display === "block") ? "none" : "block";
-  };
-
-  // 外側クリックで閉じる
-  document.addEventListener("click", () => {
-    list.style.display = "none";
-  });
-
-}, 200);  // ← header が fetch で遅れて入るので “絶対に” 遅延が必要
-</script>
 
 
 
