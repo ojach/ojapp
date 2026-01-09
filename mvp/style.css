@@ -208,3 +208,15 @@ button:hover { background:#4a76e6; }
 .breadcrumb a:hover {
   text-decoration: underline;
 }
+#btnAddC {
+    width: auto;
+    padding: 8px 12px;
+    background: #e5e8f4;
+    color: #333;
+    border-radius: 8px;
+    border: 1px solid #d2d6e4;
+    cursor: pointer;
+}
+#btnAddC:hover {
+    background: #d4d7e5;
+}
