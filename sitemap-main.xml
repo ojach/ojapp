@@ -73,4 +73,9 @@
     <changefreq>weekly</changefreq>
   </url>
 
+   <url>
+    <loc>https://ojapp.app/kachi-plus/</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>
