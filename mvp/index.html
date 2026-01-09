@@ -6,78 +6,46 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-<style>
-body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background: #f5f7fb;
-    color: #222;
-}
-h2 { margin-bottom: 16px; }
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
 
-/* カード */
-.section {
-    background: #fff;
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-.label {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
-}
+<!-- iPhone ホームアイコン -->
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
 
-/* 入力欄 */
-input[type="file"], input[type="text"], select {
-    width: 80%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #e0e3eb;
-    background: #fff;
-    font-size: 16px;
-}
-input[type="text"]:focus, select:focus {
-    border-color: #5c8aff;
-}
-input[type="range"] {
-    width: 80%;
-    margin-top: 10px;
-}
+<!-- PWA（必要なら有効化） -->
+<!-- <link rel="manifest" href="/OJapp/manifest.json"> -->
 
-/* Canvas（ぼやけゼロ） */
-#canvas {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    background: #ddd;
-}
+<meta name="theme-color" content="#2bb7ff">
 
-/* ボタン */
-button {
-    width: 100%;
-    padding: 14px;
-    background: #5c8aff;
-    color: #fff;
-    border: none;
-    font-size: 17px;
-    border-radius: 12px;
-    font-weight: 600;
-    margin-top: 10px;
-}
-button:hover { background:#4a76e6; }
-</style>
+<!-- 共通CSS -->
+<link rel="stylesheet" href="style.css">
+<!-- ダークモード呼ぶ -->
+<script src="/darkmode.js"></script>
 </head>
 
 <body>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-83E7Y5R335"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-83E7Y5R335');
+</script>
+  
+<div id="header"></div>
+<script>
+fetch("/header.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("header").innerHTML = h);
+</script>
+<div class="main">
+     <nav class="breadcrumb">
+  <a href="/">OJapp</a> › 
+  <span>watermark</span>
+  </nav>
 <h2>OJapp CopyGuard MVP</h2>
 
 <!-- 背景 -->
@@ -148,7 +116,13 @@ button:hover { background:#4a76e6; }
 </div>
 
 <button id="savePng">PNGで保存</button>
-
+</div>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("footer").innerHTML = h);
+</script>
 <script>
 
 const canvas = document.getElementById("canvas");
