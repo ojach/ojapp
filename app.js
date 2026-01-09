@@ -68,7 +68,7 @@ function setupLangMenu() {
 
 // header 読み込み後に実行
 document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(setupLangMenu, 50);
+  setTimeout(setupLangMenu, 200);
 });
 
 // ===============================
