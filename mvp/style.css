@@ -144,7 +144,7 @@ h2 { margin-bottom: 16px; }
 
 /* 入力欄 */
 input[type="file"], input[type="text"], select {
-    width: 80%;
+    width: 90%;
     padding: 10px;
     border-radius: 10px;
     border: 2px solid #e0e3eb;
@@ -155,7 +155,7 @@ input[type="text"]:focus, select:focus {
     border-color: #5c8aff;
 }
 input[type="range"] {
-    width: 80%;
+    width: 90%;
     margin-top: 10px;
 }
 
