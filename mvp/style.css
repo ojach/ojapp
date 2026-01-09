@@ -144,7 +144,7 @@ h2 { margin-bottom: 16px; }
 
 /* 入力欄 */
 input[type="file"], input[type="text"], select {
-    width: 90%;
+    width: 100%;
     padding: 10px;
     border-radius: 10px;
     border: 2px solid #e0e3eb;
