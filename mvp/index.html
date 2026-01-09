@@ -101,10 +101,10 @@ fetch("/header.html")
 <!-- 反復設定 -->
 <div class="section" id="repeatBlock" style="display:none;">
   <span class="label">反復文字サイズ（32〜60px）</span>
-  <input type="range" id="repeatSize" min="32" max="60" value="40">
+  <input type="range" id="repeatSize" min="16" max="60" value="32">
 
   <span class="label">反復透明度</span>
-  <input type="range" id="repeatOpacity" min="0" max="0.3" step="0.02" value="0.18">
+  <input type="range" id="repeatOpacity" min="0.1" max="0.7" step="0.02" value="0.35">
 
   <span class="label">角度（-60〜60）</span>
   <input type="range" id="repeatAngle" min="-60" max="60" value="-45">
@@ -254,8 +254,8 @@ function drawRepeat(){
     ctx.globalAlpha = opacity;
 
     // ★密度調整（前より2倍詰める）
-    const stepY = size * 7;
-    const stepX = size * 14;
+    const stepY = size * 2;
+    const stepX = size * 5;
 
     const rangeY = canvas.height * 1.4;
     const rangeX = canvas.width  * 1.4;
