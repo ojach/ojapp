@@ -1,0 +1,66 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f5f7fb;
+    color: #222;
+}
+h2 { margin-bottom: 16px; }
+
+/* カード */
+.section {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* 入力欄 */
+input[type="file"], input[type="text"], select {
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #e0e3eb;
+    background: #fff;
+    font-size: 16px;
+}
+input[type="text"]:focus, select:focus {
+    border-color: #5c8aff;
+}
+input[type="range"] {
+    width: 80%;
+    margin-top: 10px;
+}
+
+/* Canvas（ぼやけゼロ） */
+#canvas {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    background: #ddd;
+}
+
+/* ボタン */
+button {
+    width: 100%;
+    padding: 14px;
+    background: #5c8aff;
+    color: #fff;
+    border: none;
+    font-size: 17px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+button:hover { background:#4a76e6; }
