@@ -49,22 +49,6 @@
 <div id="header"></div>
 <script>
 fetch("/header.html").then(r=>r.text()).then(h=>header.innerHTML=h)
-     // ------ ここから言語メニュー制御 ------
-    const btn = header.querySelector(".lang-btn");
-    const list = header.querySelector(".lang-list");
-
-    if (btn && list) {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        list.style.display =
-          list.style.display === "block" ? "none" : "block";
-      });
-
-      document.addEventListener("click", () => {
-        list.style.display = "none";
-      });
-    }
-    // ------ ここまで ------
 </script>
 <!-- 未実装会員登録用
 <div style="text-align:center;margin-top:10px;">
