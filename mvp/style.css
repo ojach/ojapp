@@ -194,7 +194,7 @@ button:hover { background:#4a76e6; }
   color: var(--text);
   opacity: 0.7;
   text-align: left;
-  max-width: 500px;
+  max-width:500px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -220,4 +220,7 @@ button:hover { background:#4a76e6; }
 }
 #btnAddC:hover {
     background: #d4d7e5;
+}
+.section, .main, .breadcrumb {
+  outline: 2px solid red !important;
 }
