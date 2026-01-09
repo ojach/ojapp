@@ -133,7 +133,7 @@ h2 { margin-bottom: 16px; }
     padding: 16px;
     border-radius: 12px;
     margin-bottom: 18px;
-     box-shadow: 0 0 12px var(--section-shadow);
+     box-shadow: 0 0 0 var(--section-shadow);
 }
 .label {
     font-size: 14px;
