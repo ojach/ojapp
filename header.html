@@ -113,19 +113,58 @@
     </button>
 
     <!-- ★ この中身は JS で動的に書き換える -->
-    <div class="lang-list">
-      <a id="lang-jp">JA</a>
-      <a id="lang-en">EN</a>
-    </div>
+  <div class="lang-list">
+  <a href="#" data-lang="ja">JA</a>
+  <a href="#" data-lang="en">EN</a>
+</div>
+
   </div>
 
   <div class="switch" onclick="toggleTheme()">🤩</div>
 </div>
+<script>
+document.addEventListener("click", (e) => {
+  const btn = document.querySelector(".lang-btn");
+  const list = document.querySelector(".lang-list");
 
+  // ドロップダウン開閉
+  if (btn.contains(e.target)) {
+    list.style.display = list.style.display === "block" ? "none" : "block";
+    return;
+  } else {
+    list.style.display = "none";
+  }
 
+  // ▼ 言語切り替え判定
+  if (e.target.matches(".lang-list a")) {
+    e.preventDefault();
 
+    const lang = e.target.getAttribute("data-lang"); // "ja" or "en"
+    const path = window.location.pathname;
 
+    let newPath = "";
 
+    if (lang === "en") {
+      // JA → EN
+      if (path === "/") {
+        newPath = "/en/";
+      } else if (path.startsWith("/en/")) {
+        newPath = path; // すでに英語
+      } else {
+        newPath = "/en" + path;
+      }
+    } else if (lang === "ja") {
+      // EN → JA
+      if (path === "/en/" || path === "/en") {
+        newPath = "/";
+      } else if (path.startsWith("/en/")) {
+        newPath = path.replace(/^\/en/, "");
+      } else {
+        newPath = path; // すでに日本語
+      }
+    }
 
-
-
+    window.location.href = newPath;
+  }
+});
+</script>
