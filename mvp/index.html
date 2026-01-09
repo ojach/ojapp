@@ -64,6 +64,9 @@ fetch("/header.html")
 <div class="section">
   <span class="label">透かし文字</span>
   <input type="text" id="textInput" value="sample">
+  <div style="margin-top:10px;">
+  <button type="button" id="btnAddC">©を追加</button>
+</div>
 </div>
 
 <!-- 色 -->
@@ -283,6 +286,10 @@ function render(){
     if(m==="single") drawSingle();
     else drawRepeat();
 }
+document.getElementById("btnAddC").addEventListener("click", ()=>{
+    textInput.value += "©";
+    render();
+});
 
 /* 保存 */
 savePng.addEventListener("click", ()=>{
