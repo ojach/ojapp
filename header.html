@@ -36,15 +36,96 @@
   font-size: 24px;
   cursor: pointer;
 }
+  /* ===== Language Button (Circle Inside) ===== */
+.lang-menu {
+  position: relative;
+  margin-left: 12px;
+}
+
+/* ボタン全体 */
+.lang-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+
+/* 丸の中の JA / EN */
+.lang-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+/* ドロップダウン */
+.lang-list {
+  display: none;
+  position: absolute;
+  top: 34px;
+  right: 0;
+  background: var(--section-bg);
+  border: 1px solid var(--header-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  overflow: hidden;
+  min-width: 90px;
+  z-index: 20;
+}
+
+.lang-list a {
+  display: block;
+  padding: 8px 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.lang-list a:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+.dark .lang-list a:hover {
+  background: rgba(255,255,255,0.1);
+}
 </style>
 <div class="header">
   <a href="/" class="logo-link">
     <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
     <span class="logo-text">OJapp</span>
   </a>
-  <div class="lang-switch">
-  <a href="/">JP</a>
-  <a href="/en/">EN</a>
+<div class="lang-menu">
+  <button class="lang-btn">
+    <span class="lang-circle">JA</span> ▼
+  </button>
+
+  <div class="lang-list">
+    <a href="/">JA</a>
+    <a href="/en/">EN</a>
   </div>
+</div>
   <div class="switch" onclick="toggleTheme()">🤩</div>
 </div>
+<script>
+document.addEventListener("click", e => {
+  const btn = document.querySelector(".lang-btn");
+  const list = document.querySelector(".lang-list");
+
+  if (!btn || !list) return;
+
+  if (btn.contains(e.target)) {
+    list.style.display = (list.style.display === "block") ? "none" : "block";
+  } else {
+    list.style.display = "none";
+  }
+});
+</script>
