@@ -75,22 +75,6 @@
 fetch("/header.html")
   .then(r => r.text())
   .then(h => document.getElementById("header").innerHTML = h);
-     // ------ ここから言語メニュー制御 ------
-    const btn = header.querySelector(".lang-btn");
-    const list = header.querySelector(".lang-list");
-
-    if (btn && list) {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        list.style.display =
-          list.style.display === "block" ? "none" : "block";
-      });
-
-      document.addEventListener("click", () => {
-        list.style.display = "none";
-      });
-    }
-    // ------ ここまで ------
 </script>
 
 <div class="main">
