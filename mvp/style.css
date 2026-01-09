@@ -209,7 +209,7 @@ button:hover { background:#4a76e6; }
   text-decoration: underline;
 }
 #btnAddC {
-    width: auto;
+    width: 60px;
     padding: 8px 12px;
     background: #e5e8f4;
     color: #333;
