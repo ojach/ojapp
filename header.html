@@ -35,70 +35,9 @@
 .switch {
   font-size: 24px;
   cursor: pointer;
-   /* ← これを追加！絶対必要 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-
-  /* 当たり判定を完全に丸める */
-  border-radius: 50%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
 }
 
-/* ===== Language Button (Circle Inside) ===== */
-.lang-menu { position: relative; margin-left: 12px; }
 
-.lang-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text);
-}
-
-.lang-circle {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 2px solid var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 13px;
-}
-
-.lang-list {
-  display: none;
-  position: absolute;
-  top: 34px;
-  right: 0;
-  background: var(--section-bg);
-  border: 1px solid var(--header-border);
-  border-radius: 6px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-  overflow: hidden;
-  min-width: 90px;
-  z-index: 20;
-}
-
-.lang-list a {
-  display: block;
-  padding: 8px 12px;
-  color: var(--text);
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.lang-list a:hover { background: rgba(0,0,0,0.06); }
-.dark .lang-list a:hover { background: rgba(255,255,255,0.1); }
 </style>
 
 <div class="header">
@@ -106,18 +45,6 @@
     <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
     <span class="logo-text">OJapp</span>
   </a>
-
-  <div class="lang-menu">
-  <button class="lang-btn">
-   <span class="lang-circle">JA</span>
-</button>
-<div class="lang-list">
-   <a data-lang="ja">JA</a>
-   <a data-lang="en">EN</a>
-</div>
-
-
-  </div>
 
   <div class="switch" onclick="toggleTheme()">🤩</div>
 </div>
