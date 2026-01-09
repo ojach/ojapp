@@ -30,6 +30,9 @@ function showMessage(text, time = 6000) {
   }, time);
 }
   
+document.addEventListener("click", (e) => {
+  console.log("clicked:", e.target);
+});
 
 
 // ===============================
