@@ -29,11 +29,11 @@ function showMessage(text, time = 6000) {
     box.style.display = "none";
   }, time);
 }
-// ========== Language Menu Toggle ==========
+  
+// ▼ 言語メニューの開閉
 document.addEventListener("click", e => {
   const btn = document.querySelector(".lang-btn");
   const list = document.querySelector(".lang-list");
-
   if (!btn || !list) return;
 
   if (btn.contains(e.target)) {
@@ -43,49 +43,24 @@ document.addEventListener("click", e => {
   }
 });
 
-// ========== Language Switch Logic ==========
-function setupLanguageSwitcher() {
-  const circle = document.getElementById("langCircle");
-  const jp = document.getElementById("lang-jp");
-  const en = document.getElementById("lang-en");
+// ▼ ページに合わせて言語リンク生成
+document.querySelectorAll(".lang-change").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const lang = btn.dataset.lang;
 
-  if (!circle || !jp || !en) return;
+    const path = window.location.pathname; // /faq/ とか /guide/
+    let newPath;
 
-  const path = location.pathname;
-
-  // 現在の言語を反映
-  circle.textContent = path.startsWith("/en/") ? "EN" : "JA";
-
-  // 日本語へ
-  jp.onclick = () => {
-    if (path.startsWith("/en/")) {
-      location.href = path.replace("/en/", "/");
+    if (lang === "ja") {
+      // → /en/xxx/ を消して /xxx/ に戻す
+      newPath = path.replace(/^\/en\//, "/");
     } else {
-      location.href = path; // already JP
+      // → /xxx/ を /en/xxx/ に置き換える
+      newPath = "/en" + path;
     }
-  };
 
-  // 英語へ
-  en.onclick = () => {
-    if (path.startsWith("/en/")) {
-      location.href = path; // already EN
-    } else {
-      location.href = "/en" + path;
-    }
-  };
-}
-
-// fetchでheaderが読み込まれた後に実行
-document.addEventListener("DOMContentLoaded", () => {
-  // header読み込み待ち
-  const observer = new MutationObserver(() => {
-    if (document.getElementById("langCircle")) {
-      setupLanguageSwitcher();
-      observer.disconnect();
-    }
+    window.location.href = newPath;
   });
-
-  observer.observe(document.body, { childList: true, subtree: true });
 });
 // ===============================
 // アイコン処理（高品質版）
