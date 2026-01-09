@@ -30,38 +30,47 @@ function showMessage(text, time = 6000) {
   }, time);
 }
   
-// ▼ 言語メニューの開閉
-document.addEventListener("click", e => {
+// ==========================
+//  Language Menu
+// ==========================
+function setupLangMenu() {
   const btn = document.querySelector(".lang-btn");
   const list = document.querySelector(".lang-list");
+  const items = document.querySelectorAll(".lang-change");
+
   if (!btn || !list) return;
 
-  if (btn.contains(e.target)) {
-    list.style.display = (list.style.display === "block") ? "none" : "block";
-  } else {
-    list.style.display = "none";
-  }
-});
-
-// ▼ ページに合わせて言語リンク生成
-document.querySelectorAll(".lang-change").forEach(btn => {
+  // 開閉
   btn.addEventListener("click", () => {
-    const lang = btn.dataset.lang;
-
-    const path = window.location.pathname; // /faq/ とか /guide/
-    let newPath;
-
-    if (lang === "ja") {
-      // → /en/xxx/ を消して /xxx/ に戻す
-      newPath = path.replace(/^\/en\//, "/");
-    } else {
-      // → /xxx/ を /en/xxx/ に置き換える
-      newPath = "/en" + path;
-    }
-
-    window.location.href = newPath;
+    list.style.display = (list.style.display === "block") ? "none" : "block";
   });
+
+  document.addEventListener("click", e => {
+    if (!btn.contains(e.target)) list.style.display = "none";
+  });
+
+  // 言語切替
+  items.forEach(el => {
+    el.addEventListener("click", () => {
+      const lang = el.dataset.lang;
+      const path = window.location.pathname;
+      let newPath;
+
+      if (lang === "ja") {
+        newPath = path.replace(/^\/en\//, "/");
+      } else {
+        newPath = "/en" + path;
+      }
+      window.location.href = newPath;
+    });
+  });
+}
+
+// header 読み込み後に実行
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(setupLangMenu, 50);
 });
+
 // ===============================
 // アイコン処理（高品質版）
 // ===============================
