@@ -29,7 +29,64 @@ function showMessage(text, time = 6000) {
     box.style.display = "none";
   }, time);
 }
+// ========== Language Menu Toggle ==========
+document.addEventListener("click", e => {
+  const btn = document.querySelector(".lang-btn");
+  const list = document.querySelector(".lang-list");
 
+  if (!btn || !list) return;
+
+  if (btn.contains(e.target)) {
+    list.style.display = (list.style.display === "block") ? "none" : "block";
+  } else {
+    list.style.display = "none";
+  }
+});
+
+// ========== Language Switch Logic ==========
+function setupLanguageSwitcher() {
+  const circle = document.getElementById("langCircle");
+  const jp = document.getElementById("lang-jp");
+  const en = document.getElementById("lang-en");
+
+  if (!circle || !jp || !en) return;
+
+  const path = location.pathname;
+
+  // 現在の言語を反映
+  circle.textContent = path.startsWith("/en/") ? "EN" : "JA";
+
+  // 日本語へ
+  jp.onclick = () => {
+    if (path.startsWith("/en/")) {
+      location.href = path.replace("/en/", "/");
+    } else {
+      location.href = path; // already JP
+    }
+  };
+
+  // 英語へ
+  en.onclick = () => {
+    if (path.startsWith("/en/")) {
+      location.href = path; // already EN
+    } else {
+      location.href = "/en" + path;
+    }
+  };
+}
+
+// fetchでheaderが読み込まれた後に実行
+document.addEventListener("DOMContentLoaded", () => {
+  // header読み込み待ち
+  const observer = new MutationObserver(() => {
+    if (document.getElementById("langCircle")) {
+      setupLanguageSwitcher();
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+});
 // ===============================
 // アイコン処理（高品質版）
 // ===============================
