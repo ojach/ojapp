@@ -224,3 +224,6 @@ button:hover { background:#4a76e6; }
 .section, .main, .breadcrumb {
   outline: 2px solid red !important;
 }
+* {
+  outline: 1px solid red !important;
+}
