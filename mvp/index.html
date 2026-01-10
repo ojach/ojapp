@@ -4,133 +4,131 @@
 <meta charset="UTF-8">
 <title>OJapp WaterMark MVP</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
+<!-- ICONS -->
 <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
-
-<!-- iPhone ホームアイコン -->
 <link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
-
-<!-- PWA（必要なら有効化） -->
-<!-- <link rel="manifest" href="/OJapp/manifest.json"> -->
 
 <meta name="theme-color" content="#2bb7ff">
 
-<!-- 共通CSS -->
+<!-- COMMON CSS -->
 <link rel="stylesheet" href="style.css">
-<!-- ダークモード呼ぶ -->
-<script src="/darkmode.js"></script>
+
+<!-- DARKMODE -->
+<script src="/darkmode.js" defer></script>
+
 </head>
-
 <body>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-83E7Y5R335"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-83E7Y5R335');
-</script>
+<!-- HEADER -->
+<header class="header">
+  <a href="/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</header>
 
-  <header>
-  <div class="header">
-    <a href="/" class="logo-link">
-      <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
-      <span class="logo-text">OJapp</span>
-    </a>
 
-    <div class="switch" onclick="toggleTheme()">🤩</div>
-  </div>
-  </header>
-  
-<div class="main">
-     <nav class="breadcrumb">
-  <a href="/">OJapp</a> › 
-  <span>watermark</span>
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <nav class="breadcrumb">
+    <a href="/">OJapp</a> › 
+    <span>watermark</span>
   </nav>
-<h2>OJapp WaterMark MVP</h2>
 
-<!-- 背景 -->
-<div class="section">
-  <span class="label">背景画像</span>
-  <input type="file" id="bgInput" accept="image/*">
-</div>
+  <h2>OJapp WaterMark MVP</h2>
 
-<!-- ロゴ -->
-<div class="section">
-  <span class="label">ロゴ画像（任意）</span>
-  <input type="file" id="logoInput" accept="image/*">
-</div>
 
-<!-- テキスト -->
-<div class="section">
-  <span class="label">透かし文字</span>
-  <input type="text" id="textInput" value="sample">
-  <div style="margin-top:10px;">
-  <button type="button" id="btnAddC">©を追加</button>
-</div>
-</div>
+  <!-- 背景 -->
+  <div class="section">
+    <span class="label">背景画像</span>
+    <input type="file" id="bgInput" accept="image/*">
+  </div>
 
-<!-- 色 -->
-<div class="section">
-  <span class="label">文字色</span>
-  <label><input type="radio" name="color" value="#ffffff" checked> 白</label>
-  <label style="margin-left:15px;"><input type="radio" name="color" value="#000000"> 黒</label>
-</div>
+  <!-- ロゴ -->
+  <div class="section">
+    <span class="label">ロゴ画像（任意）</span>
+    <input type="file" id="logoInput" accept="image/*">
+  </div>
 
-<!-- タイプ -->
-<div class="section">
-  <span class="label">透かしタイプ</span>
-  <select id="mode">
-    <option value="single">単発デカ文字</option>
-    <option value="repeat">反復テキスト</option>
-  </select>
-</div>
+  <!-- テキスト -->
+  <div class="section">
+    <span class="label">透かし文字</span>
+    <input type="text" id="textInput" value="sample">
+    <button type="button" id="btnAddC" style="margin-top:10px;">©を追加</button>
+  </div>
 
-<!-- 単発設定 -->
-<div class="section" id="singleBlock">
-  <span class="label">単発文字サイズ（最大300px）</span>
-  <input type="range" id="singleSize" min="30" max="300" value="300">
+  <!-- 色 -->
+  <div class="section">
+    <span class="label">文字色</span>
+    <label><input type="radio" name="color" value="#ffffff" checked> 白</label>
+    <label style="margin-left:15px;"><input type="radio" name="color" value="#000000"> 黒</label>
+  </div>
 
-  <span class="label">単発透明度</span>
-  <input type="range" id="singleOpacity" min="0" max="1" step="0.05" value="1">
+  <!-- タイプ -->
+  <div class="section">
+    <span class="label">透かしタイプ</span>
+    <select id="mode">
+      <option value="single">単発デカ文字</option>
+      <option value="repeat">反復テキスト</option>
+    </select>
+  </div>
 
-  <span class="label">単発文字の位置</span>
-  <select id="singlePos">
-    <option value="top">上</option>
-    <option value="center" selected>中央</option>
-    <option value="bottom">下</option>
-  </select>
-</div>
+  <!-- 単発設定 -->
+  <div class="section" id="singleBlock">
+    <span class="label">単発文字サイズ（最大300px）</span>
+    <input type="range" id="singleSize" min="30" max="300" value="300">
 
-<!-- 反復設定 -->
-<div class="section" id="repeatBlock" style="display:none;">
-  <span class="label">反復文字サイズ（32〜60px）</span>
-  <input type="range" id="repeatSize" min="16" max="60" value="32">
+    <span class="label">単発透明度</span>
+    <input type="range" id="singleOpacity" min="0" max="1" step="0.05" value="1">
 
-  <span class="label">反復透明度</span>
-  <input type="range" id="repeatOpacity" min="0.1" max="0.64" step="0.02" value="0.36">
+    <span class="label">単発文字の位置</span>
+    <select id="singlePos">
+      <option value="top">上</option>
+      <option value="center" selected>中央</option>
+      <option value="bottom">下</option>
+    </select>
+  </div>
 
-  <span class="label">角度（-60〜60）</span>
-  <input type="range" id="repeatAngle" min="-60" max="60" value="-45">
-</div>
+  <!-- 反復設定 -->
+  <div class="section" id="repeatBlock" style="display:none;">
+    <span class="label">反復文字サイズ（32〜60px）</span>
+    <input type="range" id="repeatSize" min="16" max="60" value="32">
 
-<!-- プレビュー -->
-<div class="section">
+    <span class="label">反復透明度</span>
+    <input type="range" id="repeatOpacity" min="0.1" max="0.64" step="0.02" value="0.36">
+
+    <span class="label">角度（-60〜60）</span>
+    <input type="range" id="repeatAngle" min="-60" max="60" value="-45">
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="section">
     <canvas id="canvas"></canvas>
-</div>
+  </div>
 
-<button id="savePng">PNGで保存</button>
-</div>
-    <div id="footer"></div>
+  <button id="savePng">PNGで保存</button>
+
+</main>
+
+
+<!-- FOOTER -->
+<div id="footer"></div>
 <script>
 fetch("/footer.html")
   .then(r => r.text())
-  .then(h => document.getElementById("footer").innerHTML = h);
+  .then(html => document.getElementById("footer").innerHTML = html);
 </script>
-<script defer src="/mvp/app.js"></script>
+
+<script src="/mvp/app.js" defer></script>
+
 </body>
 </html>
