@@ -152,5 +152,121 @@ button {
 </div>
 
 </main>
+  <script>
+let selectedPreset = "film1998";
+let originalImage = null;
+
+/* ===== 年代プリセット ===== */
+const PRESETS = {
+  film1998: {
+    label: "1998｜フィルム",
+    maxSize: 640,
+    quality: 0.45,
+    noise: 0.25,
+    blur: 0.8,
+    message: "写ってるだけで嬉しい"
+  },
+  digi2010: {
+    label: "2010｜デジカメ",
+    maxSize: 1024,
+    quality: 0.6,
+    noise: 0.15,
+    blur: 0.4,
+    message: "ちゃんと撮った思い出"
+  },
+  phone2014: {
+    label: "2014｜初期スマホ",
+    maxSize: 1600,
+    quality: 0.7,
+    noise: 0.1,
+    blur: 0.2,
+    message: "ちょっと前なのに、もう懐かしい"
+  }
+};
+
+/* ===== DOM ===== */
+const fileInput = document.querySelector('input[type="file"]');
+const eraEls = document.querySelectorAll(".era");
+const saveBtn = document.querySelector("button");
+const resultEl = document.querySelector(".result");
+
+/* ===== 年代選択 ===== */
+eraEls.forEach((el, i) => {
+  el.addEventListener("click", () => {
+    eraEls.forEach(e => e.classList.remove("active"));
+    el.classList.add("active");
+    selectedPreset = Object.keys(PRESETS)[i];
+  });
+});
+
+/* ===== 画像アップロード ===== */
+fileInput.addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const img = new Image();
+  img.onload = () => {
+    originalImage = img;
+    resultEl.textContent = "写真を読み込みました";
+  };
+  img.src = URL.createObjectURL(file);
+});
+
+/* ===== 保存処理 ===== */
+saveBtn.addEventListener("click", async () => {
+  if (!originalImage) {
+    alert("写真を選んでください");
+    return;
+  }
+
+  const p = PRESETS[selectedPreset];
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  /* リサイズ */
+  const scale = Math.min(
+    p.maxSize / originalImage.width,
+    p.maxSize / originalImage.height,
+    1
+  );
+  canvas.width = originalImage.width * scale;
+  canvas.height = originalImage.height * scale;
+
+  ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
+
+  /* ぼかし */
+  if (p.blur > 0) {
+    ctx.filter = `blur(${p.blur}px)`;
+    ctx.drawImage(canvas, 0, 0);
+    ctx.filter = "none";
+  }
+
+  /* ノイズ */
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < imgData.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 255 * p.noise;
+    imgData.data[i]     += n;
+    imgData.data[i + 1] += n;
+    imgData.data[i + 2] += n;
+  }
+  ctx.putImageData(imgData, 0, 0);
+
+  /* JPEG書き出し */
+  canvas.toBlob(blob => {
+    const sizeKB = Math.round(blob.size / 1024);
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "pastcamera.jpg";
+    a.click();
+
+    resultEl.innerHTML = `
+      ${p.label} の写真です<br>
+      ${p.message}（${sizeKB}KB）
+    `;
+  }, "image/jpeg", p.quality);
+});
+  </script>
 </body>
 </html>
