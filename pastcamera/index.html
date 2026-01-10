@@ -249,18 +249,29 @@ const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const luma = r*0.3 + g*0.59 + b*0.11;
     const shadow = Math.max(0, (150 - luma) / 150);
     const n = (Math.random() - 0.5) * 255 * p.noise * shadow;
-    const avg = (r + g + b) / 3;
-    d[i]     = avg + (r - avg)*0.85 + n;
-    d[i + 1] = avg + (g - avg)*0.85 + n;
-    d[i + 2] = avg + (b - avg)*0.85 + n;
-    // 色転び（赤寄りに）
-d[i]     += 5;   // R少し上げる
-d[i + 2] -= 5;   // B少し下げる
 
-// わずかなランダムムラ
-d[i]     += (Math.random() - 0.5) * 10;
-d[i + 1] += (Math.random() - 0.5) * 10;
-d[i + 2] += (Math.random() - 0.5) * 10;
+    const avg = (r + g + b) / 3;
+    // 年代別設定
+const setting = {
+  film1998: { rshift: 5,  bshift: -5,  fade: 0.10, mura: 10 },
+  digi2010: { rshift: 1,  bshift: -1,  fade: 0.05, mura: 3  },
+  phone2014: { rshift: 1,  bshift: -1,  fade: 0.07, mura: 5  }
+}[selectedPreset];
+
+// 色転び
+d[i]     += setting.rshift;
+d[i + 2] += setting.bshift;
+
+// 退色
+d[i]     = d[i]     * (1 - setting.fade) + avg * setting.fade;
+d[i + 1] = d[i + 1] * (1 - setting.fade) + avg * setting.fade;
+d[i + 2] = d[i + 2] * (1 - setting.fade) + avg * setting.fade;
+
+// ムラ
+const m = (Math.random() - 0.5) * setting.mura;
+d[i]     += m;
+d[i + 1] += m;
+d[i + 2] += m;
   }
   ctx.putImageData(imgData, 0, 0);
 
