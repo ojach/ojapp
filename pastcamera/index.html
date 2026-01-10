@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PastCamera</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
+<!-- ICONS -->
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<meta name="theme-color" content="#2bb7ff">
+
+<!-- DARKMODE -->
+<script src="/darkmode.js" defer></script>
 <style>
 :root {
   --bg: #0e0e11;
@@ -17,6 +28,43 @@
 * {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 58px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--header-border);
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 1;
+  position: relative;
+  top: 1px;
+}
+
+.switch {
+  font-size: 24px;
+  cursor: pointer;
 }
 
 body {
@@ -114,22 +162,38 @@ button {
   color: var(--sub);
   text-align: center;
 }
+  .previewImage {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
 </style>
 </head>
 
 <body>
+  <header class="header">
+  <a href="/" class="logo-link">
+    <img src="/icon/ojapp-logo.png?v=4" class="logo-img" alt="OJapp">
+    <span class="logo-text">OJapp</span>
+  </a>
+  <div class="switch" onclick="toggleTheme()">🤩</div>
+</header>
 <main>
-
+ <nav class="breadcrumb">
+    <a href="/">OJapp</a> › 
+    <span>pastcamera</span>
+  </nav>
 <header>
   <h1>PastCamera</h1>
   <p>写真を、過去のサイズに。</p>
 </header>
 
 <label class="upload">
-  <input type="file" accept="image/*">
+  <input type="file" id="photoInput" accept="image/*">
   <span>写真をアップロード</span>
 </label>
-
+<div id="fileName"></div>
 <section class="eras">
   <div class="era active">
     <strong>1998｜フィルム</strong>
@@ -150,6 +214,7 @@ button {
 <div class="result">
   1998年の写真です（82KB）
 </div>
+<img id="output" class="previewImage">
 
 </main>
   <script>
@@ -189,6 +254,17 @@ const fileInput = document.querySelector('input[type="file"]');
 const eraEls = document.querySelectorAll(".era");
 const saveBtn = document.querySelector("button");
 const resultEl = document.querySelector(".result");
+
+    const input = document.getElementById("photoInput");
+const nameBox = document.getElementById("fileName");
+
+input.addEventListener("change", () => {
+  if (input.files.length > 0) {
+    nameBox.textContent = "📂 " + input.files[0].name;
+  } else {
+    nameBox.textContent = "";
+  }
+});
 
 /* ===== 年代選択 ===== */
 eraEls.forEach((el, i) => {
@@ -291,6 +367,18 @@ d[i + 2] += m;
     `;
   }, "image/jpeg", p.quality);
 });
+    canvas.toBlob((blob) => {
+  const url = URL.createObjectURL(blob);
+  document.getElementById("output").src = url;
+});
+
   </script>
+  <!-- FOOTER -->
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(html => document.getElementById("footer").innerHTML = html);
+</script>
 </body>
 </html>
