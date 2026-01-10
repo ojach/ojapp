@@ -225,3 +225,6 @@ button:hover { background:#4a76e6; }
 .section {
   overflow: hidden;
 }
+*::before, *::after {
+   background: red !important;
+}
