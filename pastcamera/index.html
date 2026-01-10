@@ -434,8 +434,9 @@ async function generatePreview() {
     const url = URL.createObjectURL(blob);
     previewImg.src = url;
 
-    resultEl.innerHTML = `${p.label} の写真です`;
-  }, "image/jpeg", p.quality);
+    const sizeKB = Math.round(blob.size / 1024);
+    resultEl.innerHTML = `${p.label} の写真です（${sizeKB}KB）`;
+}, "image/jpeg", p.quality);
 }
 
 /* ===== 保存ボタン：プレビュー済みの blob を保存 ===== */
