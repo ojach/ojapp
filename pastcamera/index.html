@@ -160,9 +160,9 @@ let originalImage = null;
 const PRESETS = {
   film1998: {
     label: "1998｜フィルム",
-    maxSize: 740,
+    maxSize: 720,
     quality: 0.55,
-    noise: 0.15,
+    noise: 0.14,
     blur: 0.5,
     message: "写ってるだけで嬉しい"
   },
@@ -170,8 +170,8 @@ const PRESETS = {
     label: "2010｜デジカメ",
     maxSize: 1024,
     quality: 0.6,
-    noise: 0.15,
-    blur: 0.4,
+    noise: 0.18,
+    blur: 0.2,
     message: "ちゃんと撮った思い出"
   },
   phone2014: {
@@ -179,7 +179,7 @@ const PRESETS = {
     maxSize: 1600,
     quality: 0.7,
     noise: 0.1,
-    blur: 0.2,
+    blur: 0.25,
     message: "ちょっと前なのに、もう懐かしい"
   }
 };
@@ -254,7 +254,7 @@ const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     // 年代別設定
 const setting = {
   film1998: { rshift: 5,  bshift: -5,  fade: 0.10, mura: 10 },
-  digi2010: { rshift: 1,  bshift: -1,  fade: 0.05, mura: 3  },
+  digi2010: { rshift: 1,  bshift: -1,  fade: 0.04, mura: 3  },
   phone2014: { rshift: 1,  bshift: -1,  fade: 0.07, mura: 5  }
 }[selectedPreset];
 
