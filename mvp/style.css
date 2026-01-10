@@ -158,8 +158,9 @@ input[type="text"]:focus, select:focus {
 input[type="range"] {
     width: 100%;
     margin-top: 10px;
+  overflow: hidden;
+  -webkit-appearance: none;
 }
-
 /* Canvas（ぼやけゼロ） */
 #canvas {
     width: auto;
