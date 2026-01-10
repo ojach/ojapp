@@ -162,7 +162,7 @@ const PRESETS = {
     label: "1998｜フィルム",
     maxSize: 740,
     quality: 0.55,
-    noise: 0.14,
+    noise: 0.15,
     blur: 0.5,
     message: "写ってるだけで嬉しい"
   },
@@ -254,13 +254,13 @@ const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     d[i + 1] = avg + (g - avg)*0.85 + n;
     d[i + 2] = avg + (b - avg)*0.85 + n;
     // 色転び（赤寄りに）
-d[i]     += 4;   // R少し上げる
-d[i + 2] -= 4;   // B少し下げる
+d[i]     += 5;   // R少し上げる
+d[i + 2] -= 5;   // B少し下げる
 
 // わずかなランダムムラ
-d[i]     += (Math.random() - 0.5) * 6;
-d[i + 1] += (Math.random() - 0.5) * 6;
-d[i + 2] += (Math.random() - 0.5) * 6;
+d[i]     += (Math.random() - 0.5) * 10;
+d[i + 1] += (Math.random() - 0.5) * 10;
+d[i + 2] += (Math.random() - 0.5) * 10;
   }
   ctx.putImageData(imgData, 0, 0);
 
