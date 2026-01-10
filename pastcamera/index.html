@@ -352,25 +352,25 @@ d[i + 2] += m;
   ctx.putImageData(imgData, 0, 0);
 
   /* JPEG書き出し */
-  canvas.toBlob(blob => {
-    const sizeKB = Math.round(blob.size / 1024);
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "pastcamera.jpg";
-    a.click();
-
-    resultEl.innerHTML = `
-      ${p.label} の写真です<br>
-      ${p.message}（${sizeKB}KB）
-    `;
-  }, "image/jpeg", p.quality);
-});
-    canvas.toBlob((blob) => {
+ canvas.toBlob(blob => {
+  const sizeKB = Math.round(blob.size / 1024);
   const url = URL.createObjectURL(blob);
+
+  // 🔥 プレビュー画像を表示（スマホは長押し保存OK）
   document.getElementById("output").src = url;
-});
+
+  // 🔥 ここは任意でダウンロードリンク（削除してもOK）
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "pastcamera.jpg";
+  a.click();
+
+  // 結果表記
+  resultEl.innerHTML = `
+    ${p.label} の写真です<br>
+    ${p.message}（${sizeKB}KB）
+  `;
+}, "image/jpeg", p.quality);
 
   </script>
   <!-- FOOTER -->
