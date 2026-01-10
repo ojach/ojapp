@@ -253,6 +253,14 @@ const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     d[i]     = avg + (r - avg)*0.85 + n;
     d[i + 1] = avg + (g - avg)*0.85 + n;
     d[i + 2] = avg + (b - avg)*0.85 + n;
+    // 色転び（赤寄りに）
+d[i]     += 4;   // R少し上げる
+d[i + 2] -= 4;   // B少し下げる
+
+// わずかなランダムムラ
+d[i]     += (Math.random() - 0.5) * 6;
+d[i + 1] += (Math.random() - 0.5) * 6;
+d[i + 2] += (Math.random() - 0.5) * 6;
   }
   ctx.putImageData(imgData, 0, 0);
 
