@@ -296,8 +296,9 @@ button {
   <script>
 let selectedPreset = "film1998";
 let originalImage = null;
+let lastBlob = null;
 
-/* ===== 年代プリセット ===== */
+/* ===== 年代プリセット（基本パラメータ） ===== */
 const PRESETS = {
   film1998: {
     label: "1998｜フィルム",
@@ -318,67 +319,59 @@ const PRESETS = {
   phone2014: {
     label: "2014｜昔スマホ（景色）",
     maxSize: 1600,
-    quality: 0.7,
-    noise: 0.1,
+    quality: 0.70,
+    noise: 0.10,
     blur: 0.25,
     message: "ちょっと前なのに、もう懐かしい"
   },
   people2014: {
-  label: "2014｜昔スマホ（人）",
-  maxSize: 1600,
-  quality: 0.72,
-  noise: 0.07,
-  blur: 0.15,
-  message: "やわらかく写る、あの頃の空気"
-}
-
+    label: "2014｜昔スマホ（人）",
+    maxSize: 1600,
+    quality: 0.72,
+    noise: 0.07,
+    blur: 0.15,
+    message: "やわらかく写る、あの頃の空気"
+  }
 };
 
 /* ===== DOM ===== */
-const fileInput = document.querySelector('input[type="file"]');
+const fileInput = document.getElementById("photoInput");
 const eraEls = document.querySelectorAll(".era");
 const saveBtn = document.querySelector("button");
 const resultEl = document.querySelector(".result");
-
-    const input = document.getElementById("photoInput");
+const previewImg = document.getElementById("output");
 const nameBox = document.getElementById("fileName");
 
-input.addEventListener("change", () => {
-  if (input.files.length > 0) {
-    nameBox.textContent = "📂 " + input.files[0].name;
-  } else {
-    nameBox.textContent = "";
-  }
-});
-
-/* ===== 年代選択 ===== */
-eraEls.forEach((el, i) => {
-  el.addEventListener("click", () => {
-    eraEls.forEach(e => e.classList.remove("active"));
-    el.classList.add("active");
-    selectedPreset = Object.keys(PRESETS)[i];
-  });
-});
-
-/* ===== 画像アップロード ===== */
+/* ===== ファイル選択時：ファイル名表示 + originalImage 読み込み ===== */
 fileInput.addEventListener("change", e => {
-  const file = e.target.files[0];
-  if (!file) return;
+  if (!fileInput.files.length) return;
+
+  nameBox.textContent = "📂 " + fileInput.files[0].name;
 
   const img = new Image();
   img.onload = () => {
     originalImage = img;
     resultEl.textContent = "写真を読み込みました";
+    generatePreview();  // ← 写真を選んだ瞬間に、今選ばれてるプリセットでプレビュー
   };
-  img.src = URL.createObjectURL(file);
+  img.src = URL.createObjectURL(fileInput.files[0]);
 });
 
-/* ===== 保存処理 ===== */
-saveBtn.addEventListener("click", async () => {
-  if (!originalImage) {
-    alert("写真を選んでください");
-    return;
-  }
+/* ===== 年代選択時：プレビュー更新 ===== */
+eraEls.forEach((el, i) => {
+  el.addEventListener("click", () => {
+    eraEls.forEach(e => e.classList.remove("active"));
+    el.classList.add("active");
+
+    selectedPreset = Object.keys(PRESETS)[i];
+
+    generatePreview(); // ← 年代変更のたびに即プレビュー更新
+  });
+});
+
+/* ===== プレビュー生成（保存前の加工すべてここでやる） ===== */
+async function generatePreview() {
+  if (!originalImage) return;
 
   const p = PRESETS[selectedPreset];
   const canvas = document.createElement("canvas");
@@ -402,9 +395,17 @@ saveBtn.addEventListener("click", async () => {
     ctx.filter = "none";
   }
 
-  /* ノイズ */
-const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  /* ノイズ + 年代別ゆらぎ加工 */
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const d = imgData.data;
+
+  const setting = {
+    film1998: { rshift: 5,  bshift: -5,  fade: 0.10, mura: 10 },
+    digi2010: { rshift: 1,  bshift: -1,  fade: 0.04, mura: 3  },
+    phone2014: { rshift: 1, bshift: -1,  fade: 0.07, mura: 5  },
+    people2014: { rshift: 1, bshift: -2,  fade: 0.05, mura: 3  }
+  }[selectedPreset];
+
   for (let i = 0; i < d.length; i += 4) {
     const r = d[i], g = d[i+1], b = d[i+2];
     const luma = r*0.3 + g*0.59 + b*0.11;
@@ -412,53 +413,44 @@ const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const n = (Math.random() - 0.5) * 255 * p.noise * shadow;
 
     const avg = (r + g + b) / 3;
-    // 年代別設定
-const setting = {
-  film1998: { rshift: 5,  bshift: -5,  fade: 0.10, mura: 10 },
-  digi2010: { rshift: 1,  bshift: -1,  fade: 0.04, mura: 3  },
-  phone2014: { rshift: 1,  bshift: -1,  fade: 0.07, mura: 5  },
-  people2014: { rshift: 1,  bshift: -2, fade: 0.05, mura: 3}
 
-}[selectedPreset];
+    d[i] += setting.rshift + n;
+    d[i+1] = d[i+1] * (1 - setting.fade) + avg * setting.fade + n;
+    d[i+2] += setting.bshift + n;
 
-// 色転び
-d[i]     += setting.rshift;
-d[i + 2] += setting.bshift;
-
-// 退色
-d[i]     = d[i]     * (1 - setting.fade) + avg * setting.fade;
-d[i + 1] = d[i + 1] * (1 - setting.fade) + avg * setting.fade;
-d[i + 2] = d[i + 2] * (1 - setting.fade) + avg * setting.fade;
-
-// ムラ
-const m = (Math.random() - 0.5) * setting.mura;
-d[i]     += m;
-d[i + 1] += m;
-d[i + 2] += m;
+    /* ムラ（粒状のゆらぎ） */
+    const m = (Math.random() - 0.5) * setting.mura;
+    d[i] += m;
+    d[i+1] += m;
+    d[i+2] += m;
   }
+
   ctx.putImageData(imgData, 0, 0);
 
-  /* JPEG書き出し */
- canvas.toBlob(blob => {
-  const sizeKB = Math.round(blob.size / 1024);
-  const url = URL.createObjectURL(blob);
+  /* ===== プレビュー表示 + 保存用Blob確保 ===== */
+  canvas.toBlob(blob => {
+    lastBlob = blob;
 
-  // 🔥 プレビュー画像を表示（スマホは長押し保存OK）
-  document.getElementById("output").src = url;
+    const url = URL.createObjectURL(blob);
+    previewImg.src = url;
 
-  // 🔥 ここは任意でダウンロードリンク（削除してもOK）
+    resultEl.innerHTML = `${p.label} の写真です`;
+  }, "image/jpeg", p.quality);
+}
+
+/* ===== 保存ボタン：プレビュー済みの blob を保存 ===== */
+saveBtn.addEventListener("click", () => {
+  if (!lastBlob) {
+    alert("写真を選んでください");
+    return;
+  }
+
   const a = document.createElement("a");
-  a.href = url;
+  a.href = URL.createObjectURL(lastBlob);
   a.download = "pastcamera.jpg";
   a.click();
+});
 
-  // 結果表記
-  resultEl.innerHTML = `
-    ${p.label} の写真です<br>
-    ${p.message}（${sizeKB}KB）
-  `;
-}, "image/jpeg", p.quality);
-}); // ← ★ 必ずここで閉まる！
   </script>
   <!-- FOOTER -->
 <div id="footer"></div>
