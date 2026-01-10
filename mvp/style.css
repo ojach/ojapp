@@ -222,3 +222,6 @@ button:hover { background:#4a76e6; }
 #btnAddC:hover {
     background: #d4d7e5;
 }
+.section {
+  overflow: hidden;
+}
