@@ -242,12 +242,17 @@ saveBtn.addEventListener("click", async () => {
   }
 
   /* ノイズ */
-  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < imgData.data.length; i += 4) {
-    const n = (Math.random() - 0.5) * 255 * p.noise;
-    imgData.data[i]     += n;
-    imgData.data[i + 1] += n;
-    imgData.data[i + 2] += n;
+const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const d = imgData.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i], g = d[i+1], b = d[i+2];
+    const luma = r*0.3 + g*0.59 + b*0.11;
+    const shadow = Math.max(0, (150 - luma) / 150);
+    const n = (Math.random() - 0.5) * 255 * p.noise * shadow;
+    const avg = (r + g + b) / 3;
+    d[i]     = avg + (r - avg)*0.85 + n;
+    d[i + 1] = avg + (g - avg)*0.85 + n;
+    d[i + 2] = avg + (b - avg)*0.85 + n;
   }
   ctx.putImageData(imgData, 0, 0);
 
