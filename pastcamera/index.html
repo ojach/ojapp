@@ -308,7 +308,7 @@ const PRESETS = {
   // =====================
   garake: {
     maxSize: 800,
-    quality: 0.45,
+    quality: 0.3,
     rshift: 3,
     gshift: -1,
     bshift: -6,
@@ -325,14 +325,14 @@ const PRESETS = {
   film: {
     maxSize: 1200,
     quality: 0.75,
-    rshift: 5,     // 黄味UP
+    rshift: 4,     // 黄味UP
     gshift: 2,
     bshift: -11,   // 青もっと抜く
     fade: 0.25,    // 眠さUP
-    mura: 4,
+    mura: 2,
     blueDesat: 0.75,
     highlight: 230,
-    exposure: -0.05, // ちょい暗い
+    contrast: 0.95,
   },
 
   // =====================
@@ -343,10 +343,10 @@ const PRESETS = {
     quality: 0.70,
     rshift: 2,
     gshift: 1,
-    bshift: -4,    // 青を抑える
+    bshift: -2,    // 青を抑える
     fade: 0.08,
     mura: 2,
-    blueDesat: 0.90,
+    blueDesat: 0.95,
     highlight: 220, // 明るさ修正
     exposure: -0.05, // 全体を少し暗く
     purpleShift: 0.05, // ミニマゼンタ
@@ -357,15 +357,15 @@ const PRESETS = {
   // =====================
   smartphone: {
     maxSize: 1600,
-    quality: 0.75,
-    rshift: 1,
-    gshift: 1,
-    bshift: -2,
+    quality: 0.8,
+    rshift: 0,
+    gshift: 0,
+    bshift: 2,
     fade: 0.06,
     mura: 2,
-    blueDesat: 0.98, // 青を弱く
-    exposure: -0.08, // HDR弱めに
-    sharp: 1.08,     // 当時のカリッ感
+    blueDesat: 1.06, // 青を弱く
+    contrast: 1.02,    // ◀ 現代寄りに優しめのコントラスト
+  highlight: 245
   }
 };
 
