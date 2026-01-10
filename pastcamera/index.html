@@ -278,6 +278,11 @@ button {
     <strong>2014｜初期スマホ</strong>
     <small>ちょっと前なのに、もう懐かしい</small>
   </div>
+  <div class="era">
+  <strong>2014｜人物スマホ</strong>
+  <small>やわらかく写る、あの頃の空気</small>
+</div>
+
 </section>
 
 <button>画像を保存</button>
@@ -317,7 +322,16 @@ const PRESETS = {
     noise: 0.1,
     blur: 0.25,
     message: "ちょっと前なのに、もう懐かしい"
-  }
+  },
+  people2014: {
+  label: "2014｜人物スマホ",
+  maxSize: 1600,
+  quality: 0.72,
+  noise: 0.07,
+  blur: 0.15,
+  message: "やわらかく写る、あの頃の空気"
+}
+
 };
 
 /* ===== DOM ===== */
@@ -402,7 +416,9 @@ const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 const setting = {
   film1998: { rshift: 5,  bshift: -5,  fade: 0.10, mura: 10 },
   digi2010: { rshift: 1,  bshift: -1,  fade: 0.04, mura: 3  },
-  phone2014: { rshift: 1,  bshift: -1,  fade: 0.07, mura: 5  }
+  phone2014: { rshift: 1,  bshift: -1,  fade: 0.07, mura: 5  },
+  people2014: { rshift: 1,  bshift: -2, fade: 0.05, mura: 3}
+
 }[selectedPreset];
 
 // 色転び
