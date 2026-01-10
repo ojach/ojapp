@@ -266,24 +266,27 @@ button {
 </label>
 <div id="fileName"></div>
 <section class="eras">
-  <div class="era active">
-    <strong>1998｜フィルム</strong>
-    <small>写ってるだけで嬉しい</small>
+  <div class="era active" data-mode="garake">
+    <strong>ガラケー写メ</strong>
+    <small>10〜30KB、白っぽくて粗い写メ</small>
   </div>
-  <div class="era">
-    <strong>2010｜デジカメ</strong>
-    <small>ちゃんと撮った思い出</small>
-  </div>
-  <div class="era">
-    <strong>2014｜昔スマホ（景色）</strong>
-    <small>ちょっと前なのに、もう懐かしい</small>
-  </div>
-  <div class="era">
-  <strong>2014｜昔スマホ（人）</strong>
-  <small>やわらかく写る、あの頃の空気</small>
-</div>
 
+  <div class="era" data-mode="film">
+    <strong>フィルム</strong>
+    <small>青が淡く、黄味がのる本物寄りフィルム</small>
+  </div>
+
+  <div class="era" data-mode="digicam">
+    <strong>デジカメ</strong>
+    <small>2000年代コンデジの色ムラと硬さ</small>
+  </div>
+
+  <div class="era" data-mode="smartphone2012">
+    <strong>初期スマホ</strong>
+    <small>青が強くて明るい、2012〜2014頃の写り</small>
+  </div>
 </section>
+
 
 <button>画像を保存</button>
 
@@ -298,41 +301,65 @@ let selectedPreset = "film1998";
 let originalImage = null;
 let lastBlob = null;
 
-/* ===== 年代プリセット（基本パラメータ） ===== */
+/* ===== 新4モード ===== */
 const PRESETS = {
-  film1998: {
-    label: "1998｜フィルム",
-    maxSize: 720,
-    quality: 0.55,
-    noise: 0.14,
-    blur: 0.5,
-    message: "写ってるだけで嬉しい"
+  garake: {
+    label: "ガラケー写メ",
+    maxSize: 480,
+    quality: 0.25,
+    rshift: 4,
+    gshift: -2,
+    bshift: -6,
+    fade: 0.10,
+    mura: 12,
+    blueDesat: 0.75,
+    contrast: 1.10,
+    highlight: 240
   },
-  digi2010: {
-    label: "2010｜デジカメ",
-    maxSize: 1024,
-    quality: 0.6,
-    noise: 0.18,
-    blur: 0.2,
-    message: "ちゃんと撮った思い出"
-  },
-  phone2014: {
-    label: "2014｜昔スマホ（景色）",
-    maxSize: 1600,
-    quality: 0.70,
-    noise: 0.10,
-    blur: 0.25,
-    message: "ちょっと前なのに、もう懐かしい"
-  },
-  people2014: {
-    label: "2014｜昔スマホ（人）",
+
+  film: {
+    label: "フィルム",
     maxSize: 1600,
     quality: 0.72,
-    noise: 0.07,
-    blur: 0.15,
-    message: "やわらかく写る、あの頃の空気"
+    rshift: 6,
+    gshift: 2,
+    bshift: -8,
+    fade: 0.22,
+    mura: 4,
+    blueDesat: 0.88,
+    contrast: 0.95,
+    highlight: 228
+  },
+
+  digicam: {
+    label: "デジカメ",
+    maxSize: 1200,
+    quality: 0.60,
+    rshift: 2,
+    gshift: -1,
+    bshift: 2,
+    fade: 0.05,
+    mura: 3,
+    blueDesat: 1.05,
+    contrast: 1.08,
+    highlight: 240
+  },
+
+  smartphone2012: {
+    label: "初期スマホ",
+    maxSize: 1400,
+    quality: 0.68,
+    rshift: 0,
+    gshift: 0,
+    bshift: 3,
+    fade: 0.08,
+    mura: 4,
+    blueDesat: 1.10,
+    contrast: 1.04,
+    highlight: 245
   }
 };
+
 
 /* ===== DOM ===== */
 const fileInput = document.getElementById("photoInput");
@@ -357,17 +384,16 @@ fileInput.addEventListener("change", e => {
   img.src = URL.createObjectURL(fileInput.files[0]);
 });
 
-/* ===== 年代選択時：プレビュー更新 ===== */
-eraEls.forEach((el, i) => {
+/* ===== 年代（モード）選択 ===== */
+eraEls.forEach(el => {
   el.addEventListener("click", () => {
     eraEls.forEach(e => e.classList.remove("active"));
     el.classList.add("active");
-
-    selectedPreset = Object.keys(PRESETS)[i];
-
-    generatePreview(); // ← 年代変更のたびに即プレビュー更新
+    selectedPreset = el.dataset.mode;  // ← ここが新しくなる！
+    generatePreview();
   });
 });
+
 
 /* ===== プレビュー生成（保存前の加工すべてここでやる） ===== */
 async function generatePreview() {
@@ -388,42 +414,38 @@ async function generatePreview() {
 
   ctx.drawImage(originalImage, 0, 0, canvas.width, canvas.height);
 
-  /* ぼかし */
-  if (p.blur > 0) {
-    ctx.filter = `blur(${p.blur}px)`;
-    ctx.drawImage(canvas, 0, 0);
-    ctx.filter = "none";
-  }
-
-  /* ノイズ + 年代別ゆらぎ加工 */
   const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const d = imgData.data;
-
-  const setting = {
-  film1998:   { rshift: 7,  bshift: -7,  fade: 0.14, mura: 10 },
-  digi2010:   { rshift: 4,  bshift: -4,  fade: 0.02, mura: 4 },
-  phone2014:  { rshift: 3,  bshift: -2,  fade: 0.09, mura: 5 },
-  people2014: { rshift: 1,  bshift: -3,  fade: 0.07, mura: 3 }
-}[selectedPreset];
+  const set = PRESETS[selectedPreset];
 
   for (let i = 0; i < d.length; i += 4) {
-    const r = d[i], g = d[i+1], b = d[i+2];
-    const luma = r*0.3 + g*0.59 + b*0.11;
-    const shadow = Math.max(0, (150 - luma) / 150);
-    const n = (Math.random() - 0.5) * 255 * p.noise * shadow;
 
-    const avg = (r + g + b) / 3;
+/* ---- 色転び（各モード共通の基礎） ---- */
+d[i]     += set.rshift;
+d[i + 1] += set.gshift;
+d[i + 2] += set.bshift;
 
-    d[i] += setting.rshift + n;
-    d[i+1] = d[i+1] * (1 - setting.fade) + avg * setting.fade + n;
-    d[i+2] += setting.bshift + n;
+/* ---- 青の強さ補正 ---- */
+d[i + 2] *= set.blueDesat;
 
-    /* ムラ（粒状のゆらぎ） */
-    const m = (Math.random() - 0.5) * setting.mura;
-    d[i] += m;
-    d[i+1] += m;
-    d[i+2] += m;
-  }
+/* ---- コントラスト（簡易版） ---- */
+const avg = (d[i] + d[i+1] + d[i+2]) / 3;
+d[i]     = d[i]     * (1 - set.fade) + avg * set.fade;
+d[i + 1] = d[i + 1] * (1 - set.fade) + avg * set.fade;
+d[i + 2] = d[i + 2] * (1 - set.fade) + avg * set.fade;
+
+/* ---- 粒子（ムラ） ---- */
+const m = (Math.random() - 0.5) * set.mura;
+d[i]     += m;
+d[i + 1] += m;
+d[i + 2] += m;
+
+/* ---- 白飛び抑制 ---- */
+d[i]     = Math.min(d[i], set.highlight);
+d[i + 1] = Math.min(d[i + 1], set.highlight);
+d[i + 2] = Math.min(d[i + 2], set.highlight);
+
+}
 
   ctx.putImageData(imgData, 0, 0);
 
