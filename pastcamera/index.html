@@ -303,62 +303,72 @@ let lastBlob = null;
 
 /* ===== 新4モード ===== */
 const PRESETS = {
+  // =====================
+  // ① ガラケー（写メ）
+  // =====================
   garake: {
-    label: "ガラケー写メ",
-    maxSize: 720,
-    quality: 0.35,
+    maxSize: 800,
+    quality: 0.45,
     rshift: 3,
     gshift: -1,
     bshift: -6,
     fade: 0.10,
-    mura: 8,
-    blueDesat: 0.75,
-    contrast: 1.10,
-    highlight: 240
+    mura: 6,
+    blueDesat: 0.78,
+    highlight: 240,
+    exposure: -0.03,
   },
 
+  // =====================
+  // ② フィルム（Portra × Superia）
+  // =====================
   film: {
-    label: "フィルム",
     maxSize: 1600,
-    quality: 0.72,
-    rshift: 6,
+    quality: 0.65,
+    rshift: 7,     // 黄味UP
     gshift: 2,
-    bshift: -8,
-    fade: 0.22,
+    bshift: -10,   // 青もっと抜く
+    fade: 0.25,    // 眠さUP
     mura: 4,
-    blueDesat: 0.88,
-    contrast: 0.95,
-    highlight: 228
+    blueDesat: 0.75,
+    highlight: 230,
+    exposure: -0.05, // ちょい暗い
   },
 
+  // =====================
+  // ③ デジカメ（2005〜2010）
+  // =====================
   digicam: {
-    label: "デジカメ",
-    maxSize: 1200,
-    quality: 0.60,
+    maxSize: 1400,
+    quality: 0.70,
     rshift: 2,
-    gshift: -1,
-    bshift: 2,
-    fade: 0.05,
-    mura: 3,
-    blueDesat: 1.05,
-    contrast: 1.08,
-    highlight: 240
+    gshift: 1,
+    bshift: -4,    // 青を抑える
+    fade: 0.08,
+    mura: 2,
+    blueDesat: 0.90,
+    highlight: 220, // 明るさ修正
+    exposure: -0.05, // 全体を少し暗く
+    purpleShift: 0.05, // ミニマゼンタ
   },
 
-  smartphone2012: {
-    label: "初期スマホ",
-    maxSize: 1400,
-    quality: 0.68,
-    rshift: 0,
-    gshift: 0,
-    bshift: 3,
-    fade: 0.08,
-    mura: 4,
-    blueDesat: 1.10,
-    contrast: 1.04,
-    highlight: 245
+  // =====================
+  // ④ 初期スマホ（iPhone4〜6）
+  // =====================
+  smartphone: {
+    maxSize: 1600,
+    quality: 0.75,
+    rshift: 1,
+    gshift: 1,
+    bshift: -2,
+    fade: 0.06,
+    mura: 2,
+    blueDesat: 0.92, // 青を弱く
+    exposure: -0.08, // HDR弱めに
+    sharp: 1.08,     // 当時のカリッ感
   }
 };
+
 
 
 /* ===== DOM ===== */
