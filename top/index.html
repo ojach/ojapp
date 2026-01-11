@@ -25,6 +25,157 @@
 <link rel="stylesheet" href="/style.css">
 <!-- ダークモード呼ぶ -->
 <script src="/darkmode.js"></script>
+  <style>
+    /* =========================
+   OJapp Top Page
+========================= */
+
+.top {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 20px 96px;
+  text-align: center;
+}
+
+/* Hero */
+.hero {
+  margin-bottom: 72px;
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.hero-tagline {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.hero-actions {
+  margin-top: 24px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 14px 36px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #ffd24d, #ffb703);
+  color: #222;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* About */
+.about {
+  margin-bottom: 72px;
+}
+
+.about p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #666;
+}
+
+/* Tools */
+.tools {
+  margin-bottom: 80px;
+}
+
+.tools h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.tool-card {
+  display: block;
+  padding: 28px 24px;
+  border-radius: 18px;
+  background: #fff;
+  text-decoration: none;
+  color: #222;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tool-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tool-card p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Note */
+.note {
+  margin-top: 64px;
+}
+
+.note p {
+  font-size: 0.95rem;
+  color: #777;
+  line-height: 1.7;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .top {
+    color: #f5f5f5;
+  }
+
+  .hero-tagline,
+  .about p,
+  .tool-card p,
+  .note p {
+    color: #aaa;
+  }
+
+  .tool-card {
+    background: #1e1e1e;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .tool-card:hover {
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .btn.primary {
+    color: #222;
+  }
+}
+
+  </style>
 </head>
 
 <body>
