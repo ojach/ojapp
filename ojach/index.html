@@ -1,0 +1,106 @@
+<!-- すべてのページのヘッダーとフッターのコピペ用 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OJapp</title>
+
+<!-- ファビコン -->
+<link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon/favicon-48.png">
+
+<!-- iPhone ホームアイコン -->
+<link rel="apple-touch-icon" sizes="180x180" href="/icon/icon-180.png">
+
+<!-- PWA（必要なら有効化） -->
+<!-- <link rel="manifest" href="/manifest.json"> -->
+
+<meta name="theme-color" content="#2bb7ff">
+
+<!-- 共通CSS -->
+<link rel="stylesheet" href="/style.css">
+<!-- ダークモード呼ぶ -->
+<script src="/darkmode.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+<script>
+fetch("/header.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("header").innerHTML = h);
+</script>
+
+<main>
+  <h1>運営者情報</h1>
+
+  <p>
+    OJappは、日本在住の個人開発者 <strong>おじゃち</strong> が運営・管理しているWebサービスです。
+    本サービスは、個人によって企画・開発・運営されており、
+    「シンプルで使いやすいこと」を大切にしながら継続的な改善を行っています。
+  </p>
+
+  <h2>OJappについて</h2>
+  <p>
+    OJappは、Webサイトをホーム画面アプリとして利用できるようにするツールや、
+    日常的に使えるシンプルなWebユーティリティを提供しています。
+    面倒な設定やインストールを必要とせず、誰でも直感的に使える設計を目指しています。
+  </p>
+
+  <h2>運営方針</h2>
+  <p>
+    OJappでは、利用者目線を最優先に考え、
+    不要なデータ収集や過度な機能追加は行いません。
+    実際の利用状況やフィードバックをもとに、
+    必要な改善を少しずつ積み重ねていく方針で運営しています。
+  </p>
+
+  <p>
+    ご意見・ご要望・不具合のご報告などがありましたら、
+    サイト内の連絡先よりお気軽にお問い合わせください。
+  </p>
+   <h1>About the Operator</h1>
+
+  <p>
+    OJapp is operated and maintained by <strong>おじゃち</strong>,
+    an independent developer based in Japan.
+    This service is created and managed by a single individual,
+    focusing on simplicity, usability, and continuous improvement.
+  </p>
+
+  <h2>About OJapp</h2>
+  <p>
+    OJapp is a web-based tool designed to make everyday web usage more convenient.
+    Its main goal is to help users turn websites into home screen apps
+    and manage simple web utilities without complex setup or installation.
+  </p>
+
+  <h2>Operating Policy</h2>
+  <p>
+    OJapp is developed with a user-first mindset.
+    No unnecessary data is collected, and features are added only
+    when they provide clear value.
+    The service is continuously updated based on real usage and feedback.
+  </p>
+
+  <p>
+    If you have questions, feedback, or suggestions,
+    feel free to reach out through the contact links provided on this site.
+  </p>
+</main>
+
+
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(h => document.getElementById("footer").innerHTML = h);
+</script>
+
+</body>
+</html>
