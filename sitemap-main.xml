@@ -84,4 +84,10 @@
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
+  https://ojapp.app/mvp/
+  <url>
+    <loc>https://ojapp.app/mvp/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
