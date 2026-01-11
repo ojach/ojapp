@@ -88,12 +88,13 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   margin-bottom: 12px;
+  color: var(--assistant-border);
 }
 
 .hero-tagline {
   font-size: 1.2rem;
   line-height: 1.6;
-  color: var(--assistant-border);
+  color: var(--text);
   margin-bottom: 32px;
 }
 
@@ -187,33 +188,6 @@
   font-size: 0.95rem;
   color: #777;
   line-height: 1.7;
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .top {
-    color: #f5f5f5;
-  }
-
-  .hero-tagline,
-  .about p,
-  .tool-card p,
-  .note p {
-    color: #aaa;
-  }
-
-  .tool-card {
-    background: #1e1e1e;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  }
-
-  .tool-card:hover {
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
-  }
-
-  .btn.primary {
-    color: #222;
-  }
 }
 
   </style>
