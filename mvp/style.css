@@ -228,3 +228,45 @@ button:hover { background:#4a76e6; }
 *::before, *::after {
    background: red !important;
 }
+/* ====== OJapp Slider ====== */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 90%;
+  height: 6px;
+  border-radius: 4px;
+  background: #d4d8e2;  /* 薄いグレーのレール */
+  outline: none;
+}
+
+/* レール（track） */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #d4d8e2;
+}
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #d4d8e2;
+}
+
+/* つまみ（thumb） */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #5c8aff; /* OJapp青 */
+  cursor: pointer;
+  margin-top: -6px; /* つまみ位置調整 */
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #5c8aff;
+  cursor: pointer;
+}
