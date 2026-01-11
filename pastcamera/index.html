@@ -323,18 +323,18 @@ const PRESETS = {
   // ② フィルム（Portra × Superia）
   // =====================
  film: {
-  maxSize: 1200,
+  maxSize: 1000,
   quality: 0.78,
 
   // 色味バランス
-  rshift: 1,
+  rshift: 2,
   gshift: -3,      // 緑ほんの少し削って青緑→青灰へ
   bshift: -14,     // 青の色味をさらに抜く（強めOK）
 
   // 青い空を“白寄り”にする3点セット
-  blueDesat: 0.82, // 彩度を落とす（くすませる）
+  blueDesat: 0.86, // 彩度を落とす（くすませる）
   blueLift: 12,    // 明るさを上げる → 空が白に近づく
-  blueFade: 0.10,  // 追加：青だけフェードさせる補正（後で説明）
+  blueFade: 0.12,  // 追加：青だけフェードさせる補正（後で説明）
 
   fade: 0.15,
   contrast: 0.95,
