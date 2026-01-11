@@ -36,10 +36,81 @@ fetch("/header.html")
   .then(h => document.getElementById("header").innerHTML = h);
 </script>
 
-<div class="main">
-  <!-- ページ固有の内容を書く -->
+<main class="top">
 
-</div>
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero-title">OJapp</h1>
+    <p class="hero-tagline">
+      ホーム画面を、<br>
+      ちょっと楽しくする道具箱
+    </p>
+
+    <div class="hero-actions">
+      <a href="/" class="btn primary">アプリを作る</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about">
+    <p>
+      OJappは、URLや画像を使って<br>
+      「アプリみたいに使える体験」を作るWebツール集です。
+    </p>
+  </section>
+
+  <!-- Tools -->
+  <section class="tools">
+    <h2>Tools</h2>
+
+    <div class="tool-grid">
+      <a href="/" class="tool-card">
+        <h3>OJapp</h3>
+        <p>Webサイトをホーム画面アプリに</p>
+      </a>
+
+      <a href="/split/" class="tool-card">
+        <h3>Splitter</h3>
+        <p>画像を分割する</p>
+      </a>
+
+      <a href="/shop/" class="tool-card">
+        <h3>Shop</h3>
+        <p>OJappのショップ</p>
+      </a>
+
+      <a href="/mvp/" class="tool-card">
+        <h3>WaterMark</h3>
+        <p>透かしを入れる</p>
+      </a>
+
+      <a href="/pastcamera/" class="tool-card">
+        <h3>PastCamera</h3>
+        <p>画像を古く、エモく、小さく</p>
+      </a>
+
+      <a href="/OJ-pass/" class="tool-card">
+        <h3>OJ-pass</h3>
+        <p>パスワードを生成する</p>
+      </a>
+
+      <a href="/kachi-plus/" class="tool-card">
+        <h3>Kachi+</h3>
+        <p>カチカチくん風データ記録</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Note -->
+  <section class="note">
+    <p>
+      Webで作って、<br>
+      アプリみたいに使う。
+    </p>
+  </section>
+
+</main>
+
 
 <div id="footer"></div>
 <script>
