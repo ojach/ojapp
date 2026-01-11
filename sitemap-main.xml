@@ -78,4 +78,10 @@
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
+
+   <url>
+    <loc>https://ojapp.app/pastcamera/</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
