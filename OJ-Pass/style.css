@@ -472,3 +472,23 @@ html {
   margin-bottom: 16px;
   font-size: 1.4em;
 }
+.breadcrumb {
+  font-size: 14px;
+  margin: 6px 0 16px;
+  color: var(--text);
+  opacity: 0.7;
+  text-align: left;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.breadcrumb a {
+  color: var(--assistant-border);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
