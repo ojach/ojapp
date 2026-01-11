@@ -268,22 +268,22 @@ button {
 <section class="eras">
   <div class="era active" data-mode="garake">
     <strong>ガラケー写メ</strong>
-    <small>10〜30KB、白っぽくて粗い写メ</small>
+    <small>一瞬で“昔の写メ”になる低画質感</small>
   </div>
 
   <div class="era" data-mode="film">
     <strong>フィルム</strong>
-    <small>青が淡く、黄味がのる本物寄りフィルム</small>
+    <small>色の抜け方が美しい、エモいフィルム色</small>
   </div>
 
   <div class="era" data-mode="digicam">
     <strong>デジカメ</strong>
-    <small>2000年代コンデジの色ムラと硬さ</small>
+    <small>当時のコンデジ特有の少しザラつく質感</small>
   </div>
 
   <div class="era" data-mode="smartphone">
     <strong>初期スマホ</strong>
-    <small>青が強くて明るい、2012〜2014頃の写り</small>
+    <small>明るく青強め・初期iPhoneの写り</small>
   </div>
 </section>
 
@@ -291,7 +291,7 @@ button {
 <button>画像を保存</button>
 
 <div class="result">
-  1998年の写真です（82KB）
+  あの頃の写真
 </div>
 <img id="output" class="previewImage">
 
@@ -307,6 +307,7 @@ const PRESETS = {
   // ① ガラケー（写メ）
   // =====================
   garake: {
+    label: "ガラケー写メ",
     maxSize: 800,
     quality: 0.3,
     rshift: 3,
@@ -323,6 +324,7 @@ const PRESETS = {
   // ② フィルム（Portra × Superia）
   // =====================
  film: {
+   label: "フィルム",
   maxSize: 1000,
   quality: 0.78,
 
@@ -347,6 +349,7 @@ const PRESETS = {
   // ③ デジカメ（2005〜2010）
   // =====================
   digicam: {
+    label: "デジカメ",
     maxSize: 1400,
     quality: 0.70,
     rshift: -2,
@@ -364,6 +367,7 @@ const PRESETS = {
   // ④ 初期スマホ（iPhone4〜6）
   // =====================
   smartphone: {
+    label: "初期スマホ",
     maxSize: 1600,
     quality: 0.8,
     rshift: 2,
