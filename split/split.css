@@ -15,7 +15,7 @@
 
   --cell-bg: #fafafa;
   --cell-shadow: rgba(0,0,0,.12);
-
+--assistant-border: #2bb7ff;
   --btn-text: #ff66cc;
 }
 
@@ -33,7 +33,7 @@
 
   --cell-bg: #2a2a2a;
   --cell-shadow: rgba(0,0,0,.6);
-
+--assistant-border: #67c8ff;
   --btn-text: #ff99dd;
 }
 
