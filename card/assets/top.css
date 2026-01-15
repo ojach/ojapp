@@ -1,75 +1,134 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OJapp Card</title>
-  <link rel="stylesheet" href="./assets/top.css">
-</head>
+body {
+  margin: 0;
+  font-family: 'Inter', 'Hiragino Sans', sans-serif;
+  background: #fafafa;
+  color: #222;
+}
 
-<body>
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+  align-items: center;
+}
 
-  <header class="header">
-    <div class="logo">OJapp Card</div>
-    <nav>
-      <a href="./login.html">ログイン</a>
-      <a href="./register.html" class="btn">無料ではじめる</a>
-    </nav>
-  </header>
+.logo {
+  font-weight: 700;
+  font-size: 22px;
+}
 
-  <main class="hero">
-    <h1>あなたを、一枚に。</h1>
-    <p>QRで渡せる、ホームに置ける。<br>
-       つながらない、静かな個人カード。</p>
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
 
-    <a href="./register.html" class="cta-btn">無料ではじめる</a>
-  </main>
+nav .btn {
+  padding: 8px 16px;
+  background: #222;
+  color: white !important;
+  border-radius: 8px;
+}
 
-  <!-- 名刺カードサンプル（モック） -->
-  <section class="sample-section">
-    <h2>名刺カードの例</h2>
-    <div class="sample-card">
-      <img class="sample-icon" src="./assets/sample-icon.png" alt="">
-      <div class="sample-name">おじゃち</div>
-      <div class="sample-title">Creator / Developer</div>
-      <div class="sample-link"><span>🔗 SNS</span></div>
-    </div>
-    <p class="sample-note">1画面に収まる、"あなた" の名刺。</p>
-  </section>
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+}
 
-  <!-- 個人ページサンプル（Free / Pro） -->
-  <section class="profile-samples">
-    <h2>個人ページ</h2>
+.hero h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
 
-    <div class="profile-grid">
+.hero p {
+  margin-top: 15px;
+  color: #555;
+  font-size: 18px;
+  line-height: 1.6;
+}
 
-      <div class="profile-box free">
-        <h3>Free</h3>
-        <ul>
-          <li>・アイコン</li>
-          <li>・SNSリンク</li>
-          <li>・象徴画像 1〜2枚</li>
-          <li>・自己紹介 1ブロック</li>
-        </ul>
-      </div>
+.cta-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 28px;
+  background: #222;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 18px;
+}
 
-      <div class="profile-box pro">
-        <h3>Pro</h3>
-        <ul>
-          <li>・レイアウト自由化</li>
-          <li>・画像・セクション無制限</li>
-          <li>・背景/テーマ/フォント</li>
-          <li>・ショップ連携 / お知らせ</li>
-          <li>・Support（応援）枠</li>
-        </ul>
-      </div>
+.sample-section {
+  padding: 60px 20px;
+  text-align: center;
+}
 
-    </div>
-  </section>
+.sample-card {
+  width: 280px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
 
-  <footer class="footer">
-    <p>© OJapp Card</p>
-  </footer>
+.sample-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
 
-</body>
-</html>
+.sample-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.sample-title {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #555;
+}
+
+.sample-link {
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.sample-note {
+  margin-top: 15px;
+  color: #555;
+}
+
+.profile-samples {
+  padding: 60px 20px;
+}
+
+.profile-grid {
+  max-width: 800px;
+  margin: 30px auto 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.profile-box {
+  width: 300px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.profile-box h3 {
+  margin-top: 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  color: #555;
+}
+
