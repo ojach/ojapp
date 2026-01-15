@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新規登録 - OJapp Card</title>
+  <link rel="stylesheet" href="./assets/register.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1 class="title">新規登録</h1>
+    <p class="subtitle">まずは必要な情報を入力してください</p>
+
+    <form id="register-form">
+
+      <label>メールアドレス</label>
+      <input type="email" name="email" required>
+
+      <label>パスワード</label>
+      <input type="password" name="password" minlength="8" required>
+
+      <label>氏名（漢字）</label>
+      <input type="text" name="real_name" required>
+
+      <label>氏名（カナ）</label>
+      <input type="text" name="real_name_kana" required>
+
+      <div class="terms">
+        <input type="checkbox" id="agree" required>
+        <label for="agree">利用規約に同意します（13歳以上）</label>
+      </div>
+
+      <button type="submit" class="submit-btn">登録する</button>
+    </form>
+
+    <p class="login-link">
+      すでにアカウントがありますか？  
+      <a href="./login.html">ログイン</a>
+    </p>
+
+  </div>
+
+</body>
+</html>
 
