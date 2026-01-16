@@ -13,25 +13,25 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #fafafa;
+      background: #f6f6f6;
       font-family: "Inter", sans-serif;
     }
 
     .card {
       width: 340px;
-      padding: 24px;
-      border-radius: 18px;
+      padding: 26px;
+      border-radius: 20px;
       background: #fff;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
 
     .icon {
-      width: 88px;
-      height: 88px;
+      width: 86px;
+      height: 86px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 12px;
+      margin: 0 auto 14px;
       background: #eee;
     }
 
@@ -43,24 +43,27 @@
 
     .title {
       font-size: 14px;
-      color: #666;
+      color: #555;
       margin-bottom: 18px;
     }
 
-    .link-area {
-      margin-top: 12px;
-      font-size: 14px;
+    .icons {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 10px;
     }
 
-    .btn {
-      margin-top: 18px;
-      display: inline-block;
-      padding: 10px 18px;
-      background: #000;
-      color: #fff;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
+    .icon-btn img {
+      width: 30px;
+      height: 30px;
+      opacity: 0.85;
+      transition: 0.15s;
+    }
+
+    .icon-btn:hover img {
+      opacity: 1;
+      transform: scale(1.08);
     }
   </style>
 </head>
@@ -71,15 +74,19 @@
     <div class="name" id="name">Loading...</div>
     <div class="title" id="title"></div>
 
-    <div class="link-area">
-      <a id="sns" href="#" target="_blank">🔗 SNS</a>
-    </div>
+    <div class="icons">
+      <a id="page" class="icon-btn" href="#" target="_blank">
+        <img src="../assets/svg/link.svg" alt="link">
+      </a>
 
-    <a id="page" class="btn" href="#" target="_blank">個人ページを見る</a>
+      <a id="sns" class="icon-btn" href="#" target="_blank">
+        <img src="../assets/svg/sns.svg" alt="sns">
+      </a>
+    </div>
   </div>
 
 <script>
-  // username = /card/?u=ojach のように取得
+  // /card/view/?u=ojach → username取得
   const params = new URLSearchParams(window.location.search);
   const username = params.get("u");
 
@@ -90,7 +97,7 @@
       .then(r => r.json())
       .then(data => {
         if (data.error) {
-          document.getElementById("name").textContent = "カードが見つかりません";
+          document.getElementById("name").textContent = "カードが存在しません";
           return;
         }
 
@@ -103,5 +110,6 @@
       });
   }
 </script>
+
 </body>
 </html>
