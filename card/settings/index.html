@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJapp Card Settings</title>
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+
+  <header>
+    <h1>OJapp Card Settings</h1>
+    <a id="preview-link" href="#" target="_blank">名刺プレビューを見る →</a>
+  </header>
+
+  <main>
+
+    <!-- 基本情報 -->
+    <section class="block">
+      <h2>基本情報</h2>
+
+      <label>名前
+        <input type="text" id="name" />
+      </label>
+
+      <label>名前（ローマ字）
+        <input type="text" id="name_roman" />
+      </label>
+
+      <label>肩書き / Title
+        <input type="text" id="title" />
+      </label>
+
+      <label>アイコンURL
+        <input type="text" id="icon_url" />
+      </label>
+
+      <label class="row">
+        <input type="checkbox" id="show_icon" />
+        アイコンを表示する
+      </label>
+    </section>
+
+    <!-- 会社ブロック -->
+    <section class="block">
+      <h2>会社情報</h2>
+
+      <label class="row">
+        <input type="checkbox" id="show_company" />
+        会社ブロックを表示する
+      </label>
+
+      <label>会社名
+        <input type="text" id="company_name" />
+      </label>
+
+      <label>会社ロゴURL
+        <input type="text" id="company_logo_url" />
+      </label>
+    </section>
+
+    <!-- リンク/SNS -->
+    <section class="block">
+      <h2>リンク</h2>
+
+      <label>個人ページURL
+        <input type="text" id="personal_page_url" />
+      </label>
+
+      <label>SNSリンク
+        <input type="text" id="sns_link" />
+      </label>
+    </section>
+
+    <!-- デザイン設定 -->
+    <section class="block">
+      <h2>デザイン</h2>
+
+      <label>名刺タイプ</label>
+      <div class="row">
+        <label><input type="radio" name="type" value="business" checked /> business</label>
+        <label><input type="radio" name="type" value="casual" /> casual</label>
+      </div>
+    </section>
+
+    <!-- 保存ボタン -->
+    <section class="block">
+      <button id="save-btn">保存する 💾</button>
+    </section>
+
+  </main>
+
+  <script src="settings.js"></script>
+</body>
+</html>
