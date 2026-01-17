@@ -3,40 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>新規登録 - OJapp Card</title>
+  <title>OJapp Card - 新規登録</title>
   <link rel="stylesheet" href="./assets/register.css">
 </head>
-
 <body>
 
   <div class="container">
+    <h1>OJapp Card</h1>
+    <p class="subtitle">アカウントを作成して名刺を作ろう</p>
 
-    <h1 class="title">新規登録</h1>
-    <p class="subtitle">まずは必要な情報を入力してください</p>
+    <div class="form-box">
 
-    <form id="register-form">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com">
 
-      <label>メールアドレス</label>
-      <input type="email" name="email" required>
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••">
 
-      <label>パスワード</label>
-      <input type="password" name="password" minlength="8" required>
+      <label>Password（確認）</label>
+      <input type="password" id="password2" placeholder="もう一度入力">
 
-      <div class="terms">
-        <input type="checkbox" id="agree" required>
-        <label for="agree">利用規約に同意します（13歳以上）</label>
-      </div>
+      <button id="register-btn">新規登録</button>
 
-      <button type="submit" class="submit-btn">登録する</button>
-    </form>
+      <p id="error-text" class="error"></p>
 
-    <p class="login-link">
-      すでにアカウントがありますか？  
-      <a href="./login.html">ログイン</a>
-    </p>
+      <p class="note">
+        すでにアカウントがある？  
+        <a href="/card/login/">ログイン</a>
+      </p>
 
+    </div>
   </div>
 
+  <script src="./assets/register.js"></script>
 </body>
 </html>
-
