@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJapp Card - Login</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>OJapp Card</h1>
+    <p class="subtitle">ログインして名刺を編集しよう</p>
+
+    <div class="form-box">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••" />
+
+      <button id="login-btn">ログイン</button>
+
+      <p class="error" id="error-text"></p>
+
+      <p class="note">
+        アカウントがない？  
+        <a href="/card/register/">新規登録</a>
+      </p>
+    </div>
+
+  </div>
+
+<script src="login.js"></script>
+</body>
+</html>
 
