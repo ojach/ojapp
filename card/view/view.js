@@ -22,9 +22,7 @@ async function loadCard() {
       return;
     }
 
-    const card = data.card;
-
-    renderCard(card);
+    renderCard(data.card);
 
   } catch (err) {
     console.error(err);
@@ -42,49 +40,35 @@ function renderCard(card) {
   const container = document.querySelector(".card-container");
 
   // --- テーマ設定（business / casual） ---
-  container.classList.add(card.type);
+  container.classList.add(card.theme || "business");
 
   // --- メイン情報 ---
   document.getElementById("name").textContent = card.name;
-  document.getElementById("name-roman").textContent = card.name_roman;
+  document.getElementById("name-roman").textContent = card.name_roman || "";
   document.getElementById("title").textContent = card.title;
 
-  // --- アイコン ON/OFF ---
+  // --- アイコン ---
   const iconBlock = document.getElementById("icon-block");
-  if (card.show_icon && card.icon_url) {
+  if (card.icon_url) {
     document.getElementById("icon-img").src = card.icon_url;
     iconBlock.classList.remove("hidden");
   } else {
     iconBlock.classList.add("hidden");
   }
 
-  // --- 会社ブロック ON/OFF ---
+  // --- 会社ブロック（現API未実装なので全部非表示） ---
   const companyBlock = document.getElementById("company-block");
-  if (card.show_company && card.company_name) {
-    if (card.company_logo_url) {
-      document.getElementById("company-logo").src = card.company_logo_url;
-    }
-    document.getElementById("company-name").textContent = card.company_name;
-    companyBlock.classList.remove("hidden");
-  } else {
-    companyBlock.classList.add("hidden");
-  }
+  companyBlock.classList.add("hidden");
 
   // --- 下段リンク：個人ページ ---
   const linkWrap = document.getElementById("link-wrapper");
   linkWrap.href = card.personal_page_url || "#";
-
-  // businessのとき → “Link”
-  // casualのとき → アイコンそのまま
   document.getElementById("link-text").textContent =
-    card.type === "business" ? "Link" : "🔗";
+    card.theme === "business" ? "Link" : "🔗";
 
   // --- 下段リンク：SNS ---
   const snsWrap = document.getElementById("sns-wrapper");
   snsWrap.href = card.sns_link || "#";
-
   document.getElementById("sns-text").textContent =
-    card.type === "business" ? "SNS" : "SNS";
-
-  // casual のときは SVG の色が CSS で変わる
+    card.theme === "business" ? "SNS" : "SNS";
 }
