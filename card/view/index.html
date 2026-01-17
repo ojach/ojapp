@@ -1,116 +1,57 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OJapp Card</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f6f6f6;
-      font-family: "Inter", sans-serif;
-    }
-
-    .card {
-      width: 340px;
-      padding: 26px;
-      border-radius: 20px;
-      background: #fff;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-
-    .icon {
-      width: 86px;
-      height: 86px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 0 auto 14px;
-      background: #eee;
-    }
-
-    .name {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .title {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 18px;
-    }
-
-    .icons {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-top: 10px;
-    }
-
-    .icon-btn img {
-      width: 30px;
-      height: auto;
-      opacity: 0.85;
-      transition: 0.15s;
-    }
-
-    .icon-btn:hover img {
-      opacity: 1;
-      transform: scale(1.08);
-    }
-  </style>
+  <!-- 名刺のCSS -->
+  <link rel="stylesheet" href="./view.css" />
 </head>
 
 <body>
-  <div class="card">
-    <img class="icon" id="icon" src="" alt="icon">
-    <div class="name" id="name">Loading...</div>
-    <div class="title" id="title"></div>
 
-    <div class="icons">
-      <a id="page" class="icon-btn" href="#" target="_blank">
-        <img src="../assets/svg/link.svg" alt="link">
+  <!-- 全体ラッパ（1:1 比率） -->
+  <div class="card-container">
+
+    <!-- 会社ブロック（ON/OFF対応） -->
+    <div id="company-block" class="company-block hidden">
+      <img id="company-logo" class="company-logo" src="" alt="">
+      <div id="company-name" class="company-name"></div>
+    </div>
+
+    <!-- メイン情報（中央三段） -->
+    <div class="main-info">
+      <div id="name" class="name">名前</div>
+      <div id="name-roman" class="name-roman">NAME NAME</div>
+      <div id="title" class="title">TITLE</div>
+    </div>
+
+    <!-- アイコン（ON/OFF対応） -->
+    <div id="icon-block" class="icon-block hidden">
+      <img id="icon-img" class="icon-img" src="" alt="">
+    </div>
+
+    <!-- 下段リンク -->
+    <div class="bottom-links">
+
+      <!-- Link -->
+      <a id="link-wrapper" class="link-item" href="#" target="_blank">
+        <img src="../assets/svg/link.svg" class="link-icon" id="link-icon">
+        <span id="link-text">Link</span>
       </a>
 
-      <a id="sns" class="icon-btn" href="#" target="_blank">
-        <img src="../assets/svg/sns.png" alt="sns">
+      <!-- SNS -->
+      <a id="sns-wrapper" class="link-item" href="#" target="_blank">
+        <img src="../assets/svg/sns.svg" class="sns-icon" id="sns-icon">
+        <span id="sns-text">SNS</span>
       </a>
+
     </div>
   </div>
 
-<script>
-  // /card/view/?u=ojach → username取得
-  const params = new URLSearchParams(window.location.search);
-  const username = params.get("u");
-
-  if (!username) {
-    document.getElementById("name").textContent = "ユーザーが見つかりません";
-  } else {
-    fetch(`https://ojapp.app/card/api/get_card/${username}`)
-      .then(r => r.json())
-      .then(data => {
-        if (data.error) {
-          document.getElementById("name").textContent = "カードが存在しません";
-          return;
-        }
-
-        document.getElementById("icon").src = data.icon_url || "";
-        document.getElementById("name").textContent = data.name || "";
-        document.getElementById("title").textContent = data.title || "";
-
-        document.getElementById("page").href = data.personal_page_url || "#";
-        document.getElementById("sns").href = data.sns_link || "#";
-        
-      });
-  }
-</script>
+  <!-- JS（API読み込み・描画） -->
+  <script src="./view.js"></script>
 
 </body>
 </html>
