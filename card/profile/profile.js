@@ -2,7 +2,8 @@
 // URL から username を取得
 // ----------------------------------------
 const params = new URLSearchParams(location.search);
-const username = params.get("u");
+const username = new URLSearchParams(location.search).get("u");
+loadPetals(username);
 
 if (!username) {
   alert("ユーザーが指定されていません。?u=username が必要です。");
