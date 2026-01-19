@@ -33,7 +33,7 @@ async function register() {
     const data = await res.json();
     console.log("response:", data);
 
-    if (data.status !== "ok") {
+    if (data.status !== "ok" && data.status !== "created") {
       errorText.textContent = data.error || "登録に失敗しました。";
       return;
     }
