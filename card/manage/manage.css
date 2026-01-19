@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f7f7f7;
+  color: #222;
+}
+
+header {
+  padding: 20px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+main {
+  padding: 20px;
+}
+
+.petal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.petal-item {
+  padding: 16px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.petal-user {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.petal-message {
+  margin-bottom: 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.approve-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.loading {
+  color: #777;
+}
