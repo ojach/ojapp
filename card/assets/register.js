@@ -24,7 +24,7 @@ async function register() {
   }
 
   try {
-   const res = await fetch("https://ojcard-worker.trc-wasps.workers.dev/api/create_user", {
+   const res = await fetch("https://ojapp.app/card/api/create_user", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ email, password: pw }),
