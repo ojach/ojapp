@@ -67,3 +67,24 @@ function renderProfile(p) {
     document.getElementById("petal-btn").classList.remove("hidden");
   }
 }
+async function loadPetals(username) {
+  const res = await fetch(`https://ojapp.app/card/api/petal/list/${username}`);
+  const data = await res.json();
+
+  if (!data.ok) return;
+
+  const wrap = document.getElementById("petal-list");
+  wrap.innerHTML = "";
+
+  data.petals.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "petal-item";
+    div.innerHTML = `
+      <div class="petal-entry">
+        💐 <strong>${p.user}</strong><br>
+        「${p.message}」
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
+}
