@@ -27,13 +27,13 @@ async function register() {
     const res = await fetch("https://ojapp.app/card/api/create_user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password: pw })
+      body: JSON.stringify({ email, password: pw }),
     });
 
     const data = await res.json();
     console.log("response:", data);
 
-    if (data.status !== "ok") {
+    if (!data.ok) {
       errorText.textContent = data.error || "登録に失敗しました。";
       return;
     }
