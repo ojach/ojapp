@@ -89,3 +89,53 @@ async function loadPetals(username) {
     wrap.appendChild(div);
   });
 }
+// ------------------------------------------------------
+// 🌸 Petal Modal Open/Close
+// ------------------------------------------------------
+const modal = document.getElementById("petal-modal");
+document.getElementById("open-petal-btn").onclick = () => {
+  modal.classList.remove("hidden");
+};
+document.getElementById("close-petal-btn").onclick =
+document.getElementById("petal-close-bg").onclick = () => {
+  modal.classList.add("hidden");
+};
+
+
+// ------------------------------------------------------
+// 🌸 Petal Message 送信
+// ------------------------------------------------------
+document.getElementById("send-petal-btn").addEventListener("click", async () => {
+  const message = document.getElementById("petal-message").value.trim();
+  const err = document.getElementById("petal-error");
+
+  err.textContent = "";
+
+  if (!message) {
+    err.textContent = "メッセージを入力してください。";
+    return;
+  }
+
+  const res = await fetch("/card/api/petal/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      page_id: PAGE_ID,   // ← 個人ページ側で埋める
+      message
+    })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    err.textContent = data.error || "送信に失敗しました。";
+    return;
+  }
+
+  modal.classList.add("hidden");
+
+  // 🌸 Toast表示
+  const toast = document.getElementById("petal-toast");
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
+});
