@@ -24,9 +24,37 @@
   <p id="bio" class="bio">...</p>
 
   <!-- Petal ボタン（ページが公開で petal_enabled=1 のときだけ表示） -->
-  <button id="petal-btn" class="petal-btn hidden">
-    💐 花びらを残す
-  </button>
+<!-- 🌸 Petal 送信ボタン -->
+<button id="open-petal-btn" class="petal-open-btn">
+  💐 Petal Message を残す
+</button>
+
+<!-- 🌸 Petal モーダル -->
+<div id="petal-modal" class="petal-modal hidden">
+  <div class="petal-modal-bg" id="petal-close-bg"></div>
+
+  <div class="petal-modal-content">
+    <h2 class="petal-title">💐 Petal Message</h2>
+
+    <p class="petal-sub">
+      作者へそっと気持ちを残してください。
+      <br>（1人1回・編集不可・承認制）
+    </p>
+
+    <textarea id="petal-message" maxlength="120" placeholder="メッセージを入力…"></textarea>
+
+    <div class="petal-error" id="petal-error"></div>
+
+    <button id="send-petal-btn" class="petal-send-btn">送信する</button>
+    <button id="close-petal-btn" class="petal-close-btn">閉じる</button>
+  </div>
+</div>
+
+<!-- 🌸 投稿後 Toast -->
+<div id="petal-toast" class="petal-toast hidden">
+  💐 Petal を預かりました。作者の承認をお待ちください。
+</div>
+
 
   <!-- Petal 一覧 -->
   <div id="petal-list" class="petal-list">
