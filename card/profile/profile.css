@@ -85,3 +85,115 @@ body {
 .petal-entry strong {
   color: #333;
 }
+/* ------------------------------------------------
+   🌸 Petal Modal
+--------------------------------------------------- */
+.petal-open-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #4b8bff;
+  color: white;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.petal-modal.hidden {
+  display: none;
+}
+
+.petal-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.petal-modal-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+}
+
+.petal-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  z-index: 10;
+  text-align: center;
+}
+
+.petal-title {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.petal-sub {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+#petal-message {
+  width: 100%;
+  height: 90px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  resize: none;
+  font-size: 14px;
+}
+
+.petal-error {
+  margin-top: 8px;
+  color: red;
+  font-size: 13px;
+  min-height: 18px;
+}
+
+.petal-send-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background: #4b8bff;
+  color: white;
+  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.petal-close-btn {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+}
+
+/* 🌸 Toast */
+.petal-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 3000;
+  opacity: 0;
+  transition: opacity .4s;
+}
+
+.petal-toast.show {
+  opacity: 1;
+}
