@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>Petal - 個人ページ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica";
+    color: #222;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  .icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px auto;
+    display: block;
+    border: 3px solid #eee;
+  }
+
+  .name {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .sns-link {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 15px;
+    color: #2bb7ff;
+    text-decoration: none;
+  }
+
+  .symbol-img {
+    width: 100%;
+    border-radius: 12px;
+    margin: 18px 0;
+  }
+
+  .bio {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin-top: 12px;
+  }
+
+  .petal-title {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .petal-list {
+    margin-top: 12px;
+  }
+
+  .petal-item {
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- アイコン -->
+  <img id="icon" class="icon" src="" alt="" />
+
+  <!-- 表示名 -->
+  <div id="display_name" class="name"></div>
+
+  <!-- SNSリンク（任意） -->
+  <a id="sns_link" class="sns-link" href="#" target="_blank"></a>
+
+  <!-- 象徴画像 #1 -->
+  <a id="symbol_link1" target="_blank">
+    <img id="symbol_image1" class="symbol-img" src="" />
+  </a>
+
+  <!-- 象徴画像 #2 -->
+  <a id="symbol_link2" target="_blank">
+    <img id="symbol_image2" class="symbol-img" src="" />
+  </a>
+
+  <!-- 自己紹介 -->
+  <div id="bio" class="bio"></div>
+
+  <!-- Petal 一覧 -->
+  <div class="petal-title">💐 Petal</div>
+  <div id="petal_list" class="petal-list"></div>
+
+</div>
+
+<script>
+(async () => {
+  // URL から username を取得
+  const username = location.pathname.replace("/petal/", "").replace("@", "");
+
+  // プロフィール取得
+  const res = await fetch(`/api/get_profile/${username}`);
+  const json = await res.json();
+
+  if (!json.ok) {
+    document.body.innerHTML = "<p>ページが見つかりません。</p>";
+    return;
+  }
+
+  const p = json.profile;
+
+  // ページに反映
+  document.getElementById("icon").src = p.icon_url || "/default-icon.png";
+  document.getElementById("display_name").textContent = p.display_name || p.username;
+  document.getElementById("bio").textContent = p.bio || "";
+
+  // SNS
+  if (p.sns_link) {
+    const sns = document.getElementById("sns_link");
+    sns.textContent = p.sns_link.replace("https://", "");
+    sns.href = p.sns_link;
+  }
+
+  // 象徴画像1・2
+  if (p.symbol_image1) {
+    document.getElementById("symbol_image1").src = p.symbol_image1;
+    document.getElementById("symbol_link1").href = p.symbol_link1 || p.symbol_image1;
+  } else {
+    document.getElementById("symbol_image1").style.display = "none";
+  }
+
+  if (p.symbol_image2) {
+    document.getElementById("symbol_image2").src = p.symbol_image2;
+    document.getElementById("symbol_link2").href = p.symbol_link2 || p.symbol_image2;
+  } else {
+    document.getElementById("symbol_image2").style.display = "none";
+  }
+
+  // 💐 Petal一覧取得
+  const res2 = await fetch(`/api/petal/list?page_id=${p.page_id}`);
+  const data2 = await res2.json();
+
+  const wrap = document.getElementById("petal_list");
+  data2.petals.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "petal-item";
+    div.textContent = `💐 ${item.from_username}: ${item.message}`;
+    wrap.appendChild(div);
+  });
+
+})();
+</script>
+
+</body>
+</html>
