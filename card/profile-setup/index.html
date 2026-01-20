@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>Petal 初回プロフィール設定</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Helvetica";
+    margin: 0;
+    padding: 24px;
+    background: #fafafa;
+    color: #222;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .input-block {
+    margin-bottom: 18px;
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    height: 100px;
+    resize: none;
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .save-btn {
+    width: 100%;
+    background: #2bb7ff;
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 17px;
+    border: none;
+    margin-top: 24px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .save-btn:active {
+    opacity: 0.7;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>はじめにプロフィールを設定しよう</h1>
+
+<div class="input-block">
+  <label>表示名（Display Name）</label>
+  <input id="display_name" type="text" placeholder="例: おじゃち" />
+</div>
+
+<div class="input-block">
+  <label>アイコン画像URL（任意）</label>
+  <input id="icon_url" type="text" placeholder="https://example.com/icon.png" />
+</div>
+
+<div class="input-block">
+  <label>ひとこと紹介（Bio）</label>
+  <textarea id="bio" placeholder="あなたのことを簡単に書いてみてください"></textarea>
+</div>
+
+<div class="input-block">
+  <label>公開設定</label>
+  <div class="toggle-row">
+    <span>Petal 一覧に表示する</span>
+    <input id="page_public" type="checkbox" checked />
+  </div>
+  <div class="toggle-row">
+    <span>個人ページに 💐 Petal 欄を表示する</span>
+    <input id="petal_enabled" type="checkbox" checked />
+  </div>
+</div>
+
+<button class="save-btn" onclick="saveProfile()">保存して進む</button>
+
+<script>
+async function saveProfile() {
+
+  const userId = Number(localStorage.getItem("user_id")); 
+  if (!userId) {
+    alert("ログイン情報が見つかりません。");
+    return;
+  }
+
+  const body = {
+    user_id: userId,
+    display_name: document.getElementById("display_name").value.trim(),
+    icon_url: document.getElementById("icon_url").value.trim(),
+    bio: document.getElementById("bio").value.trim(),
+    page_public: document.getElementById("page_public").checked ? 1 : 0,
+    petal_enabled: document.getElementById("petal_enabled").checked ? 1 : 0
+  };
+
+  // バリデーション（軽く）
+  if (!body.display_name) {
+    alert("表示名は必須です！");
+    return;
+  }
+
+  const res = await fetch("/api/update_profile", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  });
+
+  const json = await res.json();
+  if (json.ok) {
+    location.href = "/dashboard"; // 保存後の遷移
+  } else {
+    alert("保存に失敗しました");
+  }
+}
+</script>
+
+</body>
+</html>
