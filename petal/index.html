@@ -79,6 +79,23 @@
     line-height: 1.5;
     font-size: 15px;
   }
+  .petal-item img {
+  opacity: 0.9;
+}
+.petal-title {
+  margin-top: 24px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.petal-title-icon {
+  width: 22px;
+  height: 22px;
+}
+
 
 </style>
 </head>
@@ -107,9 +124,14 @@
   <!-- 自己紹介 -->
   <div id="bio" class="bio"></div>
 
-  <!-- Petal 一覧 -->
-  <div class="petal-title">💐 Petal</div>
-  <div id="petal_list" class="petal-list"></div>
+ <!-- Petal 一覧 -->
+<div class="petal-title">
+  <img src="/card/assets/svg/icon12.png" class="petal-title-icon" />
+  <span>Petal Message</span>
+</div>
+
+<div id="petal_list" class="petal-list"></div>
+
 
 </div>
 
@@ -156,17 +178,26 @@
     document.getElementById("symbol_image2").style.display = "none";
   }
 
-  // 💐 Petal一覧取得
-  const res2 = await fetch(`/api/petal/list?page_id=${p.page_id}`);
-  const data2 = await res2.json();
+ // 💐 Petal一覧取得
+const res2 = await fetch(`/api/petal/list?page_id=${p.page_id}`);
+const data2 = await res2.json();
 
-  const wrap = document.getElementById("petal_list");
-  data2.petals.forEach((item) => {
-    const div = document.createElement("div");
-    div.className = "petal-item";
-    div.textContent = `💐 ${item.from_username}: ${item.message}`;
-    wrap.appendChild(div);
-  });
+const wrap = document.getElementById("petal_list");
+data2.petals.forEach((item) => {
+  const div = document.createElement("div");
+  div.className = "petal-item";
+
+  div.innerHTML = `
+    <div style="display:flex; align-items:center;">
+      <img src="/card/assets/svg/icon12.png"
+           style="width:20px; height:20px; margin-right:8px;" />
+      <span><strong>${item.from_username}</strong>：${item.message}</span>
+    </div>
+  `;
+
+  wrap.appendChild(div);
+});
+
 
 })();
 </script>
