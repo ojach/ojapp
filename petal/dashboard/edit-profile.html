@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>プロフィール編集 - Petal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica";
+  }
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    font-weight: bold;
+  }
+
+  .block {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    height: 120px;
+    resize: none;
+  }
+
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  /* SNSリスト */
+  .sns-list {
+    margin-top: 10px;
+  }
+
+  .sns-item {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sns-delete {
+    color: red;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .add-btn {
+    padding: 10px 14px;
+    background: #2bb7ff;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .save-btn {
+    margin-top: 24px;
+    width: 100%;
+    background: #2bb7ff;
+    color: white;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    border: none;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>プロフィール編集</h1>
+
+<div class="block">
+  <label>表示名</label>
+  <input id="display_name" type="text" />
+</div>
+
+<div class="block">
+  <label>アイコン画像URL</label>
+  <input id="icon_url" type="text" />
+</div>
+
+<div class="block">
+  <label>ひとこと紹介（Bio）</label>
+  <textarea id="bio"></textarea>
+</div>
+
+<div class="block">
+  <label>SNSリンク一覧</label>
+
+  <!-- SNS入力 -->
+  <input id="sns_input" type="text" placeholder="https://〜" />
+
+  <div class="add-btn" onclick="addSNS()">＋ SNSリンクを追加</div>
+
+  <!-- SNSリスト -->
+  <div id="sns_list" class="sns-list"></div>
+</div>
+
+<div class="block">
+  <label>象徴画像① URL</label>
+  <input id="symbol_image1" type="text" />
+
+  <label style="margin-top:8px;">リンク先URL</label>
+  <input id="symbol_link1" type="text" />
+</div>
+
+<div class="block">
+  <label>象徴画像② URL</label>
+  <input id="symbol_image2" type="text" />
+
+  <label style="margin-top:8px;">リンク先URL</label>
+  <input id="symbol_link2" type="text" />
+</div>
+
+<div class="block">
+  <div class="toggle-row">
+    <span>ページを一覧に表示する</span>
+    <input id="page_public" type="checkbox" />
+  </div>
+
+  <div class="toggle-row">
+    <span>Petal欄を表示する</span>
+    <input id="petal_enabled" type="checkbox" />
+  </div>
+</div>
+
+<button class="save-btn" onclick="saveProfile()">保存する</button>
+
+
+<script>
+let snsLinks = [];
+
+async function loadProfile() {
+  const username = localStorage.getItem("username");
+  const res = await fetch(`/api/get_profile/${username}`);
+  const json = await res.json();
+
+  if (!json.ok) return alert("読み込めませんでした");
+
+  const p = json.profile;
+
+  // 基本情報
+  display_name.value = p.display_name || "";
+  icon_url.value = p.icon_url || "";
+  bio.value = p.bio || "";
+  page_public.checked = p.page_public == 1;
+  petal_enabled.checked = p.petal_enabled == 1;
+
+  symbol_image1.value = p.symbol_image1 || "";
+  symbol_link1.value = p.symbol_link1 || "";
+  symbol_image2.value = p.symbol_image2 || "";
+  symbol_link2.value = p.symbol_link2 || "";
+
+  // SNS
+  snsLinks = p.sns_links || [];
+  renderSNSList();
+}
+
+function renderSNSList() {
+  const list = document.getElementById("sns_list");
+  list.innerHTML = "";
+
+  snsLinks.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "sns-item";
+    div.innerHTML = `
+      <span>${item.url}</span>
+      <span class="sns-delete" onclick="deleteSNS(${i})">削除</span>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function addSNS() {
+  const url = sns_input.value.trim();
+  if (!url) return;
+  snsLinks.push({ url });
+  sns_input.value = "";
+  renderSNSList();
+}
+
+function deleteSNS(i) {
+  snsLinks.splice(i, 1);
+  renderSNSList();
+}
+
+async function saveProfile() {
+  const user_id = Number(localStorage.getItem("user_id"));
+
+  const body = {
+    user_id,
+    display_name: display_name.value.trim(),
+    icon_url: icon_url.value.trim(),
+    bio: bio.value.trim(),
+    page_public: page_public.checked ? 1 : 0,
+    petal_enabled: petal_enabled.checked ? 1 : 0,
+    sns_links: snsLinks,
+
+    symbol_image1: symbol_image1.value.trim(),
+    symbol_link1: symbol_link1.value.trim(),
+    symbol_image2: symbol_image2.value.trim(),
+    symbol_link2: symbol_link2.value.trim()
+  };
+
+  const res = await fetch("/api/update_profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+
+  const json = await res.json();
+  if (json.ok) {
+    alert("保存しました！");
+    location.href = "/dashboard";
+  } else {
+    alert("保存に失敗しました");
+  }
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>
