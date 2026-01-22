@@ -142,6 +142,86 @@
     line-height: 1.5;
     font-size: 15px;
   }
+  .petal-post-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 26px;
+  background: #2bb7ff;
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  border: none;
+  font-size: 16px;
+}
+
+/* BG */
+.petal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* モーダル本体 */
+.petal-modal {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.petal-input {
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.petal-send {
+  flex: 1;
+  background: #2bb7ff;
+  color: #fff;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  border: none;
+}
+
+.petal-cancel {
+  flex: 1;
+  background: #eee;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+}
+
 </style>
 </head>
 
@@ -181,7 +261,10 @@
   <div id="petal_list" class="petal-list"></div>
 
 </div>
-
+<!-- 花びら投稿ボタン -->
+<button id="open_petal_modal" class="petal-post-btn">
+  Petal を贈る
+</button>
 <!-- SNS モーダル -->
 <div id="sns_modal_bg" class="sns-modal-bg" onclick="closeSNSModal()"></div>
 
@@ -190,7 +273,20 @@
   <div id="sns_modal_list"></div>
   <button class="sns-modal-close" onclick="closeSNSModal()">閉じる</button>
 </div>
+  
+<div id="petal_modal_bg" class="petal-bg"></div>
 
+<div id="petal_modal" class="petal-modal">
+  <div class="modal-title">Petal Message</div>
+
+  <textarea id="petal_message" class="petal-input"
+    maxlength="200" placeholder="200文字以内でメッセージを送れます"></textarea>
+
+  <div class="modal-buttons">
+    <button class="petal-send" onclick="sendPetal()">送信する</button>
+    <button class="petal-cancel" onclick="closePetalModal()">キャンセル</button>
+  </div>
+</div>
 <script>
 // SNS URL → サービス名抽出
 function getServiceName(url) {
@@ -300,6 +396,50 @@ function closeSNSModal() {
   });
 
 })();
+  
+  function openPetalModal() {
+  document.getElementById("petal_modal_bg").style.display = "block";
+  document.getElementById("petal_modal").style.display = "block";
+}
+
+function closePetalModal() {
+  document.getElementById("petal_modal_bg").style.display = "none";
+  document.getElementById("petal_modal").style.display = "none";
+}
+
+document.getElementById("open_petal_modal").onclick = openPetalModal;
+
+async function sendPetal() {
+  const user_id = Number(localStorage.getItem("user_id"));
+  const message = document.getElementById("petal_message").value.trim();
+
+  if (!user_id) return alert("ログインが必要です");
+  if (message.length === 0) return alert("メッセージを入力してください");
+
+  const res = await fetch("/api/petal/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-ID": user_id
+    },
+    body: JSON.stringify({
+      page_id: PROFILE.page_id,  // ページ情報読み込み時に保持
+      message
+    })
+  });
+
+  const json = await res.json();
+
+  if (json.ok) {
+    alert("花びらを送りました！（承認待ち）");
+    closePetalModal();
+  } else if (json.error === "already_posted_this_cycle") {
+    alert("今の季節にはすでに投稿しています！");
+  } else {
+    alert("送信に失敗しました");
+  }
+}
+
 </script>
 
 </body>
