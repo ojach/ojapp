@@ -396,7 +396,20 @@ function closeSNSModal() {
   });
 
 })();
-  
+  // 投稿済みかチェック
+(async () => {
+  const user_id = Number(localStorage.getItem("user_id"));
+  if (!user_id) return; // ログインしてないなら何もしない
+
+  const res = await fetch(`/api/petal/check?page_id=${p.page_id}&user_id=${user_id}`);
+  const json = await res.json();
+
+  if (json.ok && json.posted) {
+    // 投稿済みならボタンを隠す
+    document.getElementById("open_petal_modal").style.display = "none";
+  }
+})();
+
   function openPetalModal() {
   document.getElementById("petal_modal_bg").style.display = "block";
   document.getElementById("petal_modal").style.display = "block";
@@ -431,7 +444,7 @@ async function sendPetal() {
   const json = await res.json();
 
   if (json.ok) {
-    alert("花びらを送りました！（承認待ち）");
+    alert("Petal を送りました！（承認待ち）");
     closePetalModal();
   } else if (json.error === "already_posted_this_cycle") {
     alert("今の季節にはすでに投稿しています！");
