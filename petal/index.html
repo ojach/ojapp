@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <title>Petal - 個人ページ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <style>
   body {
     margin: 0;
@@ -36,13 +37,67 @@
     margin-top: 10px;
   }
 
-  .sns-link {
-    display: block;
+  /* SNS (TikTok風) */
+  .sns-primary {
     text-align: center;
+    font-size: 16px;
     margin-top: 8px;
-    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .sns-more-btn {
+    text-align: center;
+    font-size: 14px;
     color: #2bb7ff;
-    text-decoration: none;
+    margin-top: 4px;
+    cursor: pointer;
+  }
+
+  /* モーダル */
+  .sns-modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+  }
+
+  .sns-modal {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    background: #fff;
+    border-radius: 18px 18px 0 0;
+    padding: 20px;
+    max-height: 60%;
+    overflow-y: auto;
+  }
+
+  .sns-modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 14px;
+  }
+
+  .sns-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .sns-modal-close {
+    margin-top: 16px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #2bb7ff;
+    color: #fff;
+    font-size: 16px;
   }
 
   .symbol-img {
@@ -62,9 +117,17 @@
   }
 
   .petal-title {
-    margin-top: 20px;
+    margin-top: 24px;
     font-size: 20px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .petal-title-icon {
+    width: 22px;
+    height: 22px;
   }
 
   .petal-list {
@@ -79,27 +142,11 @@
     line-height: 1.5;
     font-size: 15px;
   }
-  .petal-item img {
-  opacity: 0.9;
-}
-.petal-title {
-  margin-top: 24px;
-  font-size: 20px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.petal-title-icon {
-  width: 22px;
-  height: 22px;
-}
-
-
 </style>
 </head>
+
 <body>
+
 <div class="container">
 
   <!-- アイコン -->
@@ -108,8 +155,9 @@
   <!-- 表示名 -->
   <div id="display_name" class="name"></div>
 
-  <!-- SNSリンク（任意） -->
-  <a id="sns_link" class="sns-link" href="#" target="_blank"></a>
+  <!-- メインSNS (TikTok風) -->
+  <div id="sns_primary" class="sns-primary"></div>
+  <div id="sns_more_btn" class="sns-more-btn"></div>
 
   <!-- 象徴画像 #1 -->
   <a id="symbol_link1" target="_blank">
@@ -124,23 +172,52 @@
   <!-- 自己紹介 -->
   <div id="bio" class="bio"></div>
 
- <!-- Petal 一覧 -->
-<div class="petal-title">
-  <img src="/card/assets/svg/icon12.png" class="petal-title-icon" />
-  <span>Petal Message</span>
+  <!-- Petal 一覧 -->
+  <div class="petal-title">
+    <img src="/card/assets/svg/icon12.png" class="petal-title-icon" />
+    <span>Petal Message</span>
+  </div>
+
+  <div id="petal_list" class="petal-list"></div>
+
 </div>
 
-<div id="petal_list" class="petal-list"></div>
+<!-- SNS モーダル -->
+<div id="sns_modal_bg" class="sns-modal-bg" onclick="closeSNSModal()"></div>
 
-
+<div id="sns_modal" class="sns-modal">
+  <div class="sns-modal-title">リンク一覧</div>
+  <div id="sns_modal_list"></div>
+  <button class="sns-modal-close" onclick="closeSNSModal()">閉じる</button>
 </div>
 
 <script>
+// SNS URL → サービス名抽出
+function getServiceName(url) {
+  if (url.includes("instagram.com")) return "Instagram";
+  if (url.includes("x.com")) return "X";
+  if (url.includes("tiktok.com")) return "TikTok";
+  if (url.includes("youtube.com")) return "YouTube";
+  if (url.includes("lemon8")) return "Lemon8";
+  if (url.includes("ojapp.app")) return "OJapp";
+
+  return url.replace("https://", "").replace("http://", "").split("/")[0];
+}
+
+// モーダル制御
+function openSNSModal() {
+  document.getElementById("sns_modal_bg").style.display = "block";
+  document.getElementById("sns_modal").style.display = "block";
+}
+
+function closeSNSModal() {
+  document.getElementById("sns_modal_bg").style.display = "none";
+  document.getElementById("sns_modal").style.display = "none";
+}
+
 (async () => {
-  // URL から username を取得
   const username = location.pathname.replace("/petal/", "").replace("@", "");
 
-  // プロフィール取得
   const res = await fetch(`/api/get_profile/${username}`);
   const json = await res.json();
 
@@ -151,16 +228,40 @@
 
   const p = json.profile;
 
-  // ページに反映
+  // アイコンなど
   document.getElementById("icon").src = p.icon_url || "/default-icon.png";
   document.getElementById("display_name").textContent = p.display_name || p.username;
   document.getElementById("bio").textContent = p.bio || "";
 
-  // SNS
-  if (p.sns_link) {
-    const sns = document.getElementById("sns_link");
-    sns.textContent = p.sns_link.replace("https://", "");
-    sns.href = p.sns_link;
+  // SNSリンク（sns_links 配列）
+  if (p.sns_links && p.sns_links.length > 0) {
+
+    // メインSNS
+    const first = p.sns_links[0];
+    document.getElementById("sns_primary").innerHTML =
+      `🔗 ${getServiceName(first.url)}`;
+    document.getElementById("sns_primary").onclick = () => {
+      window.open(first.url, "_blank");
+    };
+
+    // 他のSNSがある場合
+    if (p.sns_links.length > 1) {
+      document.getElementById("sns_more_btn").textContent = "他のリンクも見る →";
+    }
+
+    // モーダル一覧へ反映
+    const modalList = document.getElementById("sns_modal_list");
+    modalList.innerHTML = "";
+
+    p.sns_links.forEach((item) => {
+      const div = document.createElement("div");
+      div.className = "sns-item";
+      div.innerHTML = `
+        <span>🔗</span>
+        <a href="${item.url}" target="_blank">${getServiceName(item.url)}</a>
+      `;
+      modalList.appendChild(div);
+    });
   }
 
   // 象徴画像1・2
@@ -178,29 +279,29 @@
     document.getElementById("symbol_image2").style.display = "none";
   }
 
- // 💐 Petal一覧取得
-const res2 = await fetch(`/api/petal/list?page_id=${p.page_id}`);
-const data2 = await res2.json();
+  // Petal一覧
+  const res2 = await fetch(`/api/petal/list?page_id=${p.page_id}`);
+  const data2 = await res2.json();
 
-const wrap = document.getElementById("petal_list");
-data2.petals.forEach((item) => {
-  const div = document.createElement("div");
-  div.className = "petal-item";
+  const wrap = document.getElementById("petal_list");
+  data2.petals.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "petal-item";
 
-  div.innerHTML = `
-    <div style="display:flex; align-items:center;">
-      <img src="/card/assets/svg/icon12.png"
-           style="width:20px; height:20px; margin-right:8px;" />
-      <span><strong>${item.from_username}</strong>：${item.message}</span>
-    </div>
-  `;
+    div.innerHTML = `
+      <div style="display:flex; align-items:center;">
+        <img src="/card/assets/svg/icon12.png"
+             style="width:20px; height:20px; margin-right:8px;" />
+        <span><strong>${item.from_username}</strong>：${item.message}</span>
+      </div>
+    `;
 
-  wrap.appendChild(div);
-});
-
+    wrap.appendChild(div);
+  });
 
 })();
 </script>
 
 </body>
 </html>
+
