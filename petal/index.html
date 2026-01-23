@@ -2,459 +2,191 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8" />
-<title>Petal - 個人ページ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Petal - みんなの花びら</title>
 
 <style>
   body {
     margin: 0;
-    padding: 0;
     background: #fafafa;
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica";
-    color: #222;
   }
 
-  .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
+  .tab-wrap {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 14px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .tab.active {
+    color: #2bb7ff;
+    border-bottom: 2px solid #2bb7ff;
+  }
+
+  .feed {
+    padding: 14px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
 
   .icon {
-    width: 110px;
-    height: 110px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     object-fit: cover;
-    margin: 20px auto;
-    display: block;
-    border: 3px solid #eee;
+    margin-right: 10px;
   }
 
-  .name {
-    text-align: center;
-    font-size: 22px;
+  .username {
     font-weight: bold;
-    margin-top: 10px;
   }
 
-  /* SNS (TikTok風) */
-  .sns-primary {
-    text-align: center;
-    font-size: 16px;
-    margin-top: 8px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .sns-more-btn {
-    text-align: center;
-    font-size: 14px;
-    color: #2bb7ff;
-    margin-top: 4px;
-    cursor: pointer;
-  }
-
-  /* モーダル */
-  .sns-modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-  }
-
-  .sns-modal {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0; right: 0;
-    background: #fff;
-    border-radius: 18px 18px 0 0;
-    padding: 20px;
-    max-height: 60%;
-    overflow-y: auto;
-  }
-
-  .sns-modal-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 14px;
-  }
-
-  .sns-item {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+  .message {
     font-size: 15px;
-    display: flex;
-    gap: 6px;
-    align-items: center;
+    line-height: 1.5;
+    margin: 6px 0;
   }
 
-  .sns-modal-close {
-    margin-top: 16px;
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    background: #2bb7ff;
-    color: #fff;
-    font-size: 16px;
+  .page-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
   }
 
   .symbol-img {
     width: 100%;
     border-radius: 12px;
-    margin: 18px 0;
-  }
-
-  .bio {
-    background: #fff;
-    padding: 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    line-height: 1.6;
-    white-space: pre-wrap;
-    margin-top: 12px;
-  }
-
-  .petal-title {
-    margin-top: 24px;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .petal-title-icon {
-    width: 22px;
-    height: 22px;
-  }
-
-  .petal-list {
-    margin-top: 12px;
-  }
-
-  .petal-item {
-    background: #fff;
-    padding: 12px;
-    border-radius: 10px;
     margin-bottom: 10px;
-    line-height: 1.5;
-    font-size: 15px;
   }
-  .petal-post-btn {
-  width: 100%;
-  padding: 14px;
-  margin-top: 26px;
-  background: #2bb7ff;
-  color: white;
-  border-radius: 12px;
-  font-weight: 600;
-  border: none;
-  font-size: 16px;
-}
 
-/* BG */
-.petal-bg {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-}
-
-/* モーダル本体 */
-.petal-modal {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0; right: 0;
-  background: #fff;
-  border-radius: 20px 20px 0 0;
-  padding: 20px;
-  animation: slideUp 0.25s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.petal-input {
-  width: 100%;
-  height: 120px;
-  padding: 12px;
-  font-size: 15px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  resize: none;
-  box-sizing: border-box;
-}
-
-.modal-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.petal-send {
-  flex: 1;
-  background: #2bb7ff;
-  color: #fff;
-  padding: 14px;
-  border-radius: 10px;
-  font-size: 15px;
-  border: none;
-}
-
-.petal-cancel {
-  flex: 1;
-  background: #eee;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-  font-size: 15px;
-}
-
+  .more-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #2bb7ff;
+    font-weight: 600;
+    text-decoration: none;
+  }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-
-  <!-- アイコン -->
-  <img id="icon" class="icon" src="" alt="" />
-
-  <!-- 表示名 -->
-  <div id="display_name" class="name"></div>
-
-  <!-- メインSNS (TikTok風) -->
-  <div id="sns_primary" class="sns-primary"></div>
-  <div id="sns_more_btn" class="sns-more-btn"></div>
-
-  <!-- 象徴画像 #1 -->
-  <a id="symbol_link1" target="_blank">
-    <img id="symbol_image1" class="symbol-img" src="" />
-  </a>
-
-  <!-- 象徴画像 #2 -->
-  <a id="symbol_link2" target="_blank">
-    <img id="symbol_image2" class="symbol-img" src="" />
-  </a>
-
-  <!-- 自己紹介 -->
-  <div id="bio" class="bio"></div>
-
-  <!-- Petal 一覧 -->
-  <div class="petal-title">
-    <img src="/card/assets/svg/icon12.png" class="petal-title-icon" />
-    <span>Petal Message</span>
-  </div>
-
-  <div id="petal_list" class="petal-list"></div>
-
+<!-- タブ切替 -->
+<div class="tab-wrap">
+  <div id="tab_petal" class="tab active">Petal</div>
+  <div id="tab_pages" class="tab">Pages</div>
 </div>
-<!-- 花びら投稿ボタン -->
-<button id="open_petal_modal" class="petal-post-btn">
-  Petal を贈る
-</button>
-<!-- SNS モーダル -->
-<div id="sns_modal_bg" class="sns-modal-bg" onclick="closeSNSModal()"></div>
 
-<div id="sns_modal" class="sns-modal">
-  <div class="sns-modal-title">リンク一覧</div>
-  <div id="sns_modal_list"></div>
-  <button class="sns-modal-close" onclick="closeSNSModal()">閉じる</button>
-</div>
-  
-<div id="petal_modal_bg" class="petal-bg"></div>
+<!-- Petalフィード -->
+<div id="feed_petal" class="feed"></div>
 
-<div id="petal_modal" class="petal-modal">
-  <div class="modal-title">Petal Message</div>
+<!-- Pagesフィード -->
+<div id="feed_pages" class="feed" style="display:none;"></div>
 
-  <textarea id="petal_message" class="petal-input"
-    maxlength="200" placeholder="200文字以内でメッセージを送れます"></textarea>
-
-  <div class="modal-buttons">
-    <button class="petal-send" onclick="sendPetal()">送信する</button>
-    <button class="petal-cancel" onclick="closePetalModal()">キャンセル</button>
-  </div>
-</div>
 <script>
-// SNS URL → サービス名抽出
-function getServiceName(url) {
-  if (url.includes("instagram.com")) return "Instagram";
-  if (url.includes("x.com")) return "X";
-  if (url.includes("tiktok.com")) return "TikTok";
-  if (url.includes("youtube.com")) return "YouTube";
-  if (url.includes("lemon8")) return "Lemon8";
-  if (url.includes("ojapp.app")) return "OJapp";
+// タブ切替
+function showTab(tab) {
+  document.getElementById("tab_petal").classList.remove("active");
+  document.getElementById("tab_pages").classList.remove("active");
+  document.getElementById("feed_petal").style.display = "none";
+  document.getElementById("feed_pages").style.display = "none";
 
-  return url.replace("https://", "").replace("http://", "").split("/")[0];
+  if (tab === "petal") {
+    document.getElementById("tab_petal").classList.add("active");
+    document.getElementById("feed_petal").style.display = "block";
+  } else {
+    document.getElementById("tab_pages").classList.add("active");
+    document.getElementById("feed_pages").style.display = "block";
+  }
 }
 
-// モーダル制御
-function openSNSModal() {
-  document.getElementById("sns_modal_bg").style.display = "block";
-  document.getElementById("sns_modal").style.display = "block";
-}
+document.getElementById("tab_petal").onclick = () => showTab("petal");
+document.getElementById("tab_pages").onclick = () => showTab("pages");
 
-function closeSNSModal() {
-  document.getElementById("sns_modal_bg").style.display = "none";
-  document.getElementById("sns_modal").style.display = "none";
-}
 
-(async () => {
-  const username = location.pathname.replace("/petal/", "").replace("@", "");
+// ▼▼ APIからデータ取得（仮） ▼▼
+// 実際は /api/petal/feed & /api/pages/feed に差し替えればOK
 
-  const res = await fetch(`/api/get_profile/${username}`);
+async function loadPetalFeed() {
+  const wrap = document.getElementById("feed_petal");
+
+  const res = await fetch("/api/petal/feed");
   const json = await res.json();
 
-  if (!json.ok) {
-    document.body.innerHTML = "<p>ページが見つかりません。</p>";
-    return;
-  }
+  wrap.innerHTML = "";
 
-  const p = json.profile;
-
-  // アイコンなど
-  document.getElementById("icon").src = p.icon_url || "/default-icon.png";
-  document.getElementById("display_name").textContent = p.display_name || p.username;
-  document.getElementById("bio").textContent = p.bio || "";
-
-  // SNSリンク（sns_links 配列）
-  if (p.sns_links && p.sns_links.length > 0) {
-
-    // メインSNS
-    const first = p.sns_links[0];
-    document.getElementById("sns_primary").innerHTML =
-      `🔗 ${getServiceName(first.url)}`;
-    document.getElementById("sns_primary").onclick = () => {
-      window.open(first.url, "_blank");
-    };
-
-    // 他のSNSがある場合
-    if (p.sns_links.length > 1) {
-      document.getElementById("sns_more_btn").textContent = "他のリンクも見る →";
-    }
-
-    // モーダル一覧へ反映
-    const modalList = document.getElementById("sns_modal_list");
-    modalList.innerHTML = "";
-
-    p.sns_links.forEach((item) => {
-      const div = document.createElement("div");
-      div.className = "sns-item";
-      div.innerHTML = `
-        <span>🔗</span>
-        <a href="${item.url}" target="_blank">${getServiceName(item.url)}</a>
-      `;
-      modalList.appendChild(div);
-    });
-  }
-
-  // 象徴画像1・2
-  if (p.symbol_image1) {
-    document.getElementById("symbol_image1").src = p.symbol_image1;
-    document.getElementById("symbol_link1").href = p.symbol_link1 || p.symbol_image1;
-  } else {
-    document.getElementById("symbol_image1").style.display = "none";
-  }
-
-  if (p.symbol_image2) {
-    document.getElementById("symbol_image2").src = p.symbol_image2;
-    document.getElementById("symbol_link2").href = p.symbol_link2 || p.symbol_image2;
-  } else {
-    document.getElementById("symbol_image2").style.display = "none";
-  }
-
-  // Petal一覧
-  const res2 = await fetch(`/api/petal/list?page_id=${p.page_id}`);
-  const data2 = await res2.json();
-
-  const wrap = document.getElementById("petal_list");
-  data2.petals.forEach((item) => {
+  json.results.forEach(item => {
     const div = document.createElement("div");
-    div.className = "petal-item";
+    div.className = "card";
 
     div.innerHTML = `
-      <div style="display:flex; align-items:center;">
-        <img src="/card/assets/svg/icon12.png"
-             style="width:20px; height:20px; margin-right:8px;" />
-        <span><strong>${item.from_username}</strong>：${item.message}</span>
+      <div class="card-header">
+        <img src="${item.from_icon}" class="icon" />
+        <div>
+          <div class="username">${item.from_username}</div>
+          <div style="font-size:13px;color:#666;">→ ${item.to_username}</div>
+        </div>
       </div>
+
+      <div class="message">${item.message}</div>
+
+      <a href="/petal/@${item.to_username}" class="more-link">ページを見る →</a>
     `;
 
     wrap.appendChild(div);
   });
+}
 
-})();
-  // 投稿済みかチェック
-(async () => {
-  const user_id = Number(localStorage.getItem("user_id"));
-  if (!user_id) return; // ログインしてないなら何もしない
+async function loadPagesFeed() {
+  const wrap = document.getElementById("feed_pages");
 
-  const res = await fetch(`/api/petal/check?page_id=${p.page_id}&user_id=${user_id}`);
+  const res = await fetch("/api/pages/feed");
   const json = await res.json();
 
-  if (json.ok && json.posted) {
-    // 投稿済みならボタンを隠す
-    document.getElementById("open_petal_modal").style.display = "none";
-  }
-})();
+  wrap.innerHTML = "";
 
-  function openPetalModal() {
-  document.getElementById("petal_modal_bg").style.display = "block";
-  document.getElementById("petal_modal").style.display = "block";
-}
+  json.results.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "card";
 
-function closePetalModal() {
-  document.getElementById("petal_modal_bg").style.display = "none";
-  document.getElementById("petal_modal").style.display = "none";
-}
+    div.innerHTML = `
+      <img src="${item.symbol_image1 || item.icon_url}" class="symbol-img" />
 
-document.getElementById("open_petal_modal").onclick = openPetalModal;
+      <div class="page-title">${item.display_name}</div>
 
-async function sendPetal() {
-  const user_id = Number(localStorage.getItem("user_id"));
-  const message = document.getElementById("petal_message").value.trim();
+      <div class="message">${item.bio_summary || ""}</div>
 
-  if (!user_id) return alert("ログインが必要です");
-  if (message.length === 0) return alert("メッセージを入力してください");
+      <a href="/petal/@${item.username}" class="more-link">ページを開く →</a>
+    `;
 
-  const res = await fetch("/api/petal/create", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-User-ID": user_id
-    },
-    body: JSON.stringify({
-      page_id: PROFILE.page_id,  // ページ情報読み込み時に保持
-      message
-    })
+    wrap.appendChild(div);
   });
-
-  const json = await res.json();
-
-  if (json.ok) {
-    alert("Petal を送りました！（承認待ち）");
-    closePetalModal();
-  } else if (json.error === "already_posted_this_cycle") {
-    alert("今の季節にはすでに投稿しています！");
-  } else {
-    alert("送信に失敗しました");
-  }
 }
 
+loadPetalFeed();
+loadPagesFeed();
 </script>
 
 </body>
 </html>
-
