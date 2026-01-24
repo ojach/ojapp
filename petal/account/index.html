@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Petal - アカウント</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica";
+    color: #222;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+
+  .box {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+  }
+
+  .row {
+    margin-bottom: 12px;
+  }
+
+  .label {
+    font-size: 13px;
+    color: #777;
+  }
+
+  .text {
+    font-size: 16px;
+    margin-top: 2px;
+  }
+
+  /* コピーURL */
+  .url-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .copy-btn {
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  /* リンクボタン */
+  .link-btn {
+    display: block;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #222;
+    font-size: 15px;
+  }
+
+  .logout-btn {
+    display: block;
+    padding: 14px;
+    background: #ff6666;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  /* トースト */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: 0.3s ease;
+    font-size: 14px;
+    z-index: 1000;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <h2>アカウント情報</h2>
+  <div class="box" id="info_box">
+    読み込み中...
+  </div>
+
+  <h2>共有リンク</h2>
+  <div class="box">
+    <div class="label">名刺ページ</div>
+    <div class="url-box">
+      <span id="card_url"></span>
+      <span class="copy-btn" onclick="copyURL('card_url')">📋</span>
+    </div>
+
+    <div class="label" style="margin-top:16px;">個人ページ</div>
+    <div class="url-box">
+      <span id="petal_url"></span>
+      <span class="copy-btn" onclick="copyURL('petal_url')">📋</span>
+    </div>
+  </div>
+
+  <h2>ページ管理</h2>
+  <a id="mypage_link" class="link-btn">▶ 個人ページを見る</a>
+  <a href="/petal/edit" class="link-btn">▶ 個人ページを編集する</a>
+  <a href="/card/edit" class="link-btn">▶ 名刺を編集する</a>
+  <a id="pending_link" class="link-btn">▶ Petal 承認管理</a>
+
+  <h2>アカウント操作</h2>
+  <a href="#" onclick="logout()" class="logout-btn">ログアウト</a>
+
+</div>
+
+<script>
+// -------------------------------------
+// ログインしてなければ /login へ
+// -------------------------------------
+const user_id = localStorage.getItem("user_id");
+if (!user_id) {
+  location.href = "/login";
+}
+
+// -------------------------------------
+// プロフィール取得
+// -------------------------------------
+(async () => {
+  const username = localStorage.getItem("username");
+
+  // username が無ければ取得（初ログイン時の保険）
+  if (!username) {
+    const resUser = await fetch(`/api/get_profile_by_id?user_id=${user_id}`);
+    const jsonUser = await resUser.json();
+    if (jsonUser.ok) {
+      localStorage.setItem("username", jsonUser.username);
+    }
+  }
+
+  const res = await fetch(`/api/get_profile/${localStorage.getItem("username")}`);
+  const json = await res.json();
+
+  if (!json.ok) {
+    document.getElementById("info_box").textContent = "データ取得エラー";
+    return;
+  }
+
+  const p = json.profile;
+
+  // 表示
+  document.getElementById("info_box").innerHTML = `
+    <div class="row">
+      <div class="label">メールアドレス</div>
+      <div class="text">${p.email || ""}</div>
+    </div>
+
+    <div class="row">
+      <div class="label">username</div>
+      <div class="text">${p.username}</div>
+    </div>
+
+    <div class="row">
+      <div class="label">user_id</div>
+      <div class="text">${p.id}</div>
+    </div>
+
+    <div class="row">
+      <div class="label">プラン</div>
+      <div class="text">Free（Petal Pro は準備中）</div>
+    </div>
+  `;
+
+  // URL生成
+  const cardURL = `https://ojapp.app/card/@${p.username}`;
+  const petalURL = `https://ojapp.app/petal/@${p.username}`;
+
+  document.getElementById("card_url").textContent = cardURL;
+  document.getElementById("petal_url").textContent = petalURL;
+
+  // リンク設定
+  document.getElementById("mypage_link").href = `/petal/@${p.username}`;
+  document.getElementById("pending_link").href = `/petal/pending?page_id=${p.page_id}`;
+
+})();
+
+// -------------------------------------
+// コピー機能
+// -------------------------------------
+function copyURL(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text);
+  showToast("コピーしました");
+}
+
+function showToast(msg) {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  document.body.appendChild(el);
+
+  setTimeout(() => el.classList.add("show"), 10);
+  setTimeout(() => {
+    el.classList.remove("show");
+    setTimeout(() => el.remove(), 300);
+  }, 1800);
+}
+
+// -------------------------------------
+// ログアウト
+// -------------------------------------
+function logout() {
+  localStorage.removeItem("user_id");
+  localStorage.removeItem("username");
+  location.href = "/login";
+}
+
+</script>
+
+</body>
+</html>
