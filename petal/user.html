@@ -55,6 +55,26 @@
     margin: auto;
     padding: 80px 20px 20px;
   }
+.topbar {
+  display: flex;
+  align-items: center; /* ← これを強制 */
+}
+
+.topbar .left {
+  display: flex;
+  align-items: center; /* ← アイコンと文字を中央揃え */
+}
+
+.petal-logo {
+  height: 20px;
+  width: 20px;
+  margin-right: 6px;
+  display: inline-block;
+  vertical-align: middle; /* ← Safariズレ対策 */
+}
+.topbar .right {
+  padding-right: 14px; /* ← これを 20px〜24px に増やす */
+}
 
   /* ============================== */
   /* プロフィール */
