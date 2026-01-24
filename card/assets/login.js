@@ -35,7 +35,7 @@ async function login() {
 
     // ✔ ログイン成功 → ユーザーデータへ
     localStorage.setItem("user_id", data.user_id);
-    location.href = "/card/home/";
+    location.href = "/petal/";
 
   } catch (err) {
     console.error(err);
