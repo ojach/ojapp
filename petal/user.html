@@ -221,11 +221,61 @@
   border: none;
   font-size: 15px;
 }
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background 0.3s;
+}
+
+.topbar.scrolled {
+  background: rgba(255,255,255,0.6);
+}
+
+.petal-logo {
+  width: 20px;
+  margin-right: 6px;
+}
 
 </style>
 </head>
 
 <body>
+<header class="topbar not-logged">
+  <div class="left">
+    <img src="/card/assets/svg/icon12.png" class="petal-logo">
+    Petal
+  </div>
+  <div class="right">
+    <a href="/login">ログイン</a>
+    <a href="/register">新規登録</a>
+  </div>
+</header>
+<header class="topbar logged">
+  <div class="left">
+    <img src="/card/assets/svg/icon12.png" class="petal-logo">
+    Petal
+  </div>
+  <div class="right menu-trigger">My Page ▾</div>
+</header>
+
+<div class="dropdown">
+  <a href="/petal/@me">My Page</a>
+  <a href="/card/edit">名刺編集</a>
+  <a href="/petal/edit">個人ページ編集</a>
+  <a href="/account">アカウント</a>
+  <a href="/ojapp">OJapp Tools</a>
+</div>
 
 <div class="container">
 
@@ -288,6 +338,14 @@
   </div>
 </div>
 <script>
+  const uid = localStorage.getItem("user_id");
+
+if (!uid) {
+  document.body.classList.add("not-logged-in");
+} else {
+  document.body.classList.add("logged-in");
+}
+
 // SNS URL → サービス名抽出
 function getServiceName(url) {
   if (url.includes("instagram.com")) return "Instagram";
