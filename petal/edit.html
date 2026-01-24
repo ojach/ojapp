@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>Petal - 個人ページ編集</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica";
+    color: #222;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
+
+  textarea {
+    height: 90px;
+    resize: none;
+  }
+
+  .save-btn {
+    width: 100%;
+    margin-top: 30px;
+    padding: 14px;
+    background: #2bb7ff;
+    color: white;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+  }
+
+  /* SNSリンク管理 */
+  .sns-list {
+    margin-top: 10px;
+  }
+
+  .sns-item {
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .sns-item input {
+    margin-top: 4px;
+  }
+
+  .sns-delete {
+    margin-top: 6px;
+    background: #ff6464;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  .block-box {
+    background: #fff;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    border: 1px solid #ddd;
+  }
+
+  .toggle {
+    margin-top: 8px;
+  }
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1>Petal 個人ページ編集</h1>
+
+  <!-- アイコン画像 -->
+  <h2>アイコン画像</h2>
+  <input id="icon_url" placeholder="画像URLを入力">
+
+  <!-- 表示名 -->
+  <h2>表示名</h2>
+  <input id="display_name" placeholder="名前">
+
+  <!-- 一言プロフィール -->
+  <h2>一言プロフィール</h2>
+  <textarea id="bio" placeholder="短い自己紹介"></textarea>
+
+  <!-- SNSリンク管理 -->
+  <h2>SNSリンク</h2>
+  <button onclick="addSNS()">＋ SNSリンクを追加</button>
+  <div id="sns_list" class="sns-list"></div>
+
+  <!-- OJapp 名刺リンク（手動入力）-->
+  <h2>OJapp 名刺リンク</h2>
+  <input id="namecard_link" placeholder="例: https://ojapp.app/card/@あなた">
+
+  <!-- 無料 3 ブロック -->
+  <h2>無料カード（3ブロック）</h2>
+  <div id="blocks"></div>
+
+  <!-- Petal メッセージ設定 -->
+  <h2>Petal メッセージ設定</h2>
+  <label><input type="checkbox" id="petal_enabled"> 受け取る</label>
+
+  <!-- 一覧表示設定 -->
+  <h2>一覧表示</h2>
+  <label><input type="checkbox" id="page_public"> 一覧に載せる</label>
+
+  <button class="save-btn" onclick="saveProfile()">保存する</button>
+</div>
+
+<script>
+let PROFILE = null;
+let snsList = [];
+let blocks = [
+  { title: "", text: "", img: "", link: "" },
+  { title: "", text: "", img: "", link: "" },
+  { title: "", text: "", img: "", link: "" }
+];
+
+(async () => {
+  const uid = Number(localStorage.getItem("user_id"));
+  if (!uid) return alert("ログインが必要です");
+
+  const username = localStorage.getItem("username");
+  const res = await fetch(`/api/get_profile/${username}`);
+  const json = await res.json();
+
+  if (!json.ok) return alert("読み込みエラー");
+
+  PROFILE = json.profile;
+
+  // 入力欄に反映
+  document.getElementById("icon_url").value = PROFILE.icon_url || "";
+  document.getElementById("display_name").value = PROFILE.display_name || "";
+  document.getElementById("bio").value = PROFILE.bio || "";
+  document.getElementById("namecard_link").value = PROFILE.namecard_link || "";
+
+  document.getElementById("petal_enabled").checked = PROFILE.petal_enabled === 1;
+  document.getElementById("page_public").checked = PROFILE.page_public === 1;
+
+  // SNS
+  snsList = PROFILE.sns_links || [];
+  renderSNS();
+
+  // Blocks（無料3つ）
+  if (PROFILE.blocks) {
+    blocks = PROFILE.blocks;
+  }
+  renderBlocks();
+})();
+
+// SNSエリア
+function addSNS() {
+  snsList.push({ url: "" });
+  renderSNS();
+}
+
+function deleteSNS(i) {
+  snsList.splice(i, 1);
+  renderSNS();
+}
+
+function renderSNS() {
+  const wrap = document.getElementById("sns_list");
+  wrap.innerHTML = "";
+
+  snsList.forEach((sns, i) => {
+    const div = document.createElement("div");
+    div.className = "sns-item";
+    div.innerHTML = `
+      <input value="${sns.url}" placeholder="URL"
+             oninput="snsList[${i}].url = this.value">
+      <button class="sns-delete" onclick="deleteSNS(${i})">削除</button>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// ブロック3つ
+function renderBlocks() {
+  const wrap = document.getElementById("blocks");
+  wrap.innerHTML = "";
+
+  blocks.forEach((b, i) => {
+    const div = document.createElement("div");
+    div.className = "block-box";
+
+    div.innerHTML = `
+      <h3>ブロック ${i + 1}</h3>
+      <input placeholder="タイトル" value="${b.title}"
+         oninput="blocks[${i}].title = this.value">
+      <textarea placeholder="本文">${b.text}</textarea>
+      <input placeholder="画像URL" value="${b.img}"
+         oninput="blocks[${i}].img = this.value">
+      <input placeholder="リンクURL" value="${b.link}"
+         oninput="blocks[${i}].link = this.value">
+    `;
+
+    wrap.appendChild(div);
+
+    // textarea は別処理
+    div.querySelector("textarea").oninput = (e) => {
+      blocks[i].text = e.target.value;
+    };
+  });
+}
+
+// 保存処理
+async function saveProfile() {
+  const uid = Number(localStorage.getItem("user_id"));
+  if (!uid) return alert("ログインが必要");
+
+  const body = {
+    user_id: uid,
+    icon_url: document.getElementById("icon_url").value.trim(),
+    display_name: document.getElementById("display_name").value.trim(),
+    bio: document.getElementById("bio").value.trim(),
+    namecard_link: document.getElementById("namecard_link").value.trim(),
+    sns_links: snsList,
+    blocks,
+    petal_enabled: document.getElementById("petal_enabled").checked ? 1 : 0,
+    page_public: document.getElementById("page_public").checked ? 1 : 0
+  };
+
+  const res = await fetch("/api/update_profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+
+  const json = await res.json();
+
+  if (json.ok) {
+    alert("保存しました！");
+    location.href = `/petal/@${localStorage.getItem("username")}`;
+  } else {
+    alert("保存エラー");
+  }
+}
+</script>
+
+</body>
+</html>
