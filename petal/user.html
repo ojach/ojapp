@@ -50,7 +50,7 @@
 /* ← これだけ追加すれば揃う！ */
 .topbar .left span {
   position: relative;
-  top: -3px;
+  top: -1px;
 }
 
 /* 右側 */
@@ -58,6 +58,10 @@
   padding-right: 22px;
 }
 
+.petal-title-text {
+  position: relative;
+  top: 1px;   /* ← 1 または 2 に調整 */
+}
 
   /* ============================== */
   /* プロフィール */
@@ -317,7 +321,7 @@
 <header class="topbar topbar-logged">
   <div class="left">
     <img src="/card/assets/svg/icon12.png" class="petal-logo">
-    Petal
+    <span class="petal-title-text">Petal</span>
   </div>
   <div class="right menu-trigger">My Page ▾</div>
 </header>
