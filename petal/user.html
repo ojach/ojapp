@@ -262,6 +262,19 @@
     border: none;
     font-size: 15px;
   }
+  .topbar-logged,
+.topbar-not-logged {
+  display: none;
+}
+
+.logged-in .topbar-logged {
+  display: flex;
+}
+
+.not-logged-in .topbar-not-logged {
+  display: flex;
+}
+
 </style>
 </head>
 
@@ -270,7 +283,7 @@
 <!-- ======================== -->
 <!-- 固定ヘッダー -->
 <!-- ======================== -->
-<header class="topbar">
+<header class="topbar topbar-not-logged">
   <div class="left">
     <img src="/card/assets/svg/icon12.png" class="petal-logo">
     Petal
@@ -280,6 +293,23 @@
     <a href="/register">新規登録</a>
   </div>
 </header>
+
+<header class="topbar topbar-logged">
+  <div class="left">
+    <img src="/card/assets/svg/icon12.png" class="petal-logo">
+    Petal
+  </div>
+  <div class="right menu-trigger">My Page ▾</div>
+</header>
+
+<div id="dropdown" class="dropdown">
+  <a href="/petal/@me">My Page</a>
+  <a href="/card/edit">名刺編集</a>
+  <a href="/petal/edit">個人ページ編集</a>
+  <a href="/account">アカウント</a>
+  <a href="/top">OJapp Tools</a>
+</div>
+
 
 
 <div class="container">
@@ -336,6 +366,15 @@
 
 
 <script>
+  /*  ヘッダー切り替え　*/
+  const uid = localStorage.getItem("user_id");
+
+if (uid) {
+  document.body.classList.add("logged-in");
+} else {
+  document.body.classList.add("not-logged-in");
+}
+
 /* ==========================
    SNSサービス名判定
 ========================== */
