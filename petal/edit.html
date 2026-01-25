@@ -150,6 +150,9 @@ let blocks = [
   { title: "", text: "", img: "", link: "" }
 ];
 
+/* -----------------------------
+   ページ読み込み → プロフィール取得
+----------------------------- */
 (async () => {
   const uid = Number(localStorage.getItem("user_id"));
   if (!uid) return alert("ログインが必要です");
@@ -162,14 +165,14 @@ let blocks = [
 
   PROFILE = json.profile;
 
-  // 入力欄に反映
+  // 基本情報をセット
   document.getElementById("display_name").value = PROFILE.display_name || "";
   document.getElementById("bio").value = PROFILE.bio || "";
   document.getElementById("namecard_link").value = PROFILE.namecard_link || "";
   document.getElementById("petal_enabled").checked = PROFILE.petal_enabled === 1;
   document.getElementById("page_public").checked = PROFILE.page_public === 1;
 
-  // アイコンプレビュー
+  // アイコン
   if (PROFILE.icon_url) {
     document.getElementById("icon_preview").src = PROFILE.icon_url;
   }
@@ -178,7 +181,7 @@ let blocks = [
   snsList = PROFILE.sns_links || [];
   renderSNS();
 
-  // Blocks（無料3つ）
+  // Blocks（無料カード 3つ）
   if (PROFILE.blocks) {
     blocks = PROFILE.blocks;
   }
@@ -186,7 +189,7 @@ let blocks = [
 })();
 
 /* -----------------------------
-   SNSエリア
+   SNS UI
 ----------------------------- */
 function addSNS() {
   snsList.push({ url: "" });
@@ -215,11 +218,8 @@ function renderSNS() {
 }
 
 /* -----------------------------
-   ブロック3つ
+   ブロック UI (3つ)
 ----------------------------- */
-// -----------------------------
-// 3ブロック UI 生成
-// -----------------------------
 function renderBlocks() {
   const area = document.getElementById("card_area");
   area.innerHTML = "";
@@ -273,18 +273,14 @@ async function uploadIcon() {
     return alert("アップロード失敗");
   }
 
-  // プレビュー
+  // プレビュー更新
   document.getElementById("icon_preview").src = json.url;
 
-  // ★ ここが核心
+  // 保存用
   localStorage.setItem("icon_url", json.url);
-
-  console.log("LOCALSTORAGE SAVED:", localStorage.getItem("icon_url"));
 
   alert("アイコンを更新しました！");
 }
-
-
 
 /* -----------------------------
    保存処理 (/api/update_profile)
@@ -297,6 +293,17 @@ async function saveProfile() {
     localStorage.getItem("icon_url") ||
     (PROFILE ? PROFILE.icon_url : "");
 
+  // ★ UIから blocks[] を再構築する
+  const newBlocks = [];
+  for (let i = 0; i < 3; i++) {
+    newBlocks.push({
+      title: document.getElementById(`block_title_${i}`).value.trim(),
+      text: document.getElementById(`block_text_${i}`).value.trim(),
+      img: document.getElementById(`block_img_${i}`).value.trim(),
+      link: document.getElementById(`block_link_${i}`).value.trim()
+    });
+  }
+
   const body = {
     user_id: uid,
     icon_url,
@@ -304,24 +311,10 @@ async function saveProfile() {
     bio: document.getElementById("bio").value.trim(),
     namecard_link: document.getElementById("namecard_link").value.trim(),
     sns_links: snsList,
-    blocks,
+    blocks: newBlocks,
     petal_enabled: document.getElementById("petal_enabled").checked ? 1 : 0,
     page_public: document.getElementById("page_public").checked ? 1 : 0
   };
-// 保存時に blocks[] を再構築
-const newBlocks = [];
-
-for (let i = 0; i < 3; i++) {
-  newBlocks.push({
-    title: document.getElementById(`block_title_${i}`).value.trim(),
-    text: document.getElementById(`block_text_${i}`).value.trim(),
-    img: document.getElementById(`block_img_${i}`).value.trim(),
-    link: document.getElementById(`block_link_${i}`).value.trim()
-  });
-}
-
-// これを body.blocks に入れる
-body.blocks = newBlocks;
 
   const res = await fetch("/api/update_profile", {
     method: "POST",
@@ -338,9 +331,8 @@ body.blocks = newBlocks;
     alert("保存エラー");
   }
 }
-
-
 </script>
+
 
 
 </body>
