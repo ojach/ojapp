@@ -256,22 +256,31 @@ async function uploadIcon() {
 
   const fd = new FormData();
   fd.append("file", file);
-  fd.append("user_id", uid);   // ★ これを追加！
+  fd.append("user_id", uid);
 
   const res = await fetch("/api/upload_icon", {
     method: "POST",
-    body: fd  // ★ ヘッダー不要！multipart/form-data は自動設定される
+    body: fd
   });
 
   const json = await res.json();
+  console.log("UPLOAD RESPONSE:", json);
 
-  if (!json.ok) return alert("アップロード失敗");
+  if (!json.ok || !json.url) {
+    return alert("アップロード失敗");
+  }
 
-  // プレビュー更新
+  // プレビュー
   document.getElementById("icon_preview").src = json.url;
+
+  // ★ ここが核心
+  localStorage.setItem("icon_url", json.url);
+
+  console.log("LOCALSTORAGE SAVED:", localStorage.getItem("icon_url"));
 
   alert("アイコンを更新しました！");
 }
+
 
 
 /* -----------------------------
