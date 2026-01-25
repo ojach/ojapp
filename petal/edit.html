@@ -100,8 +100,13 @@
   <h1>Petal 個人ページ編集</h1>
 
   <!-- アイコン画像 -->
-  <h2>アイコン画像</h2>
-  <input id="icon_url" placeholder="画像URLを入力">
+ <!-- アイコン -->
+<h2>アイコン画像</h2>
+<img id="icon_preview" src="" style="width:90px;height:90px;border-radius:50%;object-fit:cover;">
+<br><br>
+<input type="file" id="icon_file" accept="image/*">
+<button onclick="uploadIcon()">画像アップロード</button>
+
 
   <!-- 表示名 -->
   <h2>表示名</h2>
@@ -157,13 +162,16 @@ let blocks = [
   PROFILE = json.profile;
 
   // 入力欄に反映
-  document.getElementById("icon_url").value = PROFILE.icon_url || "";
   document.getElementById("display_name").value = PROFILE.display_name || "";
   document.getElementById("bio").value = PROFILE.bio || "";
   document.getElementById("namecard_link").value = PROFILE.namecard_link || "";
-
   document.getElementById("petal_enabled").checked = PROFILE.petal_enabled === 1;
   document.getElementById("page_public").checked = PROFILE.page_public === 1;
+
+  // アイコンプレビュー
+  if (PROFILE.icon_url) {
+    document.getElementById("icon_preview").src = PROFILE.icon_url;
+  }
 
   // SNS
   snsList = PROFILE.sns_links || [];
@@ -176,7 +184,9 @@ let blocks = [
   renderBlocks();
 })();
 
-// SNSエリア
+/* -----------------------------
+   SNSエリア
+----------------------------- */
 function addSNS() {
   snsList.push({ url: "" });
   renderSNS();
@@ -203,7 +213,9 @@ function renderSNS() {
   });
 }
 
-// ブロック3つ
+/* -----------------------------
+   ブロック3つ
+----------------------------- */
 function renderBlocks() {
   const wrap = document.getElementById("blocks");
   wrap.innerHTML = "";
@@ -232,14 +244,44 @@ function renderBlocks() {
   });
 }
 
-// 保存処理
+/* -----------------------------
+   アイコンアップロード
+----------------------------- */
+async function uploadIcon() {
+  const uid = Number(localStorage.getItem("user_id"));
+  if (!uid) return alert("ログインが必要です");
+
+  const file = document.getElementById("icon_file").files[0];
+  if (!file) return alert("画像を選択してください");
+
+  const fd = new FormData();
+  fd.append("file", file);
+
+  const res = await fetch("/api/upload_icon", {
+    method: "POST",
+    headers: { "X-User-ID": uid },
+    body: fd
+  });
+
+  const json = await res.json();
+
+  if (!json.ok) return alert("アップロード失敗");
+
+  // プレビュー更新
+  document.getElementById("icon_preview").src = json.icon_url;
+
+  alert("アイコンを更新しました！");
+}
+
+/* -----------------------------
+   保存処理 (/api/update_profile)
+----------------------------- */
 async function saveProfile() {
   const uid = Number(localStorage.getItem("user_id"));
   if (!uid) return alert("ログインが必要");
 
   const body = {
     user_id: uid,
-    icon_url: document.getElementById("icon_url").value.trim(),
     display_name: document.getElementById("display_name").value.trim(),
     bio: document.getElementById("bio").value.trim(),
     namecard_link: document.getElementById("namecard_link").value.trim(),
@@ -265,6 +307,7 @@ async function saveProfile() {
   }
 }
 </script>
+
 
 </body>
 </html>
