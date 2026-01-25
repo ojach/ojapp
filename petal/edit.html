@@ -281,8 +281,12 @@ async function saveProfile() {
   const uid = Number(localStorage.getItem("user_id"));
   if (!uid) return alert("ログインが必要");
 
+  // ★ 追加：アップロード済みURLを取得
+  const icon_url = localStorage.getItem("icon_url") || "";
+
   const body = {
     user_id: uid,
+    icon_url,  // ← ← ← これが無いと DB に保存されない！！
     display_name: document.getElementById("display_name").value.trim(),
     bio: document.getElementById("bio").value.trim(),
     namecard_link: document.getElementById("namecard_link").value.trim(),
@@ -307,6 +311,7 @@ async function saveProfile() {
     alert("保存エラー");
   }
 }
+
 </script>
 
 
