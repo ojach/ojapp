@@ -217,6 +217,9 @@ function renderSNS() {
 /* -----------------------------
    ブロック3つ
 ----------------------------- */
+// -----------------------------
+// 3ブロック UI 生成
+// -----------------------------
 function renderBlocks() {
   const area = document.getElementById("card_area");
   area.innerHTML = "";
@@ -241,14 +244,7 @@ function renderBlocks() {
         <input type="text" id="block_link_${i}" class="input" value="${b.link || ""}">
       </div>
     `;
-
-    wrap.appendChild(div);
-
-    // textarea は別処理
-    div.querySelector("textarea").oninput = (e) => {
-      blocks[i].text = e.target.value;
-    };
-  });
+  }
 }
 
 /* -----------------------------
