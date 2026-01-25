@@ -308,6 +308,20 @@ async function saveProfile() {
     petal_enabled: document.getElementById("petal_enabled").checked ? 1 : 0,
     page_public: document.getElementById("page_public").checked ? 1 : 0
   };
+// 保存時に blocks[] を再構築
+const newBlocks = [];
+
+for (let i = 0; i < 3; i++) {
+  newBlocks.push({
+    title: document.getElementById(`block_title_${i}`).value.trim(),
+    text: document.getElementById(`block_text_${i}`).value.trim(),
+    img: document.getElementById(`block_img_${i}`).value.trim(),
+    link: document.getElementById(`block_link_${i}`).value.trim()
+  });
+}
+
+// これを body.blocks に入れる
+body.blocks = newBlocks;
 
   const res = await fetch("/api/update_profile", {
     method: "POST",
@@ -324,20 +338,6 @@ async function saveProfile() {
     alert("保存エラー");
   }
 }
-// 保存時に blocks[] を再構築
-const newBlocks = [];
-
-for (let i = 0; i < 3; i++) {
-  newBlocks.push({
-    title: document.getElementById(`block_title_${i}`).value.trim(),
-    text: document.getElementById(`block_text_${i}`).value.trim(),
-    img: document.getElementById(`block_img_${i}`).value.trim(),
-    link: document.getElementById(`block_link_${i}`).value.trim()
-  });
-}
-
-// これを body.blocks に入れる
-body.blocks = newBlocks;
 
 
 </script>
