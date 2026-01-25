@@ -128,7 +128,8 @@
   <!-- 無料 3 ブロック -->
   <h2>無料カード（3ブロック）</h2>
   <div id="blocks"></div>
-
+  
+<div id="card_area"></div>
   <!-- Petal メッセージ設定 -->
   <h2>Petal メッセージ設定</h2>
   <label><input type="checkbox" id="petal_enabled"> 受け取る</label>
@@ -217,22 +218,28 @@ function renderSNS() {
    ブロック3つ
 ----------------------------- */
 function renderBlocks() {
-  const wrap = document.getElementById("blocks");
-  wrap.innerHTML = "";
+  const area = document.getElementById("card_area");
+  area.innerHTML = "";
 
-  blocks.forEach((b, i) => {
-    const div = document.createElement("div");
-    div.className = "block-box";
+  for (let i = 0; i < 3; i++) {
+    const b = blocks[i] || {};
 
-    div.innerHTML = `
-      <h3>ブロック ${i + 1}</h3>
-      <input placeholder="タイトル" value="${b.title}"
-         oninput="blocks[${i}].title = this.value">
-      <textarea placeholder="本文">${b.text}</textarea>
-      <input placeholder="画像URL" value="${b.img}"
-         oninput="blocks[${i}].img = this.value">
-      <input placeholder="リンクURL" value="${b.link}"
-         oninput="blocks[${i}].link = this.value">
+    area.innerHTML += `
+      <div class="block-editor" style="padding:16px; border:1px solid #ddd; border-radius:8px; margin-bottom:20px;">
+        <h4>ブロック ${i + 1}</h4>
+
+        <label>タイトル</label>
+        <input type="text" id="block_title_${i}" class="input" value="${b.title || ""}">
+
+        <label>本文</label>
+        <textarea id="block_text_${i}" class="textarea">${b.text || ""}</textarea>
+
+        <label>画像URL</label>
+        <input type="text" id="block_img_${i}" class="input" value="${b.img || ""}">
+
+        <label>リンクURL</label>
+        <input type="text" id="block_link_${i}" class="input" value="${b.link || ""}">
+      </div>
     `;
 
     wrap.appendChild(div);
