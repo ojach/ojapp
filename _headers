@@ -5,4 +5,4 @@ Content-Security-Policy: img-src 'self' data: blob:
   https://drive.google.com 
   https://driveusercontent.google.com 
   https://ojshop-fav.trc-wasps.workers.dev 
-  https://https://pub-f6174f737f254612aaf554dfcb35561d.r2.dev
+  https://https://pub-f6174f737f254612aaf554dfcb35561d.r2.dev;
