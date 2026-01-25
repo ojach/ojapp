@@ -586,6 +586,27 @@ async function sendPetal() {
     alert("送信エラー：" + json.error);
   }
 }
+<script>
+// ▼ ドロップダウン制御
+document.addEventListener("DOMContentLoaded", () => {
+  const trigger = document.querySelector(".menu-trigger");
+  const dropdown = document.querySelector(".dropdown");
+
+  if (!trigger || !dropdown) return;
+
+  // My Page をタップ → ON/OFF 切り替え
+  trigger.addEventListener("click", () => {
+    dropdown.classList.toggle("open");
+  });
+
+  // 画面のどこかをタップしたら閉じる
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+      dropdown.classList.remove("open");
+    }
+  });
+});
+</script>
 
 </script>
 
