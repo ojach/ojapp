@@ -144,7 +144,12 @@
   <a id="pending_link" class="link-btn">▶ Petal 承認管理</a>
 
   <h2>アカウント操作</h2>
-  <a href="#" onclick="logout()" class="logout-btn">ログアウト</a>
+  <div class="dropdown">
+  <div class="account-switch-title">アカウント切り替え</div>
+  <div id="account_list"></div>
+  <a href="javascript:logout()">ログアウト</a>
+</div>
+
 
 </div>
 
@@ -155,6 +160,45 @@
 const user_id = localStorage.getItem("user_id");
 if (!user_id) {
   location.href = "/login";
+}
+function renderAccountList() {
+  const wrap = document.getElementById("account_list");
+  wrap.innerHTML = "";
+
+  let list = JSON.parse(localStorage.getItem("accounts") || "[]");
+  let current = Number(localStorage.getItem("current_user_id"));
+
+  list.forEach(acc => {
+    const div = document.createElement("div");
+    div.className = "account-item";
+    div.innerHTML = `
+      <div style="padding:8px; cursor:pointer; 
+           ${acc.user_id === current ? 'font-weight:bold;' : ''}">
+        @${acc.username}
+      </div>
+    `;
+    div.onclick = () => switchAccount(acc.user_id);
+    wrap.appendChild(div);
+  });
+}
+async function switchAccount(user_id) {
+
+  // サーバーで SESSION_ID を切り替え
+  await fetch("/api/switch_user", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id })
+  });
+
+  // current user 更新
+  localStorage.setItem("current_user_id", user_id);
+
+  // My Page へ
+  const account = JSON
+    .parse(localStorage.getItem("accounts"))
+    .find(a => a.user_id === user_id);
+
+  location.href = `/petal/@${account.username}`;
 }
 
 // -------------------------------------
