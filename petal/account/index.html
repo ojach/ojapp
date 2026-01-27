@@ -110,6 +110,45 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+#account_list .acc-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+#account_list .acc-item:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+#account_list .acc-item img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+}
+
+#account_list .acc-item .name {
+  font-size: 14px;
+}
+
+#account_list .acc-item.active .name {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.add-account {
+  padding: 10px 6px;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 14px;
+}
+.add-account:hover {
+  text-decoration: underline;
+}
 
 </style>
 </head>
@@ -143,12 +182,18 @@
   <a href="/card/edit" class="link-btn">▶ 名刺を編集する</a>
   <a id="pending_link" class="link-btn">▶ Petal 承認管理</a>
 
-  <h2>アカウント操作</h2>
-  <div class="dropdown">
+ <h2>アカウント操作</h2>
+<div class="dropdown">
   <div class="account-switch-title">アカウント切り替え</div>
   <div id="account_list"></div>
+
+  <div class="add-account" onclick="goLogin()">
+    ＋ 別のアカウントでログイン
+  </div>
+
   <a href="javascript:logout()">ログアウト</a>
 </div>
+
 
 
 </div>
@@ -200,6 +245,58 @@ async function switchAccount(user_id) {
 
   location.href = `/petal/@${account.username}`;
 }
+async function loadAccounts() {
+  const res = await fetch("/api/my_accounts");
+  const data = await res.json();
+
+  if (!data.ok) {
+    return; // ログインしてない時は何も出さない
+  }
+
+  const container = document.getElementById("account_list");
+  container.innerHTML = "";
+
+  data.accounts.forEach(acc => {
+    const div = document.createElement("div");
+    div.className = "acc-item" + (acc.id === data.current ? " active" : "");
+
+    div.innerHTML = `
+      <img src="${acc.icon_url || '/default_icon.png'}">
+      <div class="name">${acc.username || "(no name)"}</div>
+    `;
+
+    div.addEventListener("click", () => switchUser(acc.id));
+
+    container.appendChild(div);
+  });
+}
+
+// アカウント切り替え
+async function switchUser(id) {
+  const res = await fetch("/api/switch_user", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: id })
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    location.reload(); // ページを更新して即切り替え
+  }
+}
+
+// ログアウトボタン
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  location.href = "/card/login";
+}
+
+// 別アカログイン
+function goLogin() {
+  location.href = "/card/login";
+}
+
+loadAccounts();
 
 // -------------------------------------
 // プロフィール取得
