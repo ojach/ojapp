@@ -597,6 +597,11 @@ async function sendPetal() {
   if (!user_id) return alert("ログインしてください");
   if (!message) return alert("メッセージを入力してください");
 
+  console.log("SENDING:", {
+    page_id: PROFILE.page_id,
+    message
+  });
+
   const res = await fetch("/api/petal/create", {
     method: "POST",
     headers: {
@@ -610,6 +615,7 @@ async function sendPetal() {
   });
 
   const json = await res.json();
+  console.log("RESPONSE:", json);
 
   if (json.ok) {
     alert("Petal を送りました！（承認待ち）");
@@ -618,6 +624,7 @@ async function sendPetal() {
     alert("送信エラー：" + json.error);
   }
 }
+
 
 // ▼ ドロップダウン制御
 document.addEventListener("DOMContentLoaded", () => {
