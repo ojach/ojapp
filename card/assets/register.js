@@ -24,12 +24,11 @@ async function register() {
   }
 
   try {
-   const res = await fetch("https://ojapp.app/card/api/create_user", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password: pw }),
-});
-
+    const res = await fetch("https://ojapp.app/card/api/create_user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password: pw }),
+    });
 
     const data = await res.json();
     console.log("response:", data);
@@ -39,7 +38,16 @@ async function register() {
       return;
     }
 
-    // 成功 → 認証案内ページへ
+    // -----------------------------------------------------
+    // 🔥 ここが超重要！！新規登録＝即ログイン状態にする
+    // -----------------------------------------------------
+    localStorage.setItem("user_id", data.user_id);
+    localStorage.setItem("email_verified", 0); // 任意
+    // username はまだ未発行なのでここではなし
+
+    // Cookie は Worker 側が付与済み
+
+    // 遷移
     location.href = "/card/register/success/";
 
   } catch (err) {
