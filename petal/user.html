@@ -635,16 +635,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 /* ==========================
-   SNS モーダル
+   Petal投稿モーダル
 ========================== */
-function openSNSModal() {
-  sns_modal_bg.style.display = "block";
-  sns_modal.style.display = "block";
+
+// 要素を取得
+const petal_modal_bg = document.getElementById("petal_modal_bg");
+const petal_modal = document.getElementById("petal_modal");
+const petal_message = document.getElementById("petal_message");
+
+// モーダル開閉
+function openPetalModal() {
+  petal_modal_bg.style.display = "block";
+  petal_modal.style.display = "block";
 }
-function closeSNSModal() {
-  sns_modal_bg.style.display = "none";
-  sns_modal.style.display = "none";
+
+function closePetalModal() {
+  petal_modal_bg.style.display = "none";
+  petal_modal.style.display = "none";
 }
+
+// Petal ボタンにイベントを紐付ける
+document.getElementById("open_petal_modal")
+  .addEventListener("click", openPetalModal);
+
 
 </script>
 
