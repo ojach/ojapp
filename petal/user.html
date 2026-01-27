@@ -484,7 +484,7 @@ function renderBlocks(blocks) {
     if (b.title) html += `<div class="block-title">${b.title}</div>`;
     if (b.text) html += `<div class="block-text">${b.text}</div>`;
     if (b.img) html += `<img src="${b.img}" class="block-img">`;
-    if (b.link) html += `<a href="${b.link}" class="block-link" target="_blank">🔗 Link</a>`;
+    if (b.link) html += `<a href="${b.link}" class="block-link" target="_blank">🔗 ${block.link}</a>`;
 
     wrap.innerHTML = html;
     area.appendChild(wrap);
