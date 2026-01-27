@@ -341,6 +341,34 @@
 .not-logged-in .topbar-not-logged {
   display: flex;
 }
+#account_list .acc-item {
+  padding: 8px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+#account_list .acc-item:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+#account_list .acc-item.active {
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* アイコンは非表示（C仕様） */
+#account_list .acc-item img {
+  display: none;
+}
+
+.account-switch-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
 
 </style>
 </head>
@@ -375,10 +403,13 @@
   <a href="/petal/edit">個人ページ編集</a>
   <a href="/petal/account">アカウント</a>
   <a href="/top">OJapp Tools</a>
-   <div class="account-switch-title">アカウント切り替え</div>
+
+  <div class="account-switch-title" style="margin-top:12px;">アカウント切り替え</div>
   <div id="account_list"></div>
-  <a href="javascript:logout()">ログアウト</a>
+
+  <a href="javascript:logout()" style="margin-top:10px;">ログアウト</a>
 </div>
+
 
 
 
@@ -476,25 +507,47 @@ function renderAccountList() {
     wrap.appendChild(div);
   });
 }
-async function switchAccount(user_id) {
+async function loadAccounts() {
+  const res = await fetch("/api/my_accounts");
+  const data = await res.json();
 
-  // サーバーで SESSION_ID を切り替え
-  await fetch("/api/switch_user", {
+  if (!data.ok) return;
+
+  const container = document.getElementById("account_list");
+  container.innerHTML = "";
+
+  data.accounts.forEach(acc => {
+    const div = document.createElement("div");
+    div.className = "acc-item" + (acc.id === data.current ? " active" : "");
+
+    div.innerHTML = `
+      <div class="name">${acc.username || "(no name)"}</div>
+    `;
+
+    div.addEventListener("click", () => switchUser(acc.id));
+
+    container.appendChild(div);
+  });
+}
+
+async function switchUser(id) {
+  const res = await fetch("/api/switch_user", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_id })
+    body: JSON.stringify({ user_id: id })
   });
 
-  // current user 更新
-  localStorage.setItem("current_user_id", user_id);
-
-  // My Page へ
-  const account = JSON
-    .parse(localStorage.getItem("accounts"))
-    .find(a => a.user_id === user_id);
-
-  location.href = `/petal/@${account.username}`;
+  const data = await res.json();
+  if (data.ok) location.reload();
 }
+
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  location.href = "/card/login";
+}
+
+loadAccounts();
+
 
 /* ==========================
    SNSサービス名判定
