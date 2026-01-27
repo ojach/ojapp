@@ -442,6 +442,18 @@ if (uid) {
 } else {
   document.body.classList.add("not-logged-in");
 }
+async function logout() {
+  // localStorage 削除
+  localStorage.removeItem("user_id");
+  localStorage.removeItem("username");
+  localStorage.removeItem("email_verified");
+
+  // Worker にログアウトを通知（Cookie削除）
+  await fetch("/api/logout", { method: "POST" });
+
+  // トップへ飛ばす
+  location.href = "/login";
+}
 
 /* ==========================
    SNSサービス名判定
