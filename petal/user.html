@@ -468,23 +468,44 @@ function closeSNSModal() {
 /* ==========================
    ブロック描画
 ========================== */
-function renderBlocks(blocks) {
-  const area = document.getElementById("blocks_area");
+function renderBlocks() {
+  const area = document.getElementById("card_area");
   area.innerHTML = "";
 
-  blocks.forEach(b => {
-    const wrap = document.createElement("div");
-    wrap.className = "block-card";
+  for (let i = 0; i < 3; i++) {
+    const b = blocks[i] || {};
 
-    let html = "";
-    if (b.title) html += `<div class="block-title">${b.title}</div>`;
-    if (b.text) html += `<div class="block-text">${b.text}</div>`;
-    if (b.img) html += `<img src="${b.img}" class="block-img">`;
-    if (b.link) html += `<a href="${b.link}" class="block-link" target="_blank">🔗 Link</a>`;
+    area.innerHTML += `
+      <div class="block-editor" style="padding:16px; border:1px solid #ddd; border-radius:8px; margin-bottom:20px;">
+        <h4>ブロック ${i + 1}</h4>
 
-    wrap.innerHTML = html;
-    area.appendChild(wrap);
-  });
+        <label>タイトル</label>
+        <input type="text" id="block_title_${i}" class="input" value="${b.title || ""}">
+
+        <label>本文</label>
+        <textarea id="block_text_${i}" class="textarea">${b.text || ""}</textarea>
+
+        <label>画像（アップロード or URL）</label>
+
+        <!-- 画像プレビュー -->
+        <img id="block_preview_${i}" 
+             src="${b.img || ""}" 
+             style="width:120px; height:auto; display:${b.img ? "block" : "none"}; margin-bottom:8px; border-radius:8px;">
+
+        <!-- URL入力（手動入力も可） -->
+        <input type="text" id="block_img_${i}" class="input" 
+               value="${b.img || ""}" 
+               placeholder="画像URL（または下のアップロード）"
+               oninput="blocks[${i}].img = this.value">
+
+        <!-- ファイル選択 -->
+        <input type="file" id="block_file_${i}" accept="image/*" onchange="uploadBlockImage(${i})">
+
+        <label>リンクURL</label>
+        <input type="text" id="block_link_${i}" class="input" value="${b.link || ""}">
+      </div>
+    `;
+  }
 }
 
 
