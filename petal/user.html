@@ -455,6 +455,24 @@ function getServiceName(url) {
   return url.replace("https://", "").replace("http://", "").split("/")[0];
 }
 
+/* ==========================
+   SNS モーダル
+========================== */
+
+// 要素取得
+const sns_modal_bg = document.getElementById("sns_modal_bg");
+const sns_modal = document.getElementById("sns_modal");
+
+// 関数定義（必ず要素取得の下）
+function openSNSModal() {
+  sns_modal_bg.style.display = "block";
+  sns_modal.style.display = "block";
+}
+
+function closeSNSModal() {
+  sns_modal_bg.style.display = "none";
+  sns_modal.style.display = "none";
+}
 
 
 
@@ -479,20 +497,6 @@ function renderBlocks(blocks) {
     area.appendChild(wrap);
   });
 }
-
-
-/* ==========================
-   Petal投稿モーダル
-========================== */
-function openPetalModal() {
-  petal_modal_bg.style.display = "block";
-  petal_modal.style.display = "block";
-}
-function closePetalModal() {
-  petal_modal_bg.style.display = "none";
-  petal_modal.style.display = "none";
-}
-
 
 /* ==========================
    プロフィール読み込み
