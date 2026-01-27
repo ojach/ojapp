@@ -237,8 +237,21 @@ function renderBlocks() {
         <label>本文</label>
         <textarea id="block_text_${i}" class="textarea">${b.text || ""}</textarea>
 
-        <label>画像URL</label>
-        <input type="text" id="block_img_${i}" class="input" value="${b.img || ""}">
+        <label>画像（アップロード or URL）</label>
+
+        <!-- 画像プレビュー -->
+        <img id="block_preview_${i}" 
+             src="${b.img || ""}" 
+             style="width:120px; height:auto; display:${b.img ? "block" : "none"}; margin-bottom:8px; border-radius:8px;">
+
+        <!-- URL入力（手動入力も可） -->
+        <input type="text" id="block_img_${i}" class="input" 
+               value="${b.img || ""}" 
+               placeholder="画像URL（または下のアップロード）"
+               oninput="blocks[${i}].img = this.value">
+
+        <!-- ファイル選択 -->
+        <input type="file" id="block_file_${i}" accept="image/*" onchange="uploadBlockImage(${i})">
 
         <label>リンクURL</label>
         <input type="text" id="block_link_${i}" class="input" value="${b.link || ""}">
@@ -246,6 +259,7 @@ function renderBlocks() {
     `;
   }
 }
+
 
 /* -----------------------------
    アイコンアップロード
@@ -331,6 +345,43 @@ async function saveProfile() {
     alert("保存エラー");
   }
 }
+
+  async function uploadBlockImage(i) {
+  const uid = Number(localStorage.getItem("user_id"));
+  const file = document.getElementById(`block_file_${i}`).files[0];
+
+  if (!file) return;
+
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("user_id", uid);
+  fd.append("block_index", i);
+
+  const res = await fetch("/api/upload_block_image", {
+    method: "POST",
+    body: fd
+  });
+
+  const json = await res.json();
+
+  if (!json.ok) {
+    return alert("画像アップロード失敗");
+  }
+
+  // URL を blocks[] に保存
+  blocks[i].img = json.url;
+
+  // プレビュー更新
+  const preview = document.getElementById(`block_preview_${i}`);
+  preview.src = json.url;
+  preview.style.display = "block";
+
+  // URL入力欄にも反映
+  document.getElementById(`block_img_${i}`).value = json.url;
+
+  alert("ブロック画像を更新しました！");
+}
+
 </script>
 
 
