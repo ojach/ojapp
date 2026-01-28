@@ -162,6 +162,46 @@
   width: 20px;
   margin-right: 6px;
 }
+ .topbar-logged,
+.topbar-not-logged {
+  display: none;
+}
+
+.logged-in .topbar-logged {
+  display: flex;
+}
+
+.not-logged-in .topbar-not-logged {
+  display: flex;
+}
+#account_list .acc-item {
+  padding: 8px 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+#account_list .acc-item:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+#account_list .acc-item.active {
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* アイコンは非表示（C仕様） */
+#account_list .acc-item img {
+  display: none;
+}
+
+.account-switch-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
 
 </style>
 </head>
