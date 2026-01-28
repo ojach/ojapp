@@ -217,7 +217,12 @@ if (!uid) {
 } else {
   document.body.classList.add("logged-in");
 }
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  location.href = "/card/login";
+}
 
+loadAccounts();
 // タブ切替
 function showTab(tab) {
   document.getElementById("tab_petal").classList.remove("active");
