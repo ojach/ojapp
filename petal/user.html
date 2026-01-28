@@ -510,6 +510,7 @@ async function loadAccounts() {
   if (!data.ok) return;
 
   const container = document.getElementById("account_list");
+   if (!container) return; 
   container.innerHTML = "";
 
   data.accounts.forEach(acc => {
