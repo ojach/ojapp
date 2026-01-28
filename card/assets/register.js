@@ -27,6 +27,7 @@ async function register() {
     const res = await fetch("https://ojapp.app/card/api/create_user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include", 
       body: JSON.stringify({ email, password: pw }),
     });
 
