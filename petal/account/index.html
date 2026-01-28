@@ -199,131 +199,29 @@
 </div>
 
 <script>
-// -------------------------------------
-// ログインしてなければ /login へ
-// -------------------------------------
-const user_id = localStorage.getItem("user_id");
-if (!user_id) {
-  location.href = "/login";
-}
-function renderAccountList() {
-  const wrap = document.getElementById("account_list");
-  wrap.innerHTML = "";
-
-  let list = JSON.parse(localStorage.getItem("accounts") || "[]");
-  let current = Number(localStorage.getItem("current_user_id"));
-
-  list.forEach(acc => {
-    const div = document.createElement("div");
-    div.className = "account-item";
-    div.innerHTML = `
-      <div style="padding:8px; cursor:pointer; 
-           ${acc.user_id === current ? 'font-weight:bold;' : ''}">
-        @${acc.username}
-      </div>
-    `;
-    div.onclick = () => switchAccount(acc.user_id);
-    wrap.appendChild(div);
-  });
-}
-async function switchAccount(user_id) {
-
-  // サーバーで SESSION_ID を切り替え
-  await fetch("/api/switch_user", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_id })
-  });
-
-  // current user 更新
-  localStorage.setItem("current_user_id", user_id);
-
-  // My Page へ
-  const account = JSON
-    .parse(localStorage.getItem("accounts"))
-    .find(a => a.user_id === user_id);
-
-  location.href = `/petal/@${account.username}`;
-}
-async function loadAccounts() {
-  const res = await fetch("/api/my_accounts");
-  const data = await res.json();
-
-  if (!data.ok) {
-    return; // ログインしてない時は何も出さない
-  }
-
-  const container = document.getElementById("account_list");
-  container.innerHTML = "";
-
-  data.accounts.forEach(acc => {
-    const div = document.createElement("div");
-    div.className = "acc-item" + (acc.id === data.current ? " active" : "");
-
-    div.innerHTML = `
-      <img src="${acc.icon_url || '/default_icon.png'}">
-      <div class="name">${acc.username || "(no name)"}</div>
-    `;
-
-    div.addEventListener("click", () => switchUser(acc.id));
-
-    container.appendChild(div);
-  });
-}
-
-// アカウント切り替え
-async function switchUser(id) {
-  const res = await fetch("/api/switch_user", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_id: id })
-  });
-
-  const data = await res.json();
-  if (data.ok) {
-    location.reload(); // ページを更新して即切り替え
-  }
-}
-
-// ログアウトボタン
-async function logout() {
-  await fetch("/api/logout", { method: "POST" });
-  location.href = "/card/login";
-}
-
-// 別アカログイン
-function goLogin() {
-  location.href = "/card/login";
-}
-
-loadAccounts();
-
-// -------------------------------------
-// プロフィール取得
-// -------------------------------------
+// ============================================================
+// ① ログインチェック（SESSION 判定）
+// ============================================================
 (async () => {
-  const username = localStorage.getItem("username");
+  const res = await fetch("/api/get_profile/@me");
 
-  // username が無ければ取得（初ログイン時の保険）
-  if (!username) {
-    const resUser = await fetch(`/api/get_profile_by_id?user_id=${user_id}`);
-    const jsonUser = await resUser.json();
-    if (jsonUser.ok) {
-      localStorage.setItem("username", jsonUser.username);
-    }
+  // 未ログイン → ログイン画面へ
+  if (res.status === 401) {
+    location.href = "/card/login";
+    return;
   }
 
-  const res = await fetch(`/api/get_profile/${localStorage.getItem("username")}`);
   const json = await res.json();
-
   if (!json.ok) {
-    document.getElementById("info_box").textContent = "データ取得エラー";
+    document.getElementById("info_box").textContent = "読み込みエラー";
     return;
   }
 
   const p = json.profile;
 
-  // 表示
+  // -----------------------------
+  // 基本情報を表示
+  // -----------------------------
   document.getElementById("info_box").innerHTML = `
     <div class="row">
       <div class="label">メールアドレス</div>
@@ -342,26 +240,81 @@ loadAccounts();
 
     <div class="row">
       <div class="label">プラン</div>
-      <div class="text">Free（Petal Pro は準備中）</div>
+      <div class="text">Free（Petal Pro 準備中）</div>
     </div>
   `;
 
-  // URL生成
+  // リンク表示
   const cardURL = `https://ojapp.app/card/@${p.username}`;
   const petalURL = `https://ojapp.app/petal/@${p.username}`;
 
   document.getElementById("card_url").textContent = cardURL;
   document.getElementById("petal_url").textContent = petalURL;
 
-  // リンク設定
+  // ボタンリンク
   document.getElementById("mypage_link").href = `/petal/@${p.username}`;
   document.getElementById("pending_link").href = `/petal/pending?page_id=${p.page_id}`;
-
 })();
 
-// -------------------------------------
-// コピー機能
-// -------------------------------------
+
+// ============================================================
+// ② アカウント一覧
+// ============================================================
+async function loadAccounts() {
+  const res = await fetch("/api/my_accounts");
+  const data = await res.json();
+
+  if (!data.ok) return;
+
+  const wrap = document.getElementById("account_list");
+  wrap.innerHTML = "";
+
+  data.accounts.forEach(acc => {
+    const div = document.createElement("div");
+    div.className = "acc-item" + (acc.id === data.current ? " active" : "");
+
+    div.innerHTML = `
+      <img src="${acc.icon_url || '/default_icon.png'}">
+      <div class="name">@${acc.username}</div>
+    `;
+
+    div.onclick = () => switchUser(acc.id);
+    wrap.appendChild(div);
+  });
+}
+
+loadAccounts();
+
+
+// ============================================================
+// ③ アカウント切替
+// ============================================================
+async function switchUser(id) {
+  const res = await fetch("/api/switch_user", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: id })
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    location.reload();
+  }
+}
+
+
+// ============================================================
+// ④ ログアウト
+// ============================================================
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  location.href = "/card/login";
+}
+
+
+// ============================================================
+// ⑤ コピー
+// ============================================================
 function copyURL(id) {
   const text = document.getElementById(id).textContent;
   navigator.clipboard.writeText(text);
@@ -375,22 +328,20 @@ function showToast(msg) {
   document.body.appendChild(el);
 
   setTimeout(() => el.classList.add("show"), 10);
-  setTimeout(() => {
-    el.classList.remove("show");
-    setTimeout(() => el.remove(), 300);
-  }, 1800);
+  setTimeout(() => el.classList.remove("show"), 1800);
+
+  setTimeout(() => el.remove(), 2200);
 }
 
-// -------------------------------------
-// ログアウト
-// -------------------------------------
-function logout() {
-  localStorage.removeItem("user_id");
-  localStorage.removeItem("username");
+
+// ============================================================
+// ⑥ 別アカログイン
+// ============================================================
+function goLogin() {
   location.href = "/card/login";
 }
-
 </script>
+
 
 </body>
 </html>
