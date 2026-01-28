@@ -6,6 +6,55 @@
 <title>Petal - みんなの花びら</title>
 
 <style>
+    /* ==============================
+      ヘッダー固定
+  ============================== */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.topbar .left {
+  display: flex;
+  align-items: center;
+}
+
+.petal-logo {
+  height: 20px;
+  width: 20px;
+  margin-right: 6px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ← これだけ追加すれば揃う！ */
+.topbar .left span {
+  position: relative;
+  top: -1px;
+}
+
+/* 右側 */
+.topbar .right {
+  padding-right: 22px;
+}
+
+.topbar .left {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
   body {
     margin: 0;
     background: #fafafa;
@@ -117,30 +166,35 @@
 </style>
 </head>
 <body>
-<header class="topbar not-logged">
+<!-- ======================== -->
+<!-- 固定ヘッダー -->
+<!-- ======================== -->
+<header class="topbar topbar-not-logged">
   <div class="left">
     <img src="/card/assets/svg/icon12.png" class="petal-logo">
     Petal
   </div>
   <div class="right">
-    <a href="/card/login">ログイン</a>
-    <a href="/card/register">新規登録</a>
+    <a href="/login">ログイン</a>
+    <a href="/register">新規登録</a>
   </div>
 </header>
-<header class="topbar logged">
+
+<header class="topbar topbar-logged">
   <div class="left">
     <img src="/card/assets/svg/icon12.png" class="petal-logo">
-    Petal
+    <span class="petal-title-text">Petal</span>
   </div>
   <div class="right menu-trigger">My Page ▾</div>
 </header>
 
-<div class="dropdown">
+<div id="dropdown" class="dropdown">
   <a href="/petal/@me">My Page</a>
   <a href="/card/edit">名刺編集</a>
   <a href="/petal/edit">個人ページ編集</a>
-  <a href="/account">アカウント</a>
-  <a href="/ojapp">OJapp Tools</a>
+  <a href="/petal/account">アカウント</a>
+  <a href="/top">OJapp Tools</a>
+  <a href="javascript:logout()" style="margin-top:10px;">ログアウト</a>
 </div>
 
 <!-- タブ切替 -->
