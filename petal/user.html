@@ -481,7 +481,7 @@ async function logout() {
   await fetch("/api/logout", { method: "POST" });
 
   // トップへ飛ばす
-  location.href = "/login";
+  location.href = "/card/login";
 }
 function renderAccountList() {
   const wrap = document.getElementById("account_list");
