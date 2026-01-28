@@ -154,39 +154,42 @@ let blocks = [
    ページ読み込み → プロフィール取得
 ----------------------------- */
 (async () => {
-  const uid = Number(localStorage.getItem("user_id"));
-  if (!uid) return alert("ログインが必要です");
 
-  const username = localStorage.getItem("username");
-  const res = await fetch(`/api/get_profile/${username}`);
+  // ★ Cookie（SESSION_ID）が有効かどうかを Worker で判断
+  const res = await fetch("/api/get_profile/@me");
+
+  if (!res.ok) {
+    return alert("ログインが必要です");
+  }
+
   const json = await res.json();
-
   if (!json.ok) return alert("読み込みエラー");
 
   PROFILE = json.profile;
 
-  // 基本情報をセット
+  // --- 基本情報 ---
   document.getElementById("display_name").value = PROFILE.display_name || "";
   document.getElementById("bio").value = PROFILE.bio || "";
   document.getElementById("namecard_link").value = PROFILE.namecard_link || "";
   document.getElementById("petal_enabled").checked = PROFILE.petal_enabled === 1;
   document.getElementById("page_public").checked = PROFILE.page_public === 1;
 
-  // アイコン
+  // --- アイコン ---
   if (PROFILE.icon_url) {
     document.getElementById("icon_preview").src = PROFILE.icon_url;
   }
 
-  // SNS
+  // --- SNS ---
   snsList = PROFILE.sns_links || [];
   renderSNS();
 
-  // Blocks（無料カード 3つ）
+  // --- Blocks ---
   if (PROFILE.blocks) {
     blocks = PROFILE.blocks;
   }
   renderBlocks();
 })();
+
 
 /* -----------------------------
    SNS UI
