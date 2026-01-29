@@ -254,30 +254,19 @@ function renderSNS() {
   const wrap = document.getElementById("sns_list");
   wrap.innerHTML = "";
 
-  // 安全フィルタ（undefined/null を全部除外）
-  const filtered = snsList
-    .filter(s => s && typeof s.url === "string")
-    .filter(s => s.url.trim() !== "");
-
-  snsList = filtered;
-
-  filtered.forEach((sns, i) => {
+  snsList.forEach((sns, i) => {
     const div = document.createElement("div");
     div.className = "sns-item";
 
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "URL";
-    input.value = sns.url;
-
-    input.oninput = () => {
-      snsList[i].url = input.value;
-    };
+    input.value = sns.url || "";
+    input.oninput = () => snsList[i].url = input.value;
 
     const btn = document.createElement("button");
     btn.className = "sns-delete";
     btn.textContent = "削除";
-
     btn.onclick = () => {
       snsList.splice(i, 1);
       renderSNS();
@@ -285,6 +274,7 @@ function renderSNS() {
 
     div.appendChild(input);
     div.appendChild(btn);
+
     wrap.appendChild(div);
   });
 }
