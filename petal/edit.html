@@ -90,39 +90,6 @@
   .toggle {
     margin-top: 8px;
   }
-.sns-section {
-  margin-top: 20px;       /* 上の要素と距離を取る */
-  position: relative;
-  overflow: visible;      /* スマホでタップ範囲が潰れる問題を避ける */
-  z-index: 10;            /* 前面に出す（これ重要） */
-}
-
-#add_sns_btn {
-  position: relative;     
-  z-index: 20;            /* 他の要素に絶対負けないようにする */
-  padding: 10px 14px;
-  font-size: 15px;
-  border-radius: 8px;
-  background: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-.sns-section {
-  margin-top: 20px;
-  position: relative;
-  z-index: 9999;
-  background: #fafafa;
-}
-
-#add_sns_btn {
-  position: relative;
-  z-index: 10000;
-}
-
-#sns_list {
-  position: relative;
-  z-index: 9998;
-}
 
 </style>
 </head>
@@ -278,6 +245,9 @@ function renderSNS() {
   const wrap = document.getElementById("sns_list");
   wrap.innerHTML = "";
 
+  // 空欄除外後に **新しい配列を作る**
+  snsList = snsList.filter(s => s.url && s.url.trim() !== "");
+
   snsList.forEach((sns, i) => {
     const div = document.createElement("div");
     div.className = "sns-item";
@@ -285,15 +255,19 @@ function renderSNS() {
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "URL";
-    input.value = sns.url || "";
-    input.oninput = () => snsList[i].url = input.value;
+    input.value = sns.url;
+
+    input.oninput = () => {
+      snsList[i].url = input.value;  // ← 参照書き換え禁止、直接編集
+    };
 
     const btn = document.createElement("button");
     btn.className = "sns-delete";
     btn.textContent = "削除";
+
     btn.onclick = () => {
-      snsList.splice(i, 1);
-      renderSNS();
+      snsList.splice(i, 1);  // ← 直接 snsList のみを編集
+      renderSNS();           // ← 再描画
     };
 
     div.appendChild(input);
