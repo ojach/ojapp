@@ -202,6 +202,34 @@
   font-weight: 600;
   margin-bottom: 6px;
 }
+.dropdown {
+  position:  fixed;
+  top: 52px;
+  right: 14px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  padding: 10px 0;
+  width: 160px;
+  display: none;
+  z-index: 2000;
+}
+
+.dropdown.open {
+  display: block;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 14px;
+  color: #222;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.dropdown a:hover {
+  background: #f4f4f4;
+}
 
 </style>
 </head>
