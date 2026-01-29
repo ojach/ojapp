@@ -53,7 +53,6 @@
     border: none;
   }
 
-  /* SNSリンク管理 */
   .sns-list {
     margin-top: 10px;
   }
@@ -79,6 +78,19 @@
     border: none;
   }
 
+  .sns-section {
+    margin-top: 20px;
+  }
+
+  #add_sns_btn {
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+
   .block-box {
     background: #fff;
     padding: 14px;
@@ -86,24 +98,6 @@
     margin-bottom: 14px;
     border: 1px solid #ddd;
   }
-
-  .toggle {
-    margin-top: 8px;
-  }
-/* SNS 全体のラッパー */
-.sns-section {
-  margin-top: 20px;
-}
-
-/* 追加ボタン */
-#add_sns_btn {
-  padding: 10px 14px;
-  font-size: 15px;
-  border-radius: 8px;
-  background: #fff;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
 </style>
 </head>
 
@@ -112,44 +106,33 @@
 
   <h1>Petal 個人ページ編集</h1>
 
-  <!-- アイコン画像 -->
- <!-- アイコン -->
-<h2>アイコン画像</h2>
-<img id="icon_preview" src="" style="width:90px;height:90px;border-radius:50%;object-fit:cover;">
-<br><br>
-<input type="file" id="icon_file" accept="image/*">
-<button onclick="uploadIcon()">画像アップロード</button>
+  <h2>アイコン画像</h2>
+  <img id="icon_preview" src="" style="width:90px;height:90px;border-radius:50%;object-fit:cover;">
+  <br><br>
+  <input type="file" id="icon_file" accept="image/*">
+  <button onclick="uploadIcon()">画像アップロード</button>
 
-
-  <!-- 表示名 -->
   <h2>表示名</h2>
   <input id="display_name" placeholder="名前">
 
-  <!-- 一言プロフィール -->
   <h2>一言プロフィール</h2>
   <textarea id="bio" placeholder="短い自己紹介"></textarea>
 
-  <!-- SNSリンク管理 -->
   <h2>SNSリンク</h2>
   <div class="sns-section">
-  <button id="add_sns_btn">＋ SNSリンクを追加</button>
-  <div id="sns_list" class="sns-list"></div>
-</div>
+    <button id="add_sns_btn">＋ SNSリンクを追加</button>
+    <div id="sns_list" class="sns-list"></div>
+  </div>
 
-  <!-- OJapp 名刺リンク（手動入力）-->
   <h2>OJapp 名刺リンク</h2>
   <input id="namecard_link" placeholder="例: https://ojapp.app/card/@あなた">
 
-  <!-- 無料 3 ブロック -->
   <h2>無料カード（3ブロック）</h2>
-  <div id="blocks"></div>
-  
-<div id="card_area"></div>
-  <!-- Petal メッセージ設定 -->
+  <div id="card_area"></div>
+
   <h2>Petal メッセージ設定</h2>
   <label><input type="checkbox" id="petal_enabled"> 受け取る</label>
 
-  <!-- 一覧表示設定 -->
   <h2>一覧表示</h2>
   <label><input type="checkbox" id="page_public"> 一覧に載せる</label>
 
@@ -157,13 +140,6 @@
 </div>
 
 <script>
-  alert("STEP0: script 読み込みOK");
-
-window.onload = () => {
-  alert("STEP1: window.onload 実行");
-};
-
-
 let PROFILE = null;
 let snsList = [];
 let blocks = [
@@ -172,14 +148,23 @@ let blocks = [
   { title: "", text: "", img: "", link: "" }
 ];
 
+/* -------------------------
+   DOM読み込み後に実行
+------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
 
-/* -----------------------------
-   ページ読み込み → プロフィール取得
------------------------------ */
-/* -----------------------------
-   ページ読み込み → プロフィール取得
------------------------------ */
-(async () => {
+  document.getElementById("add_sns_btn").addEventListener("click", () => {
+    snsList.push({ url: "" });
+    renderSNS();
+  });
+
+  loadProfile();
+});
+
+/* -------------------------
+   プロフィール取得
+------------------------- */
+async function loadProfile() {
   const res = await fetch("/api/get_profile/@me");
   if (!res.ok) return alert("ログインが必要です");
 
@@ -198,35 +183,19 @@ let blocks = [
     document.getElementById("icon_preview").src = PROFILE.icon_url;
   }
 
-  snsList = PROFILE.sns_links || [];
+  snsList = Array.isArray(PROFILE.sns_links) ? [...PROFILE.sns_links] : [];
   renderSNS();
 
-  if (PROFILE.blocks) {
-    blocks = PROFILE.blocks;
-  }
+  if (PROFILE.blocks) blocks = PROFILE.blocks;
   renderBlocks();
-})();
+}
 
-
-/* -----------------------------
+/* -------------------------
    SNS UI
------------------------------ */
-function addSNS() {
-  snsList.push({ url: "" });
-  renderSNS();
-}
-
-function deleteSNS(i) {
-  snsList.splice(i, 1);
-  renderSNS();
-}
-
+------------------------- */
 function renderSNS() {
   const wrap = document.getElementById("sns_list");
   wrap.innerHTML = "";
-
-  // 空欄除外後に **新しい配列を作る**
-  snsList = snsList.filter(s => s.url && s.url.trim() !== "");
 
   snsList.forEach((sns, i) => {
     const div = document.createElement("div");
@@ -237,32 +206,27 @@ function renderSNS() {
     input.placeholder = "URL";
     input.value = sns.url;
 
-    input.oninput = () => {
-      snsList[i].url = input.value;  // ← 参照書き換え禁止、直接編集
-    };
+    input.addEventListener("input", () => {
+      snsList[i].url = input.value;
+    });
 
     const btn = document.createElement("button");
     btn.className = "sns-delete";
     btn.textContent = "削除";
-
     btn.onclick = () => {
-      snsList.splice(i, 1);  // ← 直接 snsList のみを編集
-      renderSNS();           // ← 再描画
+      snsList.splice(i, 1);
+      renderSNS();
     };
 
     div.appendChild(input);
     div.appendChild(btn);
-
     wrap.appendChild(div);
   });
 }
 
-
-
-
-/* -----------------------------
-   ブロック UI (3つ)
------------------------------ */
+/* -------------------------
+   ブロック UI
+------------------------- */
 function renderBlocks() {
   const area = document.getElementById("card_area");
   area.innerHTML = "";
@@ -275,82 +239,62 @@ function renderBlocks() {
         <h4>ブロック ${i + 1}</h4>
 
         <label>タイトル</label>
-        <input type="text" id="block_title_${i}" class="input" value="${b.title || ""}">
+        <input type="text" id="block_title_${i}" value="${b.title || ""}">
 
         <label>本文</label>
-        <textarea id="block_text_${i}" class="textarea">${b.text || ""}</textarea>
+        <textarea id="block_text_${i}">${b.text || ""}</textarea>
 
         <label>画像（アップロード or URL）</label>
 
-        <!-- 画像プレビュー -->
         <img id="block_preview_${i}" 
              src="${b.img || ""}" 
              style="width:120px; height:auto; display:${b.img ? "block" : "none"}; margin-bottom:8px; border-radius:8px;">
 
-        <!-- URL入力（手動入力も可） -->
-        <input type="text" id="block_img_${i}" class="input" 
+        <input type="text" id="block_img_${i}" 
                value="${b.img || ""}" 
                placeholder="画像URL（または下のアップロード）"
                oninput="blocks[${i}].img = this.value">
 
-        <!-- ファイル選択 -->
         <input type="file" id="block_file_${i}" accept="image/*" onchange="uploadBlockImage(${i})">
 
         <label>リンクURL</label>
-        <input type="text" id="block_link_${i}" class="input" value="${b.link || ""}">
+        <input type="text" id="block_link_${i}" value="${b.link || ""}">
       </div>
     `;
   }
 }
 
-
-/* -----------------------------
+/* -------------------------
    アイコンアップロード
------------------------------ */
+------------------------- */
 async function uploadIcon() {
   const uid = Number(localStorage.getItem("user_id"));
-  if (!uid) return alert("ログインが必要です");
+  if (!uid) return alert("ログインが必要");
 
   const file = document.getElementById("icon_file").files[0];
-  if (!file) return alert("画像を選択してください");
+  if (!file) return alert("ファイルを選択");
 
   const fd = new FormData();
   fd.append("file", file);
   fd.append("user_id", uid);
 
-  const res = await fetch("/api/upload_icon", {
-    method: "POST",
-    body: fd
-  });
-
+  const res = await fetch("/api/upload_icon", { method: "POST", body: fd });
   const json = await res.json();
-  console.log("UPLOAD RESPONSE:", json);
 
-  if (!json.ok || !json.url) {
-    return alert("アップロード失敗");
-  }
+  if (!json.ok) return alert("アップロード失敗");
 
-  // プレビュー更新
   document.getElementById("icon_preview").src = json.url;
-
-  // 保存用
   localStorage.setItem("icon_url", json.url);
-
-  alert("アイコンを更新しました！");
+  alert("更新しました！");
 }
 
-/* -----------------------------
-   保存処理 (/api/update_profile)
------------------------------ */
+/* -------------------------
+   保存
+------------------------- */
 async function saveProfile() {
   const uid = Number(localStorage.getItem("user_id"));
   if (!uid) return alert("ログインが必要");
 
-  const icon_url =
-    localStorage.getItem("icon_url") ||
-    (PROFILE ? PROFILE.icon_url : "");
-
-  // ★ UIから blocks[] を再構築する
   const newBlocks = [];
   for (let i = 0; i < 3; i++) {
     newBlocks.push({
@@ -360,15 +304,14 @@ async function saveProfile() {
       link: document.getElementById(`block_link_${i}`).value.trim()
     });
   }
-snsList = snsList.filter(s => s.url && s.url.trim() !== "");
 
   const body = {
     user_id: uid,
-    icon_url,
+    icon_url: localStorage.getItem("icon_url") || (PROFILE ? PROFILE.icon_url : ""),
     display_name: document.getElementById("display_name").value.trim(),
     bio: document.getElementById("bio").value.trim(),
     namecard_link: document.getElementById("namecard_link").value.trim(),
-    sns_links: snsList,
+    sns_links: snsList.filter(s => s.url && s.url.trim() !== ""),
     blocks: newBlocks,
     petal_enabled: document.getElementById("petal_enabled").checked ? 1 : 0,
     page_public: document.getElementById("page_public").checked ? 1 : 0
@@ -381,19 +324,18 @@ snsList = snsList.filter(s => s.url && s.url.trim() !== "");
   });
 
   const json = await res.json();
+  if (!json.ok) return alert("保存エラー");
 
-  if (json.ok) {
-    alert("保存しました！");
-    location.href = `/petal/@${localStorage.getItem("username")}`;
-  } else {
-    alert("保存エラー");
-  }
+  alert("保存しました！");
+  location.href = `/petal/@${localStorage.getItem("username")}`;
 }
 
-  async function uploadBlockImage(i) {
+/* -------------------------
+   ブロック画像アップロード
+------------------------- */
+async function uploadBlockImage(i) {
   const uid = Number(localStorage.getItem("user_id"));
   const file = document.getElementById(`block_file_${i}`).files[0];
-
   if (!file) return;
 
   const fd = new FormData();
@@ -407,28 +349,18 @@ snsList = snsList.filter(s => s.url && s.url.trim() !== "");
   });
 
   const json = await res.json();
+  if (!json.ok) return alert("アップロード失敗");
 
-  if (!json.ok) {
-    return alert("画像アップロード失敗");
-  }
-
-  // URL を blocks[] に保存
   blocks[i].img = json.url;
-
-  // プレビュー更新
-  const preview = document.getElementById(`block_preview_${i}`);
-  preview.src = json.url;
-  preview.style.display = "block";
-
-  // URL入力欄にも反映
+  document.getElementById(`block_preview_${i}`).src = json.url;
+  document.getElementById(`block_preview_${i}`).style.display = "block";
   document.getElementById(`block_img_${i}`).value = json.url;
 
-  alert("ブロック画像を更新しました！");
+  alert("更新しました！");
 }
 
 </script>
 
-
-
 </body>
 </html>
+
