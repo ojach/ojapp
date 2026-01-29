@@ -177,6 +177,8 @@
 </div>
 
 <script>
+  window.onerror = (msg, src, line) => alert("JS Error: " + msg);
+
 let PROFILE = null;
 let snsList = [];
 let blocks = [
