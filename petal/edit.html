@@ -98,6 +98,22 @@
     margin-bottom: 14px;
     border: 1px solid #ddd;
   }
+  /* Safari が #sns_list の高さを 0 に潰すバグ対策 */
+#sns_list {
+  display: block;
+  min-height: 1px;
+  padding-top: 1px;        /* margin collapse 防止 */
+  overflow: visible;       /* Safari の高さ計算バグ回避 */
+  position: relative;      /* 高さ 0 化を確実に阻止 */
+  z-index: 1;
+}
+
+/* SNS アイテムが描画されない問題の保険 */
+.sns-item {
+  display: block;
+  position: relative;
+  z-index: 2;
+}
 </style>
 </head>
 
