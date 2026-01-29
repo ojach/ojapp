@@ -227,9 +227,10 @@ function renderSNS() {
   const wrap = document.getElementById("sns_list");
   wrap.innerHTML = "";
 
-  snsList.forEach((sns, i) => {
-    const url = sns.url ?? "";  // ← undefined対策
+  // 空欄SNSを除外
+  const filtered = snsList.filter(s => s.url && s.url.trim() !== "");
 
+  filtered.forEach((sns, i) => {
     const div = document.createElement("div");
     div.className = "sns-item";
 
@@ -237,23 +238,32 @@ function renderSNS() {
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "URL";
-    input.value = url;
+    input.value = sns.url;
     input.oninput = () => {
-      snsList[i].url = input.value;
+      filtered[i].url = input.value;
+      snsList = filtered; // 元配列を更新
     };
 
     // 削除ボタン
     const btn = document.createElement("button");
     btn.className = "sns-delete";
     btn.textContent = "削除";
-    btn.onclick = () => deleteSNS(i);
+    btn.onclick = () => {
+      filtered.splice(i, 1);
+      snsList = filtered;
+      renderSNS();
+    };
 
     div.appendChild(input);
     div.appendChild(btn);
 
     wrap.appendChild(div);
   });
+
+  // 最後に同期
+  snsList = filtered;
 }
+
 
 
 /* -----------------------------
