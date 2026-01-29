@@ -406,6 +406,7 @@ async function saveProfile() {
       link: document.getElementById(`block_link_${i}`).value.trim()
     });
   }
+snsList = snsList.filter(s => s.url && s.url.trim() !== "");
 
   const body = {
     user_id: uid,
