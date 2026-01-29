@@ -152,7 +152,7 @@
   <!-- SNSリンク管理 -->
   <h2>SNSリンク</h2>
   <div class="sns-section">
-  <button id="add_sns_btn" onclick="addSNS()">＋ SNSリンクを追加</button>
+  <button id="add_sns_btn">＋ SNSリンクを追加</button>
   <div id="sns_list" class="sns-list"></div>
 </div>
 
@@ -187,6 +187,7 @@ let blocks = [
   { title: "", text: "", img: "", link: "" }
 ];
 
+
 /* -----------------------------
    ページ読み込み → プロフィール取得
 ----------------------------- */
@@ -210,7 +211,15 @@ let blocks = [
   document.getElementById("namecard_link").value = PROFILE.namecard_link || "";
   document.getElementById("petal_enabled").checked = PROFILE.petal_enabled === 1;
   document.getElementById("page_public").checked = PROFILE.page_public === 1;
-
+  
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("add_sns_btn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      addSNS();
+    });
+  }
+});
   // --- アイコン ---
   if (PROFILE.icon_url) {
     document.getElementById("icon_preview").src = PROFILE.icon_url;
