@@ -90,6 +90,23 @@
   .toggle {
     margin-top: 8px;
   }
+.sns-section {
+  margin-top: 40px;       /* 上の要素と距離を取る */
+  position: relative;
+  overflow: visible;      /* スマホでタップ範囲が潰れる問題を避ける */
+  z-index: 10;            /* 前面に出す（これ重要） */
+}
+
+#add_sns_btn {
+  position: relative;     
+  z-index: 20;            /* 他の要素に絶対負けないようにする */
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
 
 </style>
 </head>
@@ -118,8 +135,10 @@
 
   <!-- SNSリンク管理 -->
   <h2>SNSリンク</h2>
-  <button onclick="addSNS()">＋ SNSリンクを追加</button>
+  <div class="sns-section">
+  <button id="add_sns_btn" onclick="addSNS()">＋ SNSリンクを追加</button>
   <div id="sns_list" class="sns-list"></div>
+</div>
 
   <!-- OJapp 名刺リンク（手動入力）-->
   <h2>OJapp 名刺リンク</h2>
