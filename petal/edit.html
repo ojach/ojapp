@@ -238,6 +238,10 @@ function renderSNS() {
     div.appendChild(btn);
     wrap.appendChild(div);
   });
+   // ---- Safari専用 強制再描画 ----
+  wrap.style.display = 'none';
+  void wrap.offsetHeight; // ← これが鍵
+  wrap.style.display = 'block';
 }
 
 /* -------------------------
