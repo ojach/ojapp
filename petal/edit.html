@@ -211,11 +211,18 @@ async function loadProfile() {
 ------------------------- */
 function renderSNS() {
   const wrap = document.getElementById("sns_list");
-  wrap.innerHTML = "";
 
+  // ① 初期化（Safari は innerHTML = "" のみだと再描画しない事があるので2段階）
+  while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+
+  // ② 空欄除外（上書きではなく新しい配列を返す → Safari が破壊されない方法）
+  snsList = snsList.filter(s => (s.url || "").trim() !== "");
+
+  // ③ 要素を createElement で生成（Safari でも100%表示）
   snsList.forEach((sns, i) => {
-    const div = document.createElement("div");
-    div.className = "sns-item";
+
+    const item = document.createElement("div");
+    item.className = "sns-item";
 
     const input = document.createElement("input");
     input.type = "text";
@@ -226,22 +233,25 @@ function renderSNS() {
       snsList[i].url = input.value;
     });
 
-    const btn = document.createElement("button");
-    btn.className = "sns-delete";
-    btn.textContent = "削除";
-    btn.onclick = () => {
+    const del = document.createElement("button");
+    del.className = "sns-delete";
+    del.textContent = "削除";
+
+    del.addEventListener("click", () => {
       snsList.splice(i, 1);
       renderSNS();
-    };
+    });
 
-    div.appendChild(input);
-    div.appendChild(btn);
-    wrap.appendChild(div);
+    item.appendChild(input);
+    item.appendChild(del);
+
+    wrap.appendChild(item);
   });
-   // ---- Safari専用 強制再描画 ----
-  wrap.style.display = 'none';
-  void wrap.offsetHeight; // ← これが鍵
-  wrap.style.display = 'block';
+
+  // ④ Safari が描画しないときの“強制リフロー”
+  wrap.style.display = "none";
+  void wrap.offsetHeight;
+  wrap.style.display = "";
 }
 
 /* -------------------------
