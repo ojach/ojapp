@@ -228,16 +228,33 @@ function renderSNS() {
   wrap.innerHTML = "";
 
   snsList.forEach((sns, i) => {
+    const url = sns.url ?? "";  // ← undefined対策
+
     const div = document.createElement("div");
     div.className = "sns-item";
-    div.innerHTML = `
-      <input value="${sns.url}" placeholder="URL"
-             oninput="snsList[${i}].url = this.value">
-      <button class="sns-delete" onclick="deleteSNS(${i})">削除</button>
-    `;
+
+    // 入力欄
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "URL";
+    input.value = url;
+    input.oninput = () => {
+      snsList[i].url = input.value;
+    };
+
+    // 削除ボタン
+    const btn = document.createElement("button");
+    btn.className = "sns-delete";
+    btn.textContent = "削除";
+    btn.onclick = () => deleteSNS(i);
+
+    div.appendChild(input);
+    div.appendChild(btn);
+
     wrap.appendChild(div);
   });
 }
+
 
 /* -----------------------------
    ブロック UI (3つ)
