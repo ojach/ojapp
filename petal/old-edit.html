@@ -99,20 +99,22 @@
     border: 1px solid #ddd;
   }
 #sns_list {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px;
-  min-height: 20px !important;
-
-  /* Safari が高さ0化するのを完全に防ぐ */
-  align-items: stretch;
+  min-height: 120px !important; 
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
 }
-
-
 .sns-item {
-   display: flex !important;
-  flex-direction: column;
+  display: block !important;
+  min-height: 50px !important;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 12px;
+  position: relative;
+  z-index: 20;
 }
+
 
 
 </style>
@@ -278,13 +280,15 @@ wrap.style.display = "block";
 wrap.style.transform = "scale(1)"; // ← Safari 再描画トリガー
 */
   // Safari 再描画ハック
-setTimeout(() => {
+// Safari の描画を強制発火
+requestAnimationFrame(() => {
   const wrap = document.getElementById("sns_list");
-  wrap.style.minHeight = "50px";
+  wrap.style.minHeight = "200px"; // 一瞬だけ増やす
+  setTimeout(() => {
+    wrap.style.minHeight = "auto"; // 戻す
+  }, 50);
+});
 
-  window.scrollBy(0, 1);
-  window.scrollBy(0, -1);
-}, 150);
 
 }
 
