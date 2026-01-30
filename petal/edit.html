@@ -231,32 +231,40 @@
 </div>
 
 <script>
+/* -----------------------------------
+   グローバル変数
+--------------------------------------*/
 let PROFILE = null;
-let snsList = [];
+let snsList = [];   // ← 宣言はここ1回のみ
 let blocks = [
   { title: "", text: "", img: "", link: "" },
   { title: "", text: "", img: "", link: "" },
   { title: "", text: "", img: "", link: "" }
 ];
 
-/* -------------------------
-   DOM読み込み後に実行
-------------------------- */
+/* -----------------------------------
+   DOMロード完了後
+--------------------------------------*/
 document.addEventListener("DOMContentLoaded", () => {
 
-  document.getElementById("add_sns_btn").addEventListener("click", () => {
-    snsList.push({ url: "" });
-
-
-    renderSNS();
-  });
+  // SNS 折りたたみ
+  const toggleBtn = document.getElementById("sns_toggle_btn");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const panel = document.getElementById("sns_panel");
+      panel.style.display =
+        (panel.style.display === "none" || panel.style.display === "")
+          ? "block"
+          : "none";
+    });
+  }
 
   loadProfile();
 });
 
-/* -------------------------
+/* -----------------------------------
    プロフィール取得
-------------------------- */
+--------------------------------------*/
 async function loadProfile() {
   const res = await fetch("/api/get_profile/@me");
   if (!res.ok) return alert("ログインが必要です");
@@ -276,55 +284,34 @@ async function loadProfile() {
     document.getElementById("icon_preview").src = PROFILE.icon_url;
   }
 
-// SNS リンク読み込み
-try {
-  if (typeof PROFILE.sns_links === "string") {
-    snsList = JSON.parse(PROFILE.sns_links);
-  } else if (Array.isArray(PROFILE.sns_links)) {
-    snsList = PROFILE.sns_links;
-  } else {
-    snsList = [];
-  }
-} catch(e) {
-  snsList = [];
-}
+  /* SNS データ整形 */
+  try {
+    if (typeof PROFILE.sns_links === "string") {
+      snsList = JSON.parse(PROFILE.sns_links);
+    } else if (Array.isArray(PROFILE.sns_links)) {
+      snsList = PROFILE.sns_links;
+    } else {
+      snsList = [];
+    }
+  } catch (e) { snsList = []; }
 
-// 静的10枠へ反映
-renderSNS_Static();
-
-
+  renderSNS_Static();
 
   if (PROFILE.blocks) blocks = PROFILE.blocks;
   renderBlocks();
 }
 
-/* -------------------------
-   SNS UI
-------------------------- */
-// SNS 最大10個静的枠
-snsList = PROFILE.sns_links || [];
-
-
-// ------------------------------------
-// 折りたたみ開閉
-// ------------------------------------
-document.getElementById("sns_toggle_btn").addEventListener("click", () => {
-  const panel = document.getElementById("sns_panel");
-  panel.style.display = (panel.style.display === "none" || panel.style.display === "")
-    ? "block" : "none";
-});
-
-// ------------------------------------
-// SNS 初期反映（PROFILE読み込み後に呼ぶ）
-// ------------------------------------
+/* -----------------------------------
+   SNS 静的 10枠 UI
+--------------------------------------*/
 function renderSNS_Static() {
-  // 1) 空欄削除
   snsList = snsList.filter(s => s.url && s.url.trim() !== "");
 
-  // 2) 10枠に反映
   for (let i = 0; i < 10; i++) {
     const row = document.getElementById(`sns_row_${i}`);
     const input = document.getElementById(`sns_input_${i}`);
+
+    if (!row || !input) continue;
 
     if (i < snsList.length) {
       row.style.display = "flex";
@@ -334,36 +321,28 @@ function renderSNS_Static() {
       input.value = "";
     }
 
-    // 入力イベント
     input.oninput = () => {
       snsList[i] = { url: input.value };
-      renderSNS_Static(); // 空欄が続いたら隠す
+      renderSNS_Static();
     };
   }
 }
 
-// ------------------------------------
-// 削除ボタン
-// ------------------------------------
 function clearSNS(i) {
   snsList[i] = { url: "" };
   renderSNS_Static();
 }
 
-// ------------------------------------
-// 保存時に呼ぶ
-// ------------------------------------
+/* 保存用 */
 function getSNS_Data() {
   return snsList
     .filter(s => s.url && s.url.trim() !== "")
     .map(s => ({ url: s.url.trim() }));
 }
 
-
-
-/* -------------------------
-   ブロック UI
-------------------------- */
+/* -----------------------------------
+   ブロック表示
+--------------------------------------*/
 function renderBlocks() {
   const area = document.getElementById("card_area");
   area.innerHTML = "";
@@ -382,14 +361,13 @@ function renderBlocks() {
         <textarea id="block_text_${i}">${b.text || ""}</textarea>
 
         <label>画像（アップロード or URL）</label>
-
-        <img id="block_preview_${i}" 
-             src="${b.img || ""}" 
+        <img id="block_preview_${i}"
+             src="${b.img || ""}"
              style="width:120px; height:auto; display:${b.img ? "block" : "none"}; margin-bottom:8px; border-radius:8px;">
 
-        <input type="text" id="block_img_${i}" 
-               value="${b.img || ""}" 
-               placeholder="画像URL（または下のアップロード）"
+        <input type="text" id="block_img_${i}"
+               value="${b.img || ""}"
+               placeholder="画像URL（またはアップロード）"
                oninput="blocks[${i}].img = this.value">
 
         <input type="file" id="block_file_${i}" accept="image/*" onchange="uploadBlockImage(${i})">
@@ -401,9 +379,9 @@ function renderBlocks() {
   }
 }
 
-/* -------------------------
+/* -----------------------------------
    アイコンアップロード
-------------------------- */
+--------------------------------------*/
 async function uploadIcon() {
   const uid = Number(localStorage.getItem("user_id"));
   if (!uid) return alert("ログインが必要");
@@ -425,9 +403,9 @@ async function uploadIcon() {
   alert("更新しました！");
 }
 
-/* -------------------------
+/* -----------------------------------
    保存
-------------------------- */
+--------------------------------------*/
 async function saveProfile() {
   const uid = Number(localStorage.getItem("user_id"));
   if (!uid) return alert("ログインが必要");
@@ -467,9 +445,9 @@ async function saveProfile() {
   location.href = `/petal/@${localStorage.getItem("username")}`;
 }
 
-/* -------------------------
+/* -----------------------------------
    ブロック画像アップロード
-------------------------- */
+--------------------------------------*/
 async function uploadBlockImage(i) {
   const uid = Number(localStorage.getItem("user_id"));
   const file = document.getElementById(`block_file_${i}`).files[0];
@@ -495,6 +473,7 @@ async function uploadBlockImage(i) {
 
   alert("更新しました！");
 }
+
 
 </script>
 
