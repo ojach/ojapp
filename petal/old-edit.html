@@ -98,19 +98,27 @@
     margin-bottom: 14px;
     border: 1px solid #ddd;
   }
-  /* Safari が #sns_list の高さを 0 に潰すバグ対策 */
+/* SNS デバッグ強制表示 */
 #sns_list {
-  display: block;
-  min-height: 1px;
-  padding-top: 1px;        /* margin collapse 防止 */
-  overflow: visible;       /* Safari の高さ計算バグ回避 */
-
+  background: rgba(255, 200, 0, 0.3) !important; /* 背景色で可視化 */
+  min-height: 50px !important;
+  display: block !important;
+  position: relative !important;
+  overflow: visible !important;
+  padding: 20px !important;
+  border: 2px solid red !important;
 }
 
-/* SNS アイテムが描画されない問題の保険 */
 .sns-item {
-  display: block;
+  display: block !important;
+  background: rgba(0, 200, 255, 0.3) !important; /* アイテム色 */
+  padding: 20px !important;
+  border: 2px solid blue !important;
+  position: relative !important;
+  min-height: 40px !important;
+  z-index: 9999 !important;
 }
+
 </style>
 </head>
 
