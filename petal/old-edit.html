@@ -277,6 +277,15 @@ void wrap.offsetWidth;
 wrap.style.display = "block";
 wrap.style.transform = "scale(1)"; // ← Safari 再描画トリガー
 */
+  // Safari 再描画ハック
+setTimeout(() => {
+  const wrap = document.getElementById("sns_list");
+  wrap.style.minHeight = "50px";
+
+  window.scrollBy(0, 1);
+  window.scrollBy(0, -1);
+}, 50);
+
 }
 
 
