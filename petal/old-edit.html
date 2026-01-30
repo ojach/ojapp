@@ -230,16 +230,8 @@ renderSNS();
 function renderSNS() {
   const wrap = document.getElementById("sns_list");
 
-  // ★ 強制テストアイテムを追加（Safari の描画能力チェック）
-  const test = document.createElement("div");
-  test.style.background = "red";
-  test.style.height = "50px";
-  test.style.margin = "10px 0";
-  test.textContent = "TEST BOX";
-  wrap.appendChild(test);
-
   // 一旦消す
-/*  while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+ while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
 
   // ★ filter は削除する！
   // snsList = snsList.filter(s => (s.url || "").trim() !== "");
@@ -278,7 +270,7 @@ alert("sns_list childElementCount = " + document.getElementById("sns_list").chil
 void wrap.offsetWidth;
 wrap.style.display = "block";
 wrap.style.transform = "scale(1)"; // ← Safari 再描画トリガー
-*/
+
   // Safari 再描画ハック
 // Safari の描画を強制発火
 requestAnimationFrame(() => {
