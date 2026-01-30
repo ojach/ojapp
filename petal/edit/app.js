@@ -32,10 +32,8 @@ async function loadProfile() {
   if (!json.ok) return alert("読み込みエラー");
 
   PROFILE = json.profile;
-alert(
-  "typeof sns_links = " + (typeof PROFILE.sns_links)
-  + "\nvalue = " + JSON.stringify(PROFILE.sns_links)
-);
+alert("A: loaded PROFILE");
+
 
 
   // 基本情報
@@ -61,12 +59,14 @@ try {
 } catch (e) {
   snsList = [];
 }
+alert("B: set snsList = " + JSON.stringify(snsList));
 
 renderSNS();
 
 
   // Blocks
   if (PROFILE.blocks) blocks = PROFILE.blocks;
+   alert("D: blocks loaded");
   renderBlocks();
 }
 
@@ -84,6 +84,8 @@ function addSNS() {
 }
 
 function renderSNS() {
+   alert("C: renderSNS ENTERED");
+
   // SNS は HTML 上で 10 枠固定
   for (let i = 0; i < 10; i++) {
     const row = document.getElementById(`sns_${i}`);
@@ -118,6 +120,8 @@ function renderSNS() {
    ブロック UI
 ------------------------------------------- */
 function renderBlocks() {
+   alert("E: renderBlocks ENTERED");
+
   const area = document.getElementById("card_area");
   area.innerHTML = "";
 
