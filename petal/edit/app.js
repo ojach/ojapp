@@ -32,6 +32,8 @@ async function loadProfile() {
   if (!json.ok) return alert("読み込みエラー");
 
   PROFILE = json.profile;
+console.log("DEBUG sns_links raw:", PROFILE.sns_links);
+alert("sns_links = " + JSON.stringify(PROFILE.sns_links));
 
   // 基本情報
   document.getElementById("display_name").value = PROFILE.display_name || "";
