@@ -228,23 +228,19 @@ renderSNS();
    SNS UI
 ------------------------- */
 function renderSNS() {
-  const wrap = document.getElementById("sns_list");
+  const oldWrap = document.getElementById("sns_list");
 
-  // 一旦消す
- while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
-
-  // ★ filter は削除する！
-  // snsList = snsList.filter(s => (s.url || "").trim() !== "");
+  // 新しい箱を作って、そこに全部描画する
+  const newWrap = oldWrap.cloneNode(false);  // 子なしクローン（属性はそのまま）
 
   snsList.forEach((sns, i) => {
-
     const item = document.createElement("div");
     item.className = "sns-item";
 
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "URL";
-    input.value = sns.url || "";
+    input.value = sns.url;
 
     input.addEventListener("input", () => {
       snsList[i].url = input.value;
@@ -253,36 +249,20 @@ function renderSNS() {
     const del = document.createElement("button");
     del.className = "sns-delete";
     del.textContent = "削除";
-
-    del.addEventListener("click", () => {
+    del.onclick = () => {
       snsList.splice(i, 1);
       renderSNS();
-    });
+    };
 
     item.appendChild(input);
     item.appendChild(del);
-    wrap.appendChild(item);
+    newWrap.appendChild(item);
   });
-alert("snsList length = " + snsList.length);
-alert("sns_list childElementCount = " + document.getElementById("sns_list").childElementCount);
-  // Safari booster
- wrap.style.display = "none";
-void wrap.offsetWidth;
-wrap.style.display = "block";
-wrap.style.transform = "scale(1)"; // ← Safari 再描画トリガー
 
-  // Safari 再描画ハック
-// Safari の描画を強制発火
-requestAnimationFrame(() => {
-  const wrap = document.getElementById("sns_list");
-  wrap.style.minHeight = "200px"; // 一瞬だけ増やす
-  setTimeout(() => {
-    wrap.style.minHeight = "auto"; // 戻す
-  }, 50);
-});
-
-
+  // 旧リストの直後に差し替える（← Safari に最も優しい）
+  oldWrap.replaceWith(newWrap);
 }
+
 
 
 /* -------------------------
