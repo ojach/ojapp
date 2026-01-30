@@ -140,6 +140,79 @@
   border-radius: 8px;
   border: none;
 }
+#sns_toggle_btn {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  text-align: center;
+  color: #2bb7ff;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+#sns_toggle_btn:active {
+  transform: scale(0.97);
+  background: #f0faff;
+}
+.sns-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.sns-row input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.sns-del-btn {
+  background: #ff6464;
+  color: #fff;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sns-edit-btn {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.sns-add-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.sns-row input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
 
 </style>
 </head>
@@ -161,58 +234,25 @@
   <h2>一言プロフィール</h2>
   <textarea id="bio" placeholder="短い自己紹介"></textarea>
 
- <h2>SNSリンク</h2>
+<h2>SNSリンク</h2>
 
-<div class="sns-accordion">
-  <button id="sns_toggle_btn" class="sns-toggle-btn">
-    SNSリンクを編集
-  </button>
+<button id="sns_toggle_btn" class="sns-edit-btn">SNSリンクを編集</button>
 
-  <div id="sns_panel" class="sns-panel">
+<div id="sns_panel" style="display:none; margin-top:10px;">
+  
+  <button id="sns_add_btn" class="sns-add-btn">＋ SNSリンクを追加</button>
 
-    <div class="sns-item" id="sns_row_0">
-      <input type="text" id="sns_input_0" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(0)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_1">
-      <input type="text" id="sns_input_1" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(1)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_2">
-      <input type="text" id="sns_input_2" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(2)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_3">
-      <input type="text" id="sns_input_3" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(3)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_4">
-      <input type="text" id="sns_input_4" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(4)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_5">
-      <input type="text" id="sns_input_5" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(5)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_6">
-      <input type="text" id="sns_input_6" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(6)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_7">
-      <input type="text" id="sns_input_7" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(7)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_8">
-      <input type="text" id="sns_input_8" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(8)">🗑️</button>
-    </div>
-    <div class="sns-item" id="sns_row_9">
-      <input type="text" id="sns_input_9" placeholder="URLを入力">
-      <button class="sns-delete" onclick="clearSNS(9)">🗑️</button>
-    </div>
-
+  <!-- 10枠分 -->
+  <div id="sns_rows">
+    ${[...Array(10)].map((_, i) => `
+      <div id="sns_row_${i}" class="sns-row" style="display:none; margin-top:8px;">
+        <input id="sns_input_${i}" type="text" placeholder="URL" />
+      </div>
+    `).join('')}
   </div>
+
 </div>
+
 
 
   <h2>OJapp 名刺リンク</h2>
@@ -247,17 +287,25 @@ let blocks = [
 --------------------------------------*/
 document.addEventListener("DOMContentLoaded", () => {
 
-  // SNS 折りたたみ
-  const toggleBtn = document.getElementById("sns_toggle_btn");
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
-      const panel = document.getElementById("sns_panel");
-      panel.style.display =
-        (panel.style.display === "none" || panel.style.display === "")
-          ? "block"
-          : "none";
-    });
-  }
+  // 折りたたみ
+  document.getElementById("sns_toggle_btn").addEventListener("click", () => {
+    const panel = document.getElementById("sns_panel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  });
+
+  // ＋ボタン
+  document.getElementById("sns_add_btn").addEventListener("click", () => {
+    for (let i = 0; i < 10; i++) {
+      const row = document.getElementById(`sns_row_${i}`);
+      const input = document.getElementById(`sns_input_${i}`);
+
+      if (row.style.display === "none" || input.value.trim() === "") {
+        row.style.display = "block";
+        return;
+      }
+    }
+    alert("SNSリンクは最大10件までです！");
+  });
 
   loadProfile();
 });
@@ -311,22 +359,16 @@ function renderSNS_Static() {
     const row = document.getElementById(`sns_row_${i}`);
     const input = document.getElementById(`sns_input_${i}`);
 
-    if (!row || !input) continue;
-
     if (i < snsList.length) {
-      row.style.display = "flex";
+      row.style.display = "block";
       input.value = snsList[i].url;
     } else {
       row.style.display = "none";
       input.value = "";
     }
-
-    input.oninput = () => {
-      snsList[i] = { url: input.value };
-      renderSNS_Static();
-    };
   }
 }
+
 
 function clearSNS(i) {
   snsList[i] = { url: "" };
@@ -335,10 +377,16 @@ function clearSNS(i) {
 
 /* 保存用 */
 function getSNS_Data() {
-  return snsList
-    .filter(s => s.url && s.url.trim() !== "")
-    .map(s => ({ url: s.url.trim() }));
+  const result = [];
+
+  for (let i = 0; i < 10; i++) {
+    const v = document.getElementById(`sns_input_${i}`).value.trim();
+    if (v !== "") result.push({ url: v });
+  }
+
+  return result;
 }
+
 
 /* -----------------------------------
    ブロック表示
