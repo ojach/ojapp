@@ -98,23 +98,20 @@
     margin-bottom: 14px;
     border: 1px solid #ddd;
   }
-/* SNS デバッグ強制表示 */
 #sns_list {
-  display: block !important;
-  min-height: 10px !important;
-  padding: 1px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px;
+  min-height: 20px !important;
 
-  /* Safari の高さ計算バグを殺す三種の神器 */
-  overflow: visible !important;
-  position: relative !important;
-  z-index: 1 !important;
-
-  /* これが決定打：レイアウトの基準を固定する */
-  isolation: isolate !important;
+  /* Safari が高さ0化するのを完全に防ぐ */
+  align-items: stretch;
 }
 
+
 .sns-item {
-  display: block !important;
+   display: flex !important;
+  flex-direction: column;
   position: relative !important;
   min-height: 50px !important; /* 子要素がつぶされないように */
   background: #fff;
