@@ -104,15 +104,12 @@
   min-height: 1px;
   padding-top: 1px;        /* margin collapse 防止 */
   overflow: visible;       /* Safari の高さ計算バグ回避 */
-  position: relative;      /* 高さ 0 化を確実に阻止 */
-  z-index: 1;
+
 }
 
 /* SNS アイテムが描画されない問題の保険 */
 .sns-item {
   display: block;
-  position: relative;
-  z-index: 2;
 }
 </style>
 </head>
@@ -171,6 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("add_sns_btn").addEventListener("click", () => {
     snsList.push({ url: "" });
+
+
     renderSNS();
   });
 
@@ -258,11 +257,14 @@ function renderSNS() {
     item.appendChild(del);
     wrap.appendChild(item);
   });
-
+alert("snsList length = " + snsList.length);
+alert("sns_list childElementCount = " + document.getElementById("sns_list").childElementCount);
   // Safari booster
-  wrap.style.display = "none";
-  void wrap.offsetHeight;
-  wrap.style.display = "";
+ wrap.style.display = "none";
+void wrap.offsetWidth;
+wrap.style.display = "block";
+wrap.style.transform = "scale(1)"; // ← Safari 再描画トリガー
+
 }
 
 
