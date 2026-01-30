@@ -104,6 +104,42 @@
   gap: 12px;
   min-height: 20px;
 }
+.sns-accordion {
+  margin-top: 12px;
+}
+
+.sns-toggle-btn {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: left;
+}
+
+.sns-panel {
+  display: none;      /* 折りたたみ */
+  margin-top: 10px;
+}
+
+.sns-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sns-item input {
+  flex: 1;
+}
+
+.sns-delete {
+  background: #ff6464;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+}
 
 </style>
 </head>
@@ -125,11 +161,59 @@
   <h2>一言プロフィール</h2>
   <textarea id="bio" placeholder="短い自己紹介"></textarea>
 
-  <h2>SNSリンク</h2>
-  <div class="sns-section">
-    <button id="add_sns_btn">＋ SNSリンクを追加</button>
-    <div id="sns_list" class="sns-list"></div>
+ <h2>SNSリンク</h2>
+
+<div class="sns-accordion">
+  <button id="sns_toggle_btn" class="sns-toggle-btn">
+    SNSリンクを編集
+  </button>
+
+  <div id="sns_panel" class="sns-panel">
+
+    <div class="sns-item" id="sns_row_0">
+      <input type="text" id="sns_input_0" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(0)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_1">
+      <input type="text" id="sns_input_1" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(1)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_2">
+      <input type="text" id="sns_input_2" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(2)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_3">
+      <input type="text" id="sns_input_3" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(3)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_4">
+      <input type="text" id="sns_input_4" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(4)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_5">
+      <input type="text" id="sns_input_5" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(5)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_6">
+      <input type="text" id="sns_input_6" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(6)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_7">
+      <input type="text" id="sns_input_7" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(7)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_8">
+      <input type="text" id="sns_input_8" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(8)">🗑️</button>
+    </div>
+    <div class="sns-item" id="sns_row_9">
+      <input type="text" id="sns_input_9" placeholder="URLを入力">
+      <button class="sns-delete" onclick="clearSNS(9)">🗑️</button>
+    </div>
+
   </div>
+</div>
+
 
   <h2>OJapp 名刺リンク</h2>
   <input id="namecard_link" placeholder="例: https://ojapp.app/card/@あなた">
@@ -192,7 +276,7 @@ async function loadProfile() {
     document.getElementById("icon_preview").src = PROFILE.icon_url;
   }
 
-  // SNS リンク読み込み（文字列 → JSON 配列へ確実に変換）
+// SNS リンク読み込み
 try {
   if (typeof PROFILE.sns_links === "string") {
     snsList = JSON.parse(PROFILE.sns_links);
@@ -201,11 +285,13 @@ try {
   } else {
     snsList = [];
   }
-} catch (e) {
+} catch(e) {
   snsList = [];
 }
 
-renderSNS();
+// 静的10枠へ反映
+renderSNS_Static();
+
 
 
   if (PROFILE.blocks) blocks = PROFILE.blocks;
@@ -215,40 +301,61 @@ renderSNS();
 /* -------------------------
    SNS UI
 ------------------------- */
-function renderSNS() {
-  const oldWrap = document.getElementById("sns_list");
+// SNS 最大10個静的枠
+let snsList = [];  // { url: "" } の配列
 
-  // 新しい箱を作って、そこに全部描画する
-  const newWrap = oldWrap.cloneNode(false);  // 子なしクローン（属性はそのまま）
+// ------------------------------------
+// 折りたたみ開閉
+// ------------------------------------
+document.getElementById("sns_toggle_btn").addEventListener("click", () => {
+  const panel = document.getElementById("sns_panel");
+  panel.style.display = (panel.style.display === "none" || panel.style.display === "")
+    ? "block" : "none";
+});
 
-  snsList.forEach((sns, i) => {
-    const item = document.createElement("div");
-    item.className = "sns-item";
+// ------------------------------------
+// SNS 初期反映（PROFILE読み込み後に呼ぶ）
+// ------------------------------------
+function renderSNS_Static() {
+  // 1) 空欄削除
+  snsList = snsList.filter(s => s.url && s.url.trim() !== "");
 
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = "URL";
-    input.value = sns.url;
+  // 2) 10枠に反映
+  for (let i = 0; i < 10; i++) {
+    const row = document.getElementById(`sns_row_${i}`);
+    const input = document.getElementById(`sns_input_${i}`);
 
-    input.addEventListener("input", () => {
-      snsList[i].url = input.value;
-    });
+    if (i < snsList.length) {
+      row.style.display = "flex";
+      input.value = snsList[i].url;
+    } else {
+      row.style.display = "none";
+      input.value = "";
+    }
 
-    const del = document.createElement("button");
-    del.className = "sns-delete";
-    del.textContent = "削除";
-    del.onclick = () => {
-      snsList.splice(i, 1);
-      renderSNS();
+    // 入力イベント
+    input.oninput = () => {
+      snsList[i] = { url: input.value };
+      renderSNS_Static(); // 空欄が続いたら隠す
     };
+  }
+}
 
-    item.appendChild(input);
-    item.appendChild(del);
-    newWrap.appendChild(item);
-  });
+// ------------------------------------
+// 削除ボタン
+// ------------------------------------
+function clearSNS(i) {
+  snsList[i] = { url: "" };
+  renderSNS_Static();
+}
 
-  // 旧リストの直後に差し替える（← Safari に最も優しい）
-  oldWrap.replaceWith(newWrap);
+// ------------------------------------
+// 保存時に呼ぶ
+// ------------------------------------
+function getSNS_Data() {
+  return snsList
+    .filter(s => s.url && s.url.trim() !== "")
+    .map(s => ({ url: s.url.trim() }));
 }
 
 
@@ -340,7 +447,7 @@ async function saveProfile() {
     display_name: document.getElementById("display_name").value.trim(),
     bio: document.getElementById("bio").value.trim(),
     namecard_link: document.getElementById("namecard_link").value.trim(),
-    sns_links: snsList.filter(s => s.url && s.url.trim() !== ""),
+    sns_links: getSNS_Data(),
     blocks: newBlocks,
     petal_enabled: document.getElementById("petal_enabled").checked ? 1 : 0,
     page_public: document.getElementById("page_public").checked ? 1 : 0
