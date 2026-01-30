@@ -100,24 +100,27 @@
   }
 /* SNS デバッグ強制表示 */
 #sns_list {
-  background: rgba(255, 200, 0, 0.3) !important; /* 背景色で可視化 */
-  min-height: 50px !important;
   display: block !important;
-  position: relative !important;
+  min-height: 10px !important;
+  padding: 1px 0 !important;
+
+  /* Safari の高さ計算バグを殺す三種の神器 */
   overflow: visible !important;
-  padding: 20px !important;
-  border: 2px solid red !important;
+  position: relative !important;
+  z-index: 1 !important;
+
+  /* これが決定打：レイアウトの基準を固定する */
+  isolation: isolate !important;
 }
 
 .sns-item {
   display: block !important;
-  background: rgba(0, 200, 255, 0.3) !important; /* アイテム色 */
-  padding: 20px !important;
-  border: 2px solid blue !important;
   position: relative !important;
-  min-height: 40px !important;
-  z-index: 9999 !important;
+  min-height: 50px !important; /* 子要素がつぶされないように */
+  background: #fff;
+  z-index: 2;
 }
+
 
 </style>
 </head>
