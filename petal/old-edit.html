@@ -225,13 +225,12 @@ renderSNS();
 function renderSNS() {
   const wrap = document.getElementById("sns_list");
 
-  // ① 初期化（Safari は innerHTML = "" のみだと再描画しない事があるので2段階）
+  // 一旦消す
   while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
 
-  // ② 空欄除外（上書きではなく新しい配列を返す → Safari が破壊されない方法）
-  snsList = snsList.filter(s => (s.url || "").trim() !== "");
+  // ★ filter は削除する！
+  // snsList = snsList.filter(s => (s.url || "").trim() !== "");
 
-  // ③ 要素を createElement で生成（Safari でも100%表示）
   snsList.forEach((sns, i) => {
 
     const item = document.createElement("div");
@@ -240,7 +239,7 @@ function renderSNS() {
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = "URL";
-    input.value = sns.url;
+    input.value = sns.url || "";
 
     input.addEventListener("input", () => {
       snsList[i].url = input.value;
@@ -257,15 +256,15 @@ function renderSNS() {
 
     item.appendChild(input);
     item.appendChild(del);
-
     wrap.appendChild(item);
   });
 
-  // ④ Safari が描画しないときの“強制リフロー”
+  // Safari booster
   wrap.style.display = "none";
   void wrap.offsetHeight;
   wrap.style.display = "";
 }
+
 
 /* -------------------------
    ブロック UI
