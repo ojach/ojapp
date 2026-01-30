@@ -302,7 +302,8 @@ renderSNS_Static();
    SNS UI
 ------------------------- */
 // SNS 最大10個静的枠
-let snsList = [];  // { url: "" } の配列
+snsList = PROFILE.sns_links || [];
+
 
 // ------------------------------------
 // 折りたたみ開閉
