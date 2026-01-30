@@ -42,12 +42,21 @@ async function loadProfile() {
     document.getElementById("icon_preview").src = PROFILE.icon_url;
   }
 
-  // SNSは最大10個を確保
-  snsList = Array.isArray(PROFILE.sns_links)
-    ? [...PROFILE.sns_links]
-    : [];
+// SNS リンク読み込み（文字列 → JSON 配列へ確実に変換）
+try {
+  if (typeof PROFILE.sns_links === "string") {
+    snsList = JSON.parse(PROFILE.sns_links);
+  } else if (Array.isArray(PROFILE.sns_links)) {
+    snsList = PROFILE.sns_links;
+  } else {
+    snsList = [];
+  }
+} catch (e) {
+  snsList = [];
+}
 
-  renderSNS();
+renderSNS();
+
 
   // Blocks
   if (PROFILE.blocks) blocks = PROFILE.blocks;
