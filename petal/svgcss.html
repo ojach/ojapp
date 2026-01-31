@@ -1,0 +1,22 @@
+<div style="margin:20px auto; width:350px;">
+<svg width="350" height="200" viewBox="0 0 350 200">
+  <rect x="5" y="5" width="340" height="190" rx="12"
+    stroke="url(#grad1)"
+    stroke-width="4"
+    fill="none">
+    <animate attributeName="stroke" dur="6s" repeatCount="indefinite"
+      values="url(#grad1);url(#grad2);url(#grad1)" />
+  </rect>
+
+  <defs>
+    <linearGradient id="grad1">
+      <stop offset="0%" stop-color="#70f7ff"/>
+      <stop offset="100%" stop-color="#a4c7ff"/>
+    </linearGradient>
+    <linearGradient id="grad2">
+      <stop offset="0%" stop-color="#ffb6f7"/>
+      <stop offset="100%" stop-color="#ff7bbb"/>
+    </linearGradient>
+  </defs>
+</svg>
+</div>
