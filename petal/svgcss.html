@@ -4,60 +4,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Safari 完全対応 枠アニメ</title>
-
 <style>
-  body {
-    background: #eaf3ff;
-    padding: 40px;
-    font-family: -apple-system, BlinkMacSystemFont;
-  }
+body {
+  background: #eaf1ff;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 40px;
+}
 
-  .card {
-    width: 350px;
-    height: 200px;
-    border-radius: 14px;
-    background: #fff;
-    margin: auto;
-    position: relative;
+/* カード本体 */
+.card {
+  width: 90%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+  position: relative;
+}
 
-    /* 💡 枠を “擬似要素” に分離（Safariはこれが得意） */
-  }
+/* 外枠アニメのための “二重構造” */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -3px; /* 枠の太さ */
+  border-radius: 18px;
+  z-index: -1;
 
-  .card::before {
-    content: "";
-    position: absolute;
-    inset: -3px; /* ← 枠の太さ */
-    border-radius: 16px;
+  /* グラデーション背景（これをアニメーションさせる） */
+  background: linear-gradient(130deg, 
+      #7de1ff, #a889ff, #ff77c8, #7de1ff
+  );
+  
+  /* グラデの動きをループさせる */
+  background-size: 300% 300%;
+  animation: borderFlow 6s ease infinite;
+}
 
-    background: conic-gradient(
-      var(--c1),
-      var(--c2),
-      var(--c1)
-    );
+/* グラデの動き */
+@keyframes borderFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-
-    animation: borderColor 6s ease-in-out infinite;
-  }
-
-  /* ⭐ Safari でも100%動くアニメーション */
-  @keyframes borderColor {
-    0%   { --c1: #70f7ff; --c2: #a4c7ff; }
-    50%  { --c1: #ffb6f7; --c2: #ff7bbb; }
-    100% { --c1: #70f7ff; --c2: #a4c7ff; }
-  }
 </style>
 </head>
 
 <body>
 
-<h2>Safari 完全対応 アニメ枠</h2>
-<div class="card"></div>
+<h2>Safari 完全対応：CSS Border Animation</h2>
+
+<div class="card">
+  <h3>OJapp Petal 名刺デモ</h3>
+  <p>これは Safari・Chrome・iPhone すべてで動く「外枠アニメーション」です。</p>
+</div>
 
 </body>
 </html>
