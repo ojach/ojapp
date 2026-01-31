@@ -3,68 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SVG Safari Fix</title>
+
+<title>Safari 完全対応 枠アニメ</title>
 
 <style>
   body {
-    background: #eef6ff;
+    background: #eaf3ff;
     padding: 40px;
     font-family: -apple-system, BlinkMacSystemFont;
   }
 
-  .card-wrap {
+  .card {
     width: 350px;
-    margin: auto;
-  }
-
-  .card-bg {
-    width: 100%;
     height: 200px;
+    border-radius: 14px;
     background: #fff;
-    border-radius: 12px;
+    margin: auto;
     position: relative;
+
+    /* 💡 枠を “擬似要素” に分離（Safariはこれが得意） */
   }
 
-  svg {
+  .card::before {
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: -3px; /* ← 枠の太さ */
+    border-radius: 16px;
+
+    background: conic-gradient(
+      var(--c1),
+      var(--c2),
+      var(--c1)
+    );
+
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+
+    animation: borderColor 6s ease-in-out infinite;
+  }
+
+  /* ⭐ Safari でも100%動くアニメーション */
+  @keyframes borderColor {
+    0%   { --c1: #70f7ff; --c2: #a4c7ff; }
+    50%  { --c1: #ffb6f7; --c2: #ff7bbb; }
+    100% { --c1: #70f7ff; --c2: #a4c7ff; }
   }
 </style>
 </head>
 
 <body>
 
-<h2>Safari 完全対応 SVG 枠アニメ</h2>
-
-<div class="card-wrap">
-  <div class="card-bg"></div>
-
-  <!-- ✔︎ inline SVG / ✔︎ mask 不使用 / ✔︎ stroke 生描画 -->
-  <svg width="350" height="200">
-    <defs>
-      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#70f7ff"/>
-        <stop offset="100%" stop-color="#a4c7ff"/>
-      </linearGradient>
-
-      <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#ffb6f7"/>
-        <stop offset="100%" stop-color="#ff7bbb"/>
-      </linearGradient>
-    </defs>
-
-    <rect id="border" x="5" y="5" width="340" height="190"
-          rx="12" fill="none" stroke="url(#g1)" stroke-width="4"/>
-
-    <!-- Safari でも必ず動くアニメ -->
-    <animate href="#border"
-             attributeName="stroke"
-             dur="5s"
-             repeatCount="indefinite"
-             values="url(#g1);url(#g2);url(#g1)" />
-  </svg>
-</div>
+<h2>Safari 完全対応 アニメ枠</h2>
+<div class="card"></div>
 
 </body>
 </html>
