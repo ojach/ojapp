@@ -2,23 +2,29 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>SVG Border Test</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Safari Fix</title>
+
 <style>
   body {
-    background: #f2f7ff;
+    background: #eef6ff;
     padding: 40px;
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+    font-family: -apple-system, BlinkMacSystemFont;
   }
-  .card {
+
+  .card-wrap {
     width: 350px;
+    margin: auto;
+  }
+
+  .card-bg {
+    width: 100%;
     height: 200px;
-    margin: 0 auto;
-    background: white;       /* ← 背景はこちらで作る！ */
+    background: #fff;
     border-radius: 12px;
     position: relative;
   }
+
   svg {
     position: absolute;
     top: 0;
@@ -29,29 +35,34 @@
 
 <body>
 
-<h2>SVG アニメーション名刺テスト</h2>
-<p>（境界線がゆっくり色変わります）</p>
+<h2>Safari 完全対応 SVG 枠アニメ</h2>
 
-<div class="card">
-  <svg width="350" height="200" viewBox="0 0 350 200">
-    <rect x="5" y="5" width="340" height="190" rx="12"
-      stroke="url(#grad1)"
-      stroke-width="4"
-      fill="none">
-      <animate attributeName="stroke" dur="6s" repeatCount="indefinite"
-        values="url(#grad1);url(#grad2);url(#grad1)" />
-    </rect>
+<div class="card-wrap">
+  <div class="card-bg"></div>
 
+  <!-- ✔︎ inline SVG / ✔︎ mask 不使用 / ✔︎ stroke 生描画 -->
+  <svg width="350" height="200">
     <defs>
-      <linearGradient id="grad1">
+      <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" stop-color="#70f7ff"/>
         <stop offset="100%" stop-color="#a4c7ff"/>
       </linearGradient>
-      <linearGradient id="grad2">
+
+      <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" stop-color="#ffb6f7"/>
         <stop offset="100%" stop-color="#ff7bbb"/>
       </linearGradient>
     </defs>
+
+    <rect id="border" x="5" y="5" width="340" height="190"
+          rx="12" fill="none" stroke="url(#g1)" stroke-width="4"/>
+
+    <!-- Safari でも必ず動くアニメ -->
+    <animate href="#border"
+             attributeName="stroke"
+             dur="5s"
+             repeatCount="indefinite"
+             values="url(#g1);url(#g2);url(#g1)" />
   </svg>
 </div>
 
