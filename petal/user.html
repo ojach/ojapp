@@ -545,7 +545,9 @@ async function logout() {
   location.href = "/card/login";
 }
 
-loadAccounts();
+if (uid) {
+  loadAccounts();
+}
 
 
 /* ==========================
