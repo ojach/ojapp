@@ -3,52 +3,52 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- OJapp メイン -->
+  <!-- Main -->
   <url>
     <loc>https://ojapp.app/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- splitter -->
+  <!-- Splitter -->
   <url>
     <loc>https://ojapp.app/split/</loc>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- splitter 説明 -->
+  <!-- Splitter info -->
   <url>
     <loc>https://ojapp.app/split-info/</loc>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- ガイド -->
+  <!-- Guide -->
   <url>
     <loc>https://ojapp.app/guide/</loc>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <!-- FAQ -->
   <url>
     <loc>https://ojapp.app/faq/</loc>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- 安全ガイド -->
+  <!-- Safety -->
   <url>
     <loc>https://ojapp.app/safety/</loc>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- サポート -->
+  <!-- Support -->
   <url>
     <loc>https://ojapp.app/support/</loc>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
 
@@ -59,41 +59,46 @@
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- 更新履歴 -->
+  <!-- Changelog -->
   <url>
     <loc>https://ojapp.app/changelog/</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- OJapp Shop -->
+  <!-- Shop -->
   <url>
     <loc>https://ojapp.app/shop/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-   <url>
+  <!-- Kachi+ -->
+  <url>
     <loc>https://ojapp.app/kachi-plus/</loc>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-   <url>
-    <loc>https://ojapp.app/pastcamera/</loc>
-    <priority>0.9</priority>
-    <changefreq>monthly</changefreq>
-  </url>
- 
+  <!-- PastCamera -->
   <url>
-    <loc>https://ojapp.app/mvp/</loc>
-    <priority>0.9</priority>
+    <loc>https://ojapp.app/pastcamera/</loc>
+    <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
+  <!-- MVP -->
   <url>
-    <loc>https://ojapp.app/top/</loc>
-    <priority>0.9</priority>
+    <loc>https://ojapp.app/mvp/</loc>
+    <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
+
+  <!-- Top -->
+  <url>
+    <loc>https://ojapp.app/top/</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
 </urlset>
