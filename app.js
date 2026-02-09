@@ -100,7 +100,7 @@ iconInput.addEventListener("change", () => {
     } else {
       showMessage("✅ アイコン画像を確認しました");
     }
-const size = Math.min(w, h, 256);
+const size = Math.min(w, h, 1024);
 const cropSize = Math.min(w, h);
 
 const sx = (w - cropSize) / 2;
